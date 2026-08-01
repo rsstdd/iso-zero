@@ -1,0 +1,233 @@
+/*
+ * design-tokens.css — "Datum"
+ * Shared design system for aircraft / portfolio / photography.
+ * Spec and rationale: DESIGN_SYSTEM.md. Contrast ratios verified 2026-07-29.
+ *
+ * Usage (all three projects, after the Tailwind import):
+ *   @import "tailwindcss";
+ *   @import "./design-tokens.css";
+ *
+ * Semantic custom properties live on :root so [data-theme="dark"] can override
+ * them; @theme inline maps them into Tailwind so utilities like bg-surface and
+ * text-accent exist and follow the active theme automatically.
+ */
+
+:root {
+  /* Primitives, light (default) */
+  --paper: #f5f2ec;
+  --paper-raised: #fbf9f5;
+  --paper-sunken: #ebe6da;
+  --line-c: #d9d2c2;
+  --ink: #221f1a;
+  --ink-soft: #38342c;
+  --ink-muted: #6b655a;
+  --orange: #dd4e12;      /* international orange: UI, large text, marks (3.63:1) */
+  --orange-body: #b13f0d; /* body-size accent text (5.24:1) */
+
+  /* Semantic */
+  --bg: var(--paper);
+  --surface: var(--paper-raised);
+  --well: var(--paper-sunken);
+  --border-c: var(--line-c);
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --brand: var(--ink);          /* monochrome chrome: the brand color is ink */
+  --brand-hover: var(--ink-soft);
+  --on-brand: var(--paper);
+  --accent: var(--orange);
+  --accent-text: var(--orange-body);
+  --focus-ring: var(--orange);
+  --success: #3e6b3a;
+  --warn: #b13f0d;
+  --error: #a02c2c;
+
+  --shadow-tint: 34 31 26; /* warm ink, never pure black */
+}
+
+[data-theme="dark"] {
+  --bg: #191611;
+  --surface: #221e18;
+  --well: #26221b;
+  --border-c: #3a352c;
+  --text: #ede7db;
+  --text-muted: #a39b8c;
+  --brand: #ede7db;
+  --brand-hover: #fbf9f5;
+  --on-brand: #191611;
+  --accent: #e8632c;      /* lifted one step: body-safe on dark (5.37:1) */
+  --accent-text: #e8632c;
+  --focus-ring: #e8632c;
+  --shadow-tint: 0 0 0;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-well: var(--well);
+  --color-line: var(--border-c);
+  --color-ink: var(--text);
+  --color-muted: var(--text-muted);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-on-brand: var(--on-brand);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-success: var(--success);
+  --color-warn: var(--warn);
+  --color-error: var(--error);
+}
+
+@theme {
+  /*
+   * Typography: one superfamily, three voices.
+   *
+   * These literal family names are the baseline. A project that loads the faces
+   * through a build-time mechanism (the portfolio uses next/font) overrides
+   * these in its own stylesheet with an `@theme inline` block pointing at the
+   * generated variables. The literals then serve as the fallback for the window
+   * before those variables resolve.
+   */
+  --font-display: "IBM Plex Serif", ui-serif, Georgia, serif;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", monospace;
+
+  --text-display-xl: clamp(2.75rem, 5vw + 1rem, 4.5rem);
+  --text-display-xl--line-height: 1.05;
+  --text-display: clamp(2.25rem, 3.5vw + 1rem, 3.25rem);
+  --text-display--line-height: 1.1;
+  --text-h1: 2rem;
+  --text-h1--line-height: 1.15;
+  --text-h2: 1.5rem;
+  --text-h2--line-height: 1.25;
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.3;
+  --text-overline: 0.8125rem;
+  --text-overline--line-height: 1.2;
+  --text-overline--letter-spacing: 0.08em;
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.6;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.4;
+
+  /* Radii: machined. Default is square; radius-xs is the only curve. */
+  --radius-xs: 2px;
+
+  /* Elevation (warm-tinted, rare; borders come first) */
+  --shadow-sm: 0 1px 2px rgb(var(--shadow-tint) / 0.06);
+  --shadow-md: 0 2px 8px rgb(var(--shadow-tint) / 0.08), 0 1px 2px rgb(var(--shadow-tint) / 0.04);
+  --shadow-lg: 0 8px 32px rgb(var(--shadow-tint) / 0.16);
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+
+  /* Containers */
+  --container-prose: 65ch;
+  --container-content: 70rem;   /* 1120px */
+  --container-wide: 87.5rem;    /* 1400px */
+}
+
+@layer base {
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: #f5f2ec;
+  }
+
+  /* Focus is global and non-negotiable. Verified >= 3:1 in both themes. */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* Data reads as data: tabular numerals wherever numbers align or change. */
+  table, time, [data-numeric] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* O and 0 are different characters; the slashed zero keeps them that way. */
+  code, kbd, samp, pre, .font-mono {
+    font-feature-settings: "zero";
+  }
+
+  /* Photographs get no radius in any theme; rounding a composition is vandalism. */
+  figure img {
+    border-radius: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}
+
+@layer components {
+  /*
+   * The datum motifs. Small, recurring, and the system's signature.
+   *
+   * These are plain CSS classes rather than React components on purpose,
+   * because this file is shared across three projects and one of them
+   * (photography) is Astro, where .astro templates cannot import a React
+   * component without paying for an island. Defining the motifs here means one
+   * implementation serves all three.
+   *
+   * React components wrap these classes rather than reimplementing them with
+   * utilities. `SectionRule` renders `.rule-datum`; the project card's footer
+   * renders `.data-plate`. If the tick width or the plate spacing changes, it
+   * changes here and nowhere else.
+   */
+
+  /* 1. Datum tick: a section rule with a short orange tick at its origin. */
+  .rule-datum {
+    position: relative;
+    border-top: 1px solid var(--border-c);
+    padding-top: 24px;
+  }
+  .rule-datum::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 24px;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  /* 2. Data plate: hairline, then mono metadata. Figures, tables, footnotes. */
+  .data-plate {
+    border-top: 1px solid var(--border-c);
+    padding-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+    font-feature-settings: "zero";
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 3. Placard: the outlined accent tag. No orange fills behind text. */
+  .placard {
+    display: inline-block;
+    padding: 3px 10px;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-xs);
+    color: var(--accent-text);
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+}
