@@ -10,6 +10,6 @@ export default getViteConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./src/test/setup.ts"],
-    exclude: ["**/node_modules/**", "**/dist/**", "**/.astro/**", "**/e2e/**"],
+    exclude: ["**/node_modules/**", "**/dist/**", "**/.astro/**", "**/tests/browser/**"],
   },
 });
