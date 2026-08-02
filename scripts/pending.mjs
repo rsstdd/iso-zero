@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-import { process } from "zod/v4/core";
-
 /**
  * Placeholder for a decclared `pnp verify` stage. Unimplemented.
  *
