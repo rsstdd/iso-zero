@@ -65,7 +65,7 @@ WCAG 2.2 AA, with three AAA criteria adopted as project rules.
 | 1.3.1 Info and relationships | A | `<figure>` and `<figcaption>` for every photograph |
 | 1.4.3 Contrast (minimum) | AA | Datum ratios verified 2026-07-29 |
 | 1.4.6 Contrast (enhanced) | AAA | Adopted for body prose. Not met by `--text-muted` on `--bg`, which is a knowing exception scoped to metadata |
-| 1.4.11 Non-text contrast | AA | Focus ring and hairlines verified at 3:1 or better |
+| 1.4.11 Non-text contrast | AA | The focus ring and `--border-essential` clear 3:1. `--border-c` hairlines are decorative and never carry essential boundaries or state |
 | 2.1.1 Keyboard | A | Every control is a native button |
 | 2.1.2 No keyboard trap | A | Met, and met trivially, because nothing traps focus |
 | 2.4.3 Focus order | A | Document order; popovers follow the grid |

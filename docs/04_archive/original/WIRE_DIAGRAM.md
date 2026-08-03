@@ -1,4 +1,4 @@
-Because ISO Zero demands a strict, machined aesthetic stripped of unnecessary decorative elements, these wireframes are rendered in structural ASCII. This format mirrors the zero-JavaScript, plain-text engineering notebook philosophy the site is built upon.
+Because ISO Null demands a strict, machined aesthetic stripped of unnecessary decorative elements, these wireframes are rendered in structural ASCII. This format mirrors the zero-JavaScript, plain-text engineering notebook philosophy the site is built upon.
 
 Here are the structural diagrams for all four primary views defined in the architectural layout.
 
@@ -22,7 +22,7 @@ Here is the formatted content, structured as a definitive addendum that you can 
 
 ```text
 +-------------------------------------------------------------------------+
-|  ISO ZERO                                         INDEX   [GALLERIES]   |
+|  ISO Null                                         INDEX   [GALLERIES]   |
 |-------------------------------------------------------------------------|
 |                                                                         |
 |  +-------------------------------------------------------------------+  |
@@ -51,7 +51,7 @@ Here is the formatted content, structured as a definitive addendum that you can 
 |  [H3 | Plex Sans]                    [H3 | Plex Sans]                   |
 |                                                                         |
 |-------------------------------------------------------------------------|
-|  (Data Plate) © 2026 ISO ZERO · LAST BUILD: 2026-07-31T12:00:00Z        |
+|  (Data Plate) © 2026 ISO Null · LAST BUILD: 2026-07-31T12:00:00Z        |
 +-------------------------------------------------------------------------+
 
 ```
@@ -63,7 +63,7 @@ Here is the formatted content, structured as a definitive addendum that you can 
 
 ```text
 +-------------------------------------------------------------------------+
-|  ISO ZERO                                         [INDEX]   GALLERIES   |
+|  ISO Null                                         [INDEX]   GALLERIES   |
 |-------------------------------------------------------------------------|
 |                                                                         |
 |  [Display | Plex Serif]                                                 |
@@ -85,7 +85,7 @@ Here is the formatted content, structured as a definitive addendum that you can 
 |  +---------------------+  +---------------------+  +-----------------+  |
 |                                                                         |
 |-------------------------------------------------------------------------|
-|  (Data Plate) © 2026 ISO ZERO · LAST BUILD: 2026-07-31T12:00:00Z        |
+|  (Data Plate) © 2026 ISO Null · LAST BUILD: 2026-07-31T12:00:00Z        |
 +-------------------------------------------------------------------------+
 
 ===========================================================================
@@ -118,7 +118,7 @@ Here is the formatted content, structured as a definitive addendum that you can 
 
 ```text
 +-------------------------------------------------------------------------+
-|  ISO ZERO                                         [INDEX]   GALLERIES   |
+|  ISO Null                                         [INDEX]   GALLERIES   |
 |-------------------------------------------------------------------------|
 |                                                                         |
 |  [CSS GRID: 2 Columns]                                                  |
@@ -144,7 +144,7 @@ Here is the formatted content, structured as a definitive addendum that you can 
 |                                                                         |
 |                                                                         |
 |-------------------------------------------------------------------------|
-|  (Data Plate) © 2026 ISO ZERO · LAST BUILD: 2026-07-31T12:00:00Z        |
+|  (Data Plate) © 2026 ISO Null · LAST BUILD: 2026-07-31T12:00:00Z        |
 +-------------------------------------------------------------------------+
 
 ```
@@ -156,7 +156,7 @@ Here is the formatted content, structured as a definitive addendum that you can 
 
 ```text
 +-------------------------------------------------------------------------+
-|  ISO ZERO                                         [INDEX]   GALLERIES   |
+|  ISO Null                                         [INDEX]   GALLERIES   |
 |-------------------------------------------------------------------------|
 |                                                                         |
 |         [H1 | Plex Serif]                                               |
@@ -188,7 +188,7 @@ Here is the formatted content, structured as a definitive addendum that you can 
 |         font-variant-numeric: tabular-nums;                             |
 |                                                                         |
 |-------------------------------------------------------------------------|
-|  (Data Plate) © 2026 ISO ZERO · LAST BUILD: 2026-07-31T12:00:00Z        |
+|  (Data Plate) © 2026 ISO Null · LAST BUILD: 2026-07-31T12:00:00Z        |
 +-------------------------------------------------------------------------+
 
 ```

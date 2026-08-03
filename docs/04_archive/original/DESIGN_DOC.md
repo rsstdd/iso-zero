@@ -1,16 +1,16 @@
-# ISO Zero Design System Specification
+# ISO Null Design System Specification
 
-This document defines the **Datum** design system instantiation for **ISO Zero**, a zero-JavaScript photography portfolio and commercial print storefront. It translates Datum’s general principles—precision with warmth, an instrumentation sensibility, and strict data formatting—into an authoritative implementation guide for developers and designers.
+This document defines the **Datum** design system instantiation for **ISO Null**, a zero-JavaScript photography portfolio and commercial print storefront. It translates Datum’s general principles—precision with warmth, an instrumentation sensibility, and strict data formatting—into an authoritative implementation guide for developers and designers.
 
 ---
 
 ## 0. System Premise & Core Principles
 
-ISO Zero operates as an engineering notebook and archival catalog rather than a marketing brochure. It rejects client-side JavaScript runtimes for presentation, relying instead on static HTML compilation, Sharp image transformations, and native browser APIs.
+ISO Null operates as an engineering notebook and archival catalog rather than a marketing brochure. It rejects client-side JavaScript runtimes for presentation, relying instead on static HTML compilation, Sharp image transformations, and native browser APIs.
 
 The visual system is governed by five non-negotiable principles:
 
-1. **Dark by Default.** Photographs require neutral, low-luminance chrome to prevent visual color tinting. ISO Zero defaults strictly to Datum's dark theme.
+1. **Dark by Default.** Photographs require neutral, low-luminance chrome to prevent visual color tinting. ISO Null defaults strictly to Datum's dark theme.
 
 
 2. **Monochrome Chrome, One Instrument Color.** Interface boundaries rely on subtle ink lines. The sole accent color is **International Orange**, reserved strictly for state, focus, navigation indicators, and verified system metadata.
@@ -30,7 +30,7 @@ The visual system is governed by five non-negotiable principles:
 
 ## 1. Color Architecture
 
-ISO Zero implements the **Datum Dark Palette** as its default runtime surface.
+ISO Null implements the **Datum Dark Palette** as its default runtime surface.
 
 ```css
 [data-theme="dark"] {
@@ -81,7 +81,7 @@ Raw International Orange (`#e8632c`) is an instrument color, not a decorative pa
 
 ## 2. Typography & Numeric Discipline
 
-ISO Zero uses the **IBM Plex Superfamily**. Loading three faces built on a shared skeleton connects display headings, body prose, and machine metadata under a single design language.
+ISO Null uses the **IBM Plex Superfamily**. Loading three faces built on a shared skeleton connects display headings, body prose, and machine metadata under a single design language.
 
 ```
 IBM Plex Serif   ───  Display Headings, Gallery Titles (Serif, 600)
@@ -140,7 +140,7 @@ Note: IBM Plex Serif is never rendered below `1.25rem` (20px). All eyebrows and 
 
 ## 3. Geometry, Surfaces & Motifs
 
-ISO Zero relies on clean structural boundaries rather than soft radius treatments or visual noise.
+ISO Null relies on clean structural boundaries rather than soft radius treatments or visual noise.
 
 ### 3.1 Radii Rules
 
@@ -218,7 +218,7 @@ Status tags (e.g., `[IN STOCK]`, `[LIMITED EDITION 1/10]`) are rendered as outli
 
 ## 4. Layout Architecture & Component Rules
 
-ISO Zero uses standard layout breakpoints: `sm` (640px), `md` (768px), `lg` (1024px), and `xl` (1280px). Layout boundaries are constrained to three primary containers:
+ISO Null uses standard layout breakpoints: `sm` (640px), `md` (768px), `lg` (1024px), and `xl` (1280px). Layout boundaries are constrained to three primary containers:
 
 * `container-prose`: `65ch` max width (legal text, documentation, colophon).
 
@@ -299,7 +299,7 @@ Print offers require a valid `print` object in frontmatter:
 
 ## 5. Voice & Microcopy Standards
 
-ISO Zero's interface text follows strict engineering microcopy standards:
+ISO Null's interface text follows strict engineering microcopy standards:
 
 1. **Sentence Case Everywhere:** Apply sentence case across all headings, buttons, and navigation nodes.
 

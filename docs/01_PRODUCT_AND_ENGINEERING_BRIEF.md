@@ -2,7 +2,7 @@
 
 ## What this is
 
-ISO Zero is a photography portfolio and print storefront for a single author. It presents a small, curated archive of photographs, publishes the technical circumstances under which each was made, and sells prints of the subset that is offered for sale.
+ISO Null is a photography portfolio and print storefront for a single author. It presents a small, curated archive of photographs, publishes the technical circumstances under which each was made, and sells prints of the subset that is offered for sale.
 
 A photography site is images and almost nothing else. That observation is the whole design: if the interface is not carrying an image, it is competing with one, and the correct client JavaScript payload for a page whose entire content is pictures is zero bytes.
 

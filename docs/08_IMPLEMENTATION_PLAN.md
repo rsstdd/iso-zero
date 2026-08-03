@@ -12,7 +12,7 @@ The repository was created from a general Astro starter and carries five contrad
 | Strip Tailwind | Remove the `@tailwindcss/vite` plugin and the `tailwindcss` dependency |
 | Remove unused dependencies | `react`, `react-dom`, `@types/react`, `@types/react-dom`, `babel-plugin-react-compiler`, `eslint-plugin-react-hooks`, the Testing Library set, and `jsdom` |
 | Set output mode explicitly | `output: "static"` in `astro.config.mjs` |
-| Flatten the Datum tokens | Lift every `@theme` and `@theme inline` declaration into `:root`, per [`04_DESIGN_SYSTEM.md`](04_DESIGN_SYSTEM.md) |
+| Flatten the Datum tokens | Lift the declarations ISO Null consumes into `:root`, remove Tailwind mappings and unused light-theme branches, and preserve the governed motifs per [`04_DESIGN_SYSTEM.md`](04_DESIGN_SYSTEM.md) |
 | Correct the root README | It states Astro 6 where `package.json` pins Astro 7 |
 | Add the dependency guard | Fails the build if any forbidden package returns |
 
