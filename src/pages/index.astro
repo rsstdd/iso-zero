@@ -1,17 +1,34 @@
 ---
+import FeaturedGallery from "../components/FeaturedGallery.astro";
+import GalleryDirectory from "../components/GalleryDirectory.astro";
+import HomepageIdentity from "../components/HomepageIdentity.astro";
+import Base from "../layouts/Base.astro";
+import {
+  featuredGalleryModel,
+  gallerySummaries,
+  heroSocialImage,
+} from "../lib/homepage-content";
+import {
+  BUILD_SHA,
+  CONTENT_VERSION,
+  COPYRIGHT_YEAR,
+} from "../lib/site-identity";
 
+const homepageDescription =
+  "ISO Null is a photography archive by Ross Todd, beginning with the launch gallery.";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base
+  title="ISO Null — Photography by Ross Todd"
+  description={homepageDescription}
+  canonicalPath="/"
+  currentPath="/"
+  socialImage={heroSocialImage}
+  buildSha={BUILD_SHA}
+  contentVersion={CONTENT_VERSION}
+  copyrightYear={COPYRIGHT_YEAR}
+>
+  <HomepageIdentity title="IS0 NULL" byline="Photography by Ross Todd" />
+  <FeaturedGallery gallery={featuredGalleryModel} />
+  <GalleryDirectory galleries={gallerySummaries} />
+</Base>

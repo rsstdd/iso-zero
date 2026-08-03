@@ -1,0 +1,53 @@
+---
+import BrandWordmark from "./BrandWordmark.astro";
+
+interface Props {
+  readonly title: string;
+  readonly byline: string;
+  readonly headingId?: string;
+}
+
+const { title, byline, headingId = "page-title" } = Astro.props;
+---
+
+<section class="homepage-identity container-wide" aria-labelledby={headingId}>
+  <h1 id={headingId}>
+    <BrandWordmark label={title} variant="display" />
+  </h1>
+  <p>{byline}</p>
+</section>
+
+<style is:global>
+  @layer reset, base, components, utilities;
+
+  @layer components {
+    .homepage-identity {
+      min-inline-size: 0;
+      padding-block: var(--space-16) var(--space-12);
+      color: var(--text);
+      background: transparent;
+    }
+
+    .homepage-identity h1,
+    .homepage-identity p {
+      min-inline-size: 0;
+      overflow-wrap: normal;
+    }
+
+    .homepage-identity h1 {
+      color: var(--text);
+      font-family: var(--font-data);
+      font-size: var(--text-display-xl);
+      font-weight: 400;
+      line-height: var(--leading-display-xl);
+    }
+
+    .homepage-identity p {
+      margin-block-start: var(--space-2);
+      color: var(--text-muted);
+      font-family: var(--font-interface);
+      font-size: var(--text-interface);
+      line-height: var(--leading-interface);
+    }
+  }
+</style>

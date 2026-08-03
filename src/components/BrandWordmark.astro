@@ -1,0 +1,101 @@
+---
+interface Props {
+  readonly label: string;
+  readonly variant: "compact" | "display";
+}
+
+const { label, variant } = Astro.props;
+---
+
+<span
+  class:list={["brand-wordmark", `brand-wordmark--${variant}`]}
+  data-brand-wordmark={variant}
+  aria-label={label}
+>
+  <span
+    class="brand-wordmark__line brand-wordmark__line--iso"
+    aria-hidden="true"
+  >
+    <span>I</span><span>S</span><span>0</span>
+    <!-- IS0 -->
+  </span>
+  <span
+    class="brand-wordmark__line brand-wordmark__line--zero"
+    aria-hidden="true"
+  >
+    <!-- NULL -->
+    <span>N</span><span>U</span><span>L</span><span>L</span>
+  </span>
+</span>
+
+<style is:global>
+  @layer reset, base, components, utilities;
+
+  @layer components {
+    .brand-wordmark {
+      display: inline-grid;
+      grid-template-columns: minmax(0, var(--brand-line-width));
+      inline-size: var(--brand-line-width);
+      max-inline-size: 100%;
+      min-inline-size: 0;
+      color: inherit;
+      background: transparent;
+      font-family: var(--font-wordmark);
+      font-kerning: normal;
+      font-synthesis: none;
+      font-stretch: condensed;
+      line-height: 1;
+      row-gap: var(--brand-stack-gap);
+      text-rendering: geometricPrecision;
+      text-transform: uppercase;
+      vertical-align: middle;
+    }
+
+    .brand-wordmark__line {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      inline-size: 100%;
+      min-inline-size: 0;
+      font-size: 1em;
+      letter-spacing: 0;
+      line-height: var(--brand-line-leading);
+      white-space: nowrap;
+      font-family: var(--font-wordmark);
+      font-variant-numeric: slashed-zero;
+      font-feature-settings: "zero" 1;
+    }
+
+    .brand-wordmark__line > span {
+      display: block;
+      flex: 0 0 auto;
+    }
+
+    .brand-wordmark__line--iso {
+      font-weight: var(--brand-iso-weight);
+    }
+
+    .brand-wordmark__line--zero {
+      font-weight: var(--brand-zero-weight);
+    }
+
+    .brand-wordmark--compact {
+      --brand-line-width: var(--brand-compact-line-width);
+      --brand-line-leading: 0.78;
+      --brand-stack-gap: 0.18em;
+    }
+
+    .brand-wordmark--display {
+      --brand-line-width: var(--brand-display-line-width);
+      --brand-line-leading: 0.8;
+      --brand-stack-gap: 0.16em;
+    }
+
+    @media (forced-colors: active) {
+      .brand-wordmark {
+        color: CanvasText;
+        forced-color-adjust: auto;
+      }
+    }
+  }
+</style>

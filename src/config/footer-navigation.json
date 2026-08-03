@@ -1,0 +1,26 @@
+{
+ "project": [
+  {
+   "label": "About",
+   "href": "/about/"
+  },
+  {
+   "label": "Engineering case study",
+   "href": "/case-study/"
+  }
+ ],
+ "legal": [
+  {
+   "label": "Impressum",
+   "href": "/impressum/"
+  },
+  {
+   "label": "Datenschutz",
+   "href": "/datenschutz/"
+  },
+  {
+   "label": "AGB",
+   "href": "/agb/"
+  }
+ ]
+}

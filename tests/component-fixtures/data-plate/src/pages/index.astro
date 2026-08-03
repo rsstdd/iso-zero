@@ -1,0 +1,187 @@
+---
+import "@fontsource/ibm-plex-mono/latin-400.css";
+import DataPlate from "../../../../../src/components/DataPlate.astro";
+import "../../../../../src/styles/design-tokens.css";
+
+const emptyData: readonly string[] = [];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Data Plate contract fixture</title>
+  </head>
+  <body>
+    <main>
+      <h1>Data Plate contract fixture</h1>
+
+      <section data-fixture="default" aria-labelledby="default-plate-heading">
+        <h2 id="default-plate-heading">Exposure record</h2>
+        <DataPlate labelledBy="default-plate-heading" class="default-layout">
+          <dl>
+            <div><dt>ISO</dt><dd>100</dd></div>
+            <div><dt>Exposure</dt><dd>1/250 s</dd></div>
+            <div><dt>Aperture</dt><dd>f/2.8</dd></div>
+          </dl>
+        </DataPlate>
+      </section>
+
+      <figure data-fixture="figcaption">
+        <div class="fixture-photograph" aria-hidden="true"></div>
+        <DataPlate as="figcaption" class="figure-layout">
+          <span>Venice, Italy</span>
+          <time datetime="2026-08">August 2026</time>
+          <span>12 images</span>
+        </DataPlate>
+      </figure>
+
+      <section data-fixture="footer" aria-labelledby="section-footer-heading">
+        <h2 id="section-footer-heading">Build record</h2>
+        <p>Deterministic release identity.</p>
+        <DataPlate as="footer" labelledBy="section-footer-heading" class="section-footer-layout">
+          <dl>
+            <div><dt>Build</dt><dd>0a1b2c3</dd></div>
+            <div><dt>Content</dt><dd>2026.08</dd></div>
+          </dl>
+        </DataPlate>
+      </section>
+
+      <section data-fixture="long" aria-labelledby="long-plate-heading">
+        <h2 id="long-plate-heading">Archive record</h2>
+        <DataPlate labelledBy="long-plate-heading" class="layout-extension">
+          <dl>
+            <div>
+              <dt>Archive identifier</dt>
+              <dd>VENICE-ARCADE-2026-08-0000000000000000000000000000000000000001</dd>
+            </div>
+            <div>
+              <dt>Location</dt>
+              <dd>Fondamenta San Giorgio dei Schiavoni beside the receding stone arcade</dd>
+            </div>
+            <div><dt>Sequence</dt><dd>0007 of 0040</dd></div>
+          </dl>
+        </DataPlate>
+      </section>
+
+      {
+        emptyData.length > 0 && (
+          <section data-fixture="empty">
+            <DataPlate>{emptyData.join(", ")}</DataPlate>
+          </section>
+        )
+      }
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    min-inline-size: 320px;
+    color-scheme: dark;
+    background: var(--bg);
+  }
+
+  body {
+    min-block-size: 100vh;
+    color: var(--text);
+    background: var(--bg);
+    font-family: system-ui, sans-serif;
+  }
+
+  main {
+    inline-size: min(calc(100% - 2rem), 70rem);
+    margin-inline: auto;
+    padding-block: 2rem 4rem;
+  }
+
+  main > * + * {
+    margin-block-start: 3rem;
+  }
+
+  h1,
+  h2,
+  p,
+  figure,
+  dl,
+  dt,
+  dd {
+    margin: 0;
+  }
+
+  h1,
+  h2,
+  p {
+    font-family: system-ui, sans-serif;
+  }
+
+  h2,
+  p {
+    margin-block-end: 1rem;
+  }
+
+  .fixture-photograph {
+    aspect-ratio: 16 / 9;
+    inline-size: 100%;
+    background: var(--well, #26221b);
+  }
+
+  .default-layout,
+  .figure-layout,
+  .section-footer-layout,
+  .layout-extension {
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .layout-extension {
+    max-inline-size: 26rem;
+  }
+
+  .data-plate dl {
+    display: grid;
+    gap: 0.5rem;
+    min-inline-size: 0;
+  }
+
+  .data-plate dl > div {
+    display: grid;
+    grid-template-columns: minmax(7rem, 0.35fr) minmax(0, 1fr);
+    gap: 0.75rem;
+    min-inline-size: 0;
+  }
+
+  .data-plate dt,
+  .data-plate dd,
+  .data-plate span,
+  .data-plate time {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .figure-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+  }
+
+  @media (max-width: 30rem) {
+    .data-plate dl > div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.125rem;
+    }
+  }
+</style>

@@ -1,0 +1,14 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE_BUILD } from "../config/site";
+
+interface Props {
+  readonly title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<Base title={`${title} — ISO Null`} {...SITE_BUILD}>
+  <h1>{title}</h1>
+</Base>

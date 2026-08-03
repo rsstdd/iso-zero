@@ -1,0 +1,35 @@
+const alternateTitle: Props = {
+  title: "ISO Null",
+  byline: "Photography by Ross Todd",
+};
+const blankTitle: Props = {
+  title: "",
+  byline: "Photography by Ross Todd",
+};
+const alternateByline: Props = {
+  title: "ISO Null",
+  byline: "Photographs by Ross Todd",
+};
+const blankByline: Props = {
+  title: "ISO Null",
+  byline: "",
+};
+const alternateHeadingId: Props = {
+  title: "ISO Null",
+  byline: "Photography by Ross Todd",
+  headingId: "identity-title",
+};
+const immutableProps: Props = {
+  title: "ISO Null",
+  byline: "Photography by Ross Todd",
+};
+immutableProps.title = "ISO Null";
+
+void [
+  alternateTitle,
+  blankTitle,
+  alternateByline,
+  blankByline,
+  alternateHeadingId,
+  immutableProps,
+];

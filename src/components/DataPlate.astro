@@ -1,0 +1,23 @@
+---
+interface Props {
+  readonly as?: "div" | "figcaption" | "footer";
+  readonly labelledBy?: string;
+  readonly class?: string;
+}
+
+const { as = "div", labelledBy, class: className }: Props = Astro.props;
+const supportedElements = new Set(["div", "figcaption", "footer"]);
+
+if (!supportedElements.has(as)) {
+  throw new TypeError(`Unsupported DataPlate element: ${as}`);
+}
+
+const Component = as;
+---
+
+<Component
+  class:list={["data-plate", className]}
+  aria-labelledby={labelledBy || undefined}
+>
+  <slot />
+</Component>

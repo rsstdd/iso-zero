@@ -1,0 +1,276 @@
+---
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import {
+  formatFeaturedGalleryImageCount,
+  formatFeaturedGalleryPublicationDate,
+} from "../lib/featured-gallery-formatters";
+import DataPlate from "./DataPlate.astro";
+
+interface FeaturedGalleryModel {
+  readonly slug: string;
+  readonly title: string;
+  readonly location: string;
+  readonly publicationDate: Date;
+  readonly imageCount: number;
+  readonly hero: {
+    readonly id: string;
+    readonly src: ImageMetadata;
+    readonly alt: string;
+    readonly width: number;
+    readonly height: number;
+  };
+}
+
+interface Props {
+  readonly gallery: FeaturedGalleryModel;
+}
+
+const { gallery }: Props = Astro.props;
+
+const MAX_SOURCE_DIMENSION = 2048;
+const CANDIDATE_WIDTHS = [640, 960, 1280, 1600, 2048] as const;
+const RESPONSIVE_SIZES =
+  "min(calc(100vw - clamp(1.25rem, 4vw, 2.5rem) - clamp(1.25rem, 4vw, 2.5rem)), 87.5rem, 127.6052svh)";
+
+function requireNonBlank(value: string, field: string): string {
+  if (typeof value !== "string" || value.trim().length === 0) {
+    throw new TypeError(`Featured gallery ${field} must be non-blank.`);
+  }
+
+  return value.trim();
+}
+
+function requirePositiveDimension(value: number, field: string): number {
+  if (!Number.isInteger(value) || value < 1) {
+    throw new RangeError(
+      `Featured gallery ${field} must be a positive integer.`,
+    );
+  }
+
+  return value;
+}
+
+const slug = requireNonBlank(gallery.slug, "slug");
+if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
+  throw new TypeError(
+    "Featured gallery slug must be a canonical lowercase slug.",
+  );
+}
+
+const title = requireNonBlank(gallery.title, "title");
+const location = requireNonBlank(gallery.location, "location");
+requireNonBlank(gallery.hero.id, "hero.id");
+const alt = requireNonBlank(gallery.hero.alt, "hero.alt");
+const width = requirePositiveDimension(gallery.hero.width, "hero.width");
+const height = requirePositiveDimension(gallery.hero.height, "hero.height");
+const sourceWidth = requirePositiveDimension(
+  gallery.hero.src.width,
+  "hero.src.width",
+);
+const sourceHeight = requirePositiveDimension(
+  gallery.hero.src.height,
+  "hero.src.height",
+);
+
+if (width !== sourceWidth || height !== sourceHeight) {
+  throw new RangeError(
+    "Featured gallery dimensions must match the imported image metadata.",
+  );
+}
+
+if (sourceWidth > MAX_SOURCE_DIMENSION || sourceHeight > MAX_SOURCE_DIMENSION) {
+  throw new RangeError(
+    "Featured gallery source exceeds the delivery-policy ceiling.",
+  );
+}
+
+if (!new Set(["jpg", "jpeg"]).has(gallery.hero.src.format.toLowerCase())) {
+  throw new TypeError(
+    "Featured gallery source must be a JPEG delivery derivative.",
+  );
+}
+
+const publication = formatFeaturedGalleryPublicationDate(
+  gallery.publicationDate,
+);
+const publicationDateTime = `${gallery.publicationDate.getUTCFullYear()}-${String(
+  gallery.publicationDate.getUTCMonth() + 1,
+).padStart(2, "0")}`;
+const imageCount = formatFeaturedGalleryImageCount(gallery.imageCount);
+const widths = CANDIDATE_WIDTHS.filter((candidate) => candidate <= sourceWidth);
+const href = `/galleries/${slug}/`;
+---
+
+<a
+  class="featured-gallery container-wide"
+  href={href}
+  aria-labelledby="featured-action featured-title"
+  aria-describedby="featured-image-description featured-meta"
+>
+  <figure>
+    <Picture
+      src={gallery.hero.src}
+      widths={widths}
+      formats={["avif", "webp"]}
+      fallbackFormat="jpeg"
+      sizes={RESPONSIVE_SIZES}
+      width={width}
+      height={height}
+      alt={alt}
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+    <DataPlate as="figcaption" class="featured-gallery__plate">
+      <h2 id="featured-title">{title}</h2>
+      <span id="featured-image-description" class="visually-hidden">
+        {alt}
+      </span>
+      <span id="featured-meta" class="featured-gallery__meta">
+        <span>{location}</span>
+        <time datetime={publicationDateTime}>{publication}</time>
+        <span>{imageCount}</span>
+      </span>
+      <span id="featured-action" class="featured-gallery__action">
+        Enter gallery <span class="featured-gallery__arrow" aria-hidden="true"
+          >→</span
+        >
+      </span>
+    </DataPlate>
+  </figure>
+</a>
+
+<style is:global>
+  @layer reset, base, components, utilities;
+
+  @layer components {
+    .featured-gallery {
+      display: block;
+      min-inline-size: 0;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .featured-gallery:visited,
+    .featured-gallery:hover {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .featured-gallery > figure {
+      min-inline-size: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .featured-gallery > figure > picture {
+      display: flex;
+      inline-size: 100%;
+      min-inline-size: 0;
+      justify-content: center;
+      background: var(--bg);
+    }
+
+    .featured-gallery > figure > picture > img {
+      inline-size: auto;
+      block-size: auto;
+      max-inline-size: 100%;
+      max-block-size: 72vh;
+      max-block-size: 72svh;
+      border-radius: 0;
+      object-fit: contain;
+      filter: none;
+      box-shadow: none;
+      clip-path: none;
+    }
+
+    .featured-gallery__plate {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-4);
+    }
+
+    .featured-gallery__plate > #featured-title {
+      min-inline-size: 0;
+      color: var(--text);
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 400;
+      line-height: var(--leading-h2);
+    }
+
+    .featured-gallery__meta {
+      display: flex;
+      min-inline-size: 0;
+      flex-wrap: wrap;
+      gap: var(--space-1) var(--space-4);
+      color: var(--text-muted);
+      font-family: var(--font-data);
+      font-feature-settings: "zero";
+      font-variant-numeric: tabular-nums;
+    }
+
+    .featured-gallery__action {
+      justify-self: start;
+      color: var(--text);
+      font-family: var(--font-interface);
+      text-decoration-color: currentColor;
+      text-decoration-line: underline;
+      text-decoration-skip-ink: auto;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.2em;
+    }
+
+    .featured-gallery__arrow {
+      display: inline-block;
+      transition: transform var(--duration-fast) var(--ease-standard);
+    }
+
+    .featured-gallery:hover .featured-gallery__action {
+      text-decoration-thickness: 2px;
+    }
+
+    .featured-gallery:hover .featured-gallery__arrow {
+      transform: translateX(2px);
+    }
+
+    .featured-gallery:active {
+      transform: none;
+    }
+
+    @media (min-width: 48rem) {
+      .featured-gallery__plate {
+        grid-template-columns: minmax(0, 1fr) max-content;
+        column-gap: var(--space-8);
+        row-gap: var(--space-2);
+      }
+
+      .featured-gallery__plate > #featured-title {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+      }
+
+      .featured-gallery__meta,
+      .featured-gallery__action {
+        grid-column: 2;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .featured-gallery:hover .featured-gallery__arrow {
+        transform: none;
+      }
+    }
+
+    @media (forced-colors: active) {
+      .featured-gallery,
+      .featured-gallery:visited,
+      .featured-gallery:hover,
+      .featured-gallery__action {
+        color: LinkText;
+      }
+    }
+  }
+</style>

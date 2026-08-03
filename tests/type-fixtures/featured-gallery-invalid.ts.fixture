@@ -1,0 +1,89 @@
+const imageSource = {} as ImageMetadata;
+
+const missingSlug: FeaturedGalleryModel = {
+  title: "Venice",
+  location: "Venice, Italy",
+  publicationDate: new Date("2026-08-01T00:00:00.000Z"),
+  imageCount: 12,
+  hero: {
+    id: "venice-arcade",
+    src: imageSource,
+    alt: "Arcade in Venice.",
+    width: 2048,
+    height: 1155,
+  },
+};
+
+const stringPublicationDate: FeaturedGalleryModel = {
+  slug: "venice",
+  title: "Venice",
+  location: "Venice, Italy",
+  publicationDate: "2026-08-01",
+  imageCount: 12,
+  hero: {
+    id: "venice-arcade",
+    src: imageSource,
+    alt: "Arcade in Venice.",
+    width: 2048,
+    height: 1155,
+  },
+};
+
+const stringCount: FeaturedGalleryModel = {
+  slug: "venice",
+  title: "Venice",
+  location: "Venice, Italy",
+  publicationDate: new Date("2026-08-01T00:00:00.000Z"),
+  imageCount: "12",
+  hero: {
+    id: "venice-arcade",
+    src: imageSource,
+    alt: "Arcade in Venice.",
+    width: 2048,
+    height: 1155,
+  },
+};
+
+const stringImageSource: FeaturedGalleryModel = {
+  slug: "venice",
+  title: "Venice",
+  location: "Venice, Italy",
+  publicationDate: new Date("2026-08-01T00:00:00.000Z"),
+  imageCount: 12,
+  hero: {
+    id: "venice-arcade",
+    src: "/images/venice.jpg",
+    alt: "Arcade in Venice.",
+    width: 2048,
+    height: 1155,
+  },
+};
+
+const immutableModel: FeaturedGalleryModel = {
+  slug: "venice",
+  title: "Venice",
+  location: "Venice, Italy",
+  publicationDate: new Date("2026-08-01T00:00:00.000Z"),
+  imageCount: 12,
+  hero: {
+    id: "venice-arcade",
+    src: imageSource,
+    alt: "Arcade in Venice.",
+    width: 2048,
+    height: 1155,
+  },
+};
+immutableModel.title = "Other";
+immutableModel.hero.width = 640;
+
+const immutableProps: Props = { gallery: immutableModel };
+immutableProps.gallery = immutableModel;
+
+void [
+  missingSlug,
+  stringPublicationDate,
+  stringCount,
+  stringImageSource,
+  immutableModel,
+  immutableProps,
+];
