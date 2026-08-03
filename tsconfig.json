@@ -5,7 +5,10 @@
     "**/*"
   ],
   "exclude": [
-    "dist"
+    "dist",
+    "tests/build-fixtures",
+    "tests/component-fixtures",
+    "tests/type-fixtures"
   ],
   "compilerOptions": {
     "strict": true,

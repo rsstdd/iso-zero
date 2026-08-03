@@ -1,0 +1,156 @@
+---
+import RuleDatum from "./RuleDatum.astro";
+
+interface GallerySummary {
+  readonly slug: string;
+  readonly title: string;
+  readonly publicationDate: Date;
+  readonly imageCount: number;
+}
+
+interface Props {
+  readonly galleries: readonly GallerySummary[];
+  readonly heading?: "Available galleries";
+  readonly headingId?: "gallery-directory-title";
+}
+
+const {
+  galleries,
+  heading = "Available galleries",
+  headingId = "gallery-directory-title",
+}: Props = Astro.props;
+
+if (!Array.isArray(galleries) || galleries.length === 0) {
+  throw new TypeError("GalleryDirectory requires at least one gallery.");
+}
+const slugs = new Set<string>();
+const rows = galleries.map((gallery) => {
+  const slug = gallery.slug.trim();
+  const title = gallery.title.trim();
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || title.length === 0) {
+    throw new TypeError(
+      "GalleryDirectory requires canonical slugs and non-blank titles.",
+    );
+  }
+  if (slugs.has(slug)) throw new TypeError(`Duplicate gallery slug: ${slug}`);
+  slugs.add(slug);
+  if (
+    !(gallery.publicationDate instanceof Date) ||
+    Number.isNaN(gallery.publicationDate.valueOf())
+  ) {
+    throw new TypeError("GalleryDirectory requires valid publication dates.");
+  }
+  if (!Number.isInteger(gallery.imageCount) || gallery.imageCount < 1) {
+    throw new TypeError(
+      "GalleryDirectory image counts must be positive integers.",
+    );
+  }
+  return {
+    href: `/galleries/${slug}/`,
+    title,
+    year: String(gallery.publicationDate.getUTCFullYear()),
+    count: `${gallery.imageCount} ${gallery.imageCount === 1 ? "image" : "images"}`,
+  };
+});
+---
+
+<RuleDatum
+  as="section"
+  labelledBy={headingId}
+  class="gallery-directory-section container-wide"
+>
+  <h2 id={headingId}>{heading}</h2>
+  <ul class="gallery-directory">
+    {
+      rows.map((row) => (
+        <li>
+          <a href={row.href}>
+            <h3>{row.title}</h3>
+            <span class="gallery-directory__meta">
+              <time datetime={row.year}>{row.year}</time>
+              <span>{row.count}</span>
+              <span aria-hidden="true">→</span>
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</RuleDatum>
+
+<style is:global>
+  @layer reset, base, components, utilities;
+
+  @layer components {
+    .gallery-directory-section {
+      margin-block-start: var(--space-section);
+    }
+
+    .gallery-directory-section > h2 {
+      color: var(--text);
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 400;
+      line-height: var(--leading-h2);
+    }
+
+    .gallery-directory {
+      margin: var(--space-6) 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .gallery-directory > li {
+      border-block-end: 1px solid var(--border-c);
+    }
+
+    .gallery-directory > li:first-child {
+      border-block-start: 1px solid var(--border-c);
+    }
+
+    .gallery-directory a {
+      display: flex;
+      min-block-size: var(--target-min);
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-2) var(--space-6);
+      padding-block: var(--space-3);
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .gallery-directory h3 {
+      color: var(--text);
+      font-family: var(--font-display);
+      font-size: var(--text-h3);
+      font-weight: 400;
+      line-height: var(--leading-h3);
+      text-decoration-line: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.2em;
+    }
+
+    .gallery-directory__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2) var(--space-4);
+      color: var(--text-muted);
+      font-family: var(--font-data);
+      font-feature-settings: "zero";
+      font-size: var(--text-data);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .gallery-directory a:hover h3 {
+      text-decoration-thickness: 2px;
+    }
+
+    @media (forced-colors: active) {
+      .gallery-directory > li,
+      .gallery-directory > li:first-child {
+        border-color: CanvasText;
+      }
+    }
+  }
+</style>

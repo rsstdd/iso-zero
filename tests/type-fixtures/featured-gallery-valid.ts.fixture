@@ -1,0 +1,20 @@
+const imageSource = {} as ImageMetadata;
+
+const galleryModel: FeaturedGalleryModel = {
+  slug: "venice",
+  title: "Venice",
+  location: "Venice, Italy",
+  publicationDate: new Date("2026-08-01T00:00:00.000Z"),
+  imageCount: 12,
+  hero: {
+    id: "venice-arcade",
+    src: imageSource,
+    alt: "Receding stone arches and hanging lanterns along an arcade in Venice.",
+    width: 2048,
+    height: 1155,
+  },
+};
+
+const props: Props = { gallery: galleryModel };
+
+void props;

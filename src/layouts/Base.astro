@@ -1,0 +1,100 @@
+---
+import "@fontsource/ibm-plex-mono/latin-400.css";
+import "@fontsource/ibm-plex-mono/latin-600.css";
+import "@fontsource/ibm-plex-sans/latin-400.css";
+import "@fontsource/ibm-plex-serif/latin-400.css";
+import "@fontsource/ibm-plex-serif/latin-500.css";
+import "@fontsource/ibm-plex-serif/latin-600.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SkipLink from "../components/SkipLink.astro";
+import {
+  validateBuildIdentity,
+  type BuildIdentity,
+} from "../lib/build-identity";
+import "../styles/design-tokens.css";
+import "../styles/global.css";
+
+interface Props {
+  readonly title: string;
+  readonly description: string;
+  readonly canonicalPath: string;
+  readonly currentPath: string;
+  readonly socialImage?: ImageMetadata;
+  readonly buildSha: string;
+  readonly contentVersion: string;
+  readonly copyrightYear: number;
+  readonly lang?: string;
+}
+
+const props: Props = Astro.props;
+const identity = validateBuildIdentity(props);
+for (const [name, value] of Object.entries({
+  title: props.title,
+  description: props.description,
+  canonicalPath: props.canonicalPath,
+  currentPath: props.currentPath,
+})) {
+  if (typeof value !== "string" || value.trim().length === 0) {
+    throw new TypeError(`${name} must be non-blank.`);
+  }
+}
+if (
+  !props.canonicalPath.startsWith("/") ||
+  !props.currentPath.startsWith("/")
+) {
+  throw new TypeError("Base paths must be site-relative absolute paths.");
+}
+const site = Astro.site ?? new URL("https://iso-zero.example");
+const canonical = new URL(props.canonicalPath, site);
+const socialImageUrl = props.socialImage
+  ? new URL(props.socialImage.src, site).href
+  : undefined;
+const lang = props.lang ?? "en";
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={props.description} />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#191611" />
+    <meta name="iso-zero-build" content={identity.buildSha} />
+    <meta name="iso-zero-content" content={identity.contentVersion} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="canonical" href={canonical.href} />
+    <meta property="og:title" content={props.title} />
+    <meta property="og:description" content={props.description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:type" content="website" />
+    {socialImageUrl && <meta property="og:image" content={socialImageUrl} />}
+    {
+      socialImageUrl && (
+        <meta name="twitter:card" content="summary_large_image" />
+      )
+    }
+    {socialImageUrl && <meta name="twitter:title" content={props.title} />}
+    {
+      socialImageUrl && (
+        <meta name="twitter:description" content={props.description} />
+      )
+    }
+    {socialImageUrl && <meta name="twitter:image" content={socialImageUrl} />}
+    <title>{props.title}</title>
+  </head>
+  <body>
+    <SkipLink />
+    <SiteHeader currentPath={props.currentPath} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <SiteFooter
+      copyrightYear={identity.copyrightYear}
+      buildSha={identity.buildSha}
+      contentVersion={identity.contentVersion}
+    />
+  </body>
+</html>

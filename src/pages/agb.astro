@@ -1,0 +1,381 @@
+---
+import RuleDatum from "../components/RuleDatum.astro";
+import Base from "../layouts/Base.astro";
+import {
+  BUILD_SHA,
+  CONTENT_VERSION,
+  COPYRIGHT_YEAR,
+} from "../lib/site-identity";
+
+const description =
+  "Allgemeine Geschäftsbedingungen und Widerrufsinformationen für den Printverkauf von IS0 Null.";
+
+// Commerce remains a non-contractual test-mode demonstration. Complete every
+// bracketed value and obtain legal review before enabling production checkout.
+const commerceMode = "test" as const;
+const operatorName = "Ross Todd";
+const withdrawalAddress = "[Ladungsfähige Anschrift ergänzen]";
+const withdrawalEmail = "[Geschäftliche E-Mail-Adresse ergänzen]";
+const shippingArea = "[Liefergebiet ergänzen]";
+const shippingCosts = "[Versandkosten oder Berechnung ergänzen]";
+const deliveryPeriod = "[Lieferzeit ergänzen]";
+const vatStatement = "[Umsatzsteuerstatus ergänzen]";
+const disputeResolutionStatement =
+  "[Teilnahmebereitschaft an Verbraucherschlichtung festlegen]";
+---
+
+<Base
+  title="AGB — IS0 Null"
+  description={description}
+  canonicalPath="/agb/"
+  currentPath="/agb/"
+  lang="de"
+  buildSha={BUILD_SHA}
+  contentVersion={CONTENT_VERSION}
+  copyrightYear={COPYRIGHT_YEAR}
+>
+  <article class="terms container-prose">
+    <header class="terms__header">
+      <p class="terms__overline">IS0 Null / RECHTLICHES</p>
+      <h1>Allgemeine Geschäftsbedingungen</h1>
+
+      <p class="terms__lede">
+        Diese Bedingungen regeln den Verkauf körperlicher Fotoprints durch
+        {operatorName} an Verbraucherinnen, Verbraucher und Unternehmer.
+      </p>
+
+      {
+        commerceMode === "test" && (
+          <aside
+            class="terms__status"
+            aria-labelledby="commerce-status-heading"
+          >
+            <h2 id="commerce-status-heading">Testbetrieb</h2>
+            <p>
+              Der Checkout ist derzeit ausschließlich eine Test- und
+              Demonstrationsumgebung. Es werden keine rechtsverbindlichen
+              Bestellungen angenommen. Vor dem Produktionsstart müssen alle
+              gekennzeichneten Angaben vervollständigt, die elektronische
+              Widerrufsfunktion bereitgestellt und die Bedingungen rechtlich
+              geprüft werden.
+            </p>
+          </aside>
+        )
+      }
+    </header>
+
+    <RuleDatum as="div">
+      <div class="terms__sections">
+        <section class="terms__section" aria-labelledby="scope-heading">
+          <h2 id="scope-heading">1. Geltungsbereich und Anbieter</h2>
+
+          <p>
+            Diese AGB gelten für Verträge über Fotoprints, die über IS0 Null
+            angebahnt und über den verlinkten Checkout abgeschlossen werden.
+            Anbieter und Vertragspartner ist {operatorName}. Die vollständigen
+            Kontaktangaben stehen im <a href="/impressum/">Impressum</a>.
+          </p>
+
+          <p>
+            Gegenüber Unternehmern gelten entgegenstehende oder ergänzende
+            Bedingungen nur, wenn ihnen ausdrücklich in Textform zugestimmt
+            wurde.
+          </p>
+        </section>
+
+        <section class="terms__section" aria-labelledby="offer-heading">
+          <h2 id="offer-heading">2. Angebot und Vertragsschluss</h2>
+
+          <p>
+            Die Darstellung eines Prints ist kein verbindliches Angebot. Sie
+            lädt zur Abgabe einer Bestellung ein. Vor Abgabe der Bestellung
+            zeigt der Checkout das Werk, die Ausführung, den Gesamtpreis,
+            Lieferkosten und weitere vertragswesentliche Angaben an.
+          </p>
+
+          <p>
+            Mit Betätigung der eindeutig als zahlungspflichtig gekennzeichneten
+            Bestellschaltfläche gibt die kaufende Person ein verbindliches
+            Angebot ab. Der Vertrag kommt mit der anschließenden Auftrags- oder
+            Zahlungsbestätigung zustande. Die Vertragssprache ist Deutsch.
+          </p>
+        </section>
+
+        <section class="terms__section" aria-labelledby="products-heading">
+          <h2 id="products-heading">3. Prints und Editionen</h2>
+
+          <p>
+            Maßgeblich sind die auf der jeweiligen Produktseite angegebenen
+            Eigenschaften, insbesondere Motiv, Papierformat, Ausführung und
+            Editionsgröße. Eine Editionsgröße von „offen“ bedeutet, dass keine
+            zahlenmäßig begrenzte Auflage zugesagt wird.
+          </p>
+
+          <p>
+            Geringfügige Abweichungen zwischen Bildschirmdarstellung und Print
+            können durch Bildschirmkalibrierung, Material und Druckverfahren
+            entstehen. Gesetzliche Mängelrechte bleiben unberührt.
+          </p>
+        </section>
+
+        <section class="terms__section" aria-labelledby="price-heading">
+          <h2 id="price-heading">4. Preise, Versand und Zahlung</h2>
+
+          <p>
+            Alle Produktpreise sind Gesamtpreise in Euro. Es gilt folgende
+            Umsatzsteuerangabe: {vatStatement}. Versandkosten werden vor Abgabe
+            der Bestellung gesondert ausgewiesen. Für den Produktionsstart ist
+            folgende Angabe zu vervollständigen: {shippingCosts}.
+          </p>
+
+          <p>
+            Die Zahlung wird über Stripe abgewickelt. Die im Checkout
+            angebotenen Zahlungsarten richten sich nach Land, Gerät und
+            Verfügbarkeit. IS0 Null erhält keine vollständigen Karten- oder
+            Kontodaten.
+          </p>
+        </section>
+
+        <section class="terms__section" aria-labelledby="delivery-heading">
+          <h2 id="delivery-heading">5. Herstellung und Lieferung</h2>
+
+          <p>
+            Prints werden nach Vertragsschluss hergestellt und an die im
+            Checkout angegebene Lieferanschrift versandt. Liefergebiet: {
+              shippingArea
+            }. Voraussichtliche Lieferzeit: {deliveryPeriod}. Verbindliche
+            Angaben stehen vor Abgabe der Bestellung auf der Produkt- oder
+            Checkoutseite.
+          </p>
+
+          <p>
+            Die Gefahr des zufälligen Untergangs oder der zufälligen
+            Verschlechterung geht bei Verbraucherinnen und Verbrauchern erst mit
+            Übergabe der Ware über. Bis zur vollständigen Zahlung bleibt der
+            Print Eigentum des Anbieters.
+          </p>
+        </section>
+
+        <section class="terms__section" aria-labelledby="withdrawal-heading">
+          <h2 id="withdrawal-heading">6. Widerrufsbelehrung</h2>
+
+          <h3>Widerrufsrecht</h3>
+          <p>
+            Verbraucherinnen und Verbraucher haben das Recht, binnen vierzehn
+            Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen. Die
+            Widerrufsfrist beträgt vierzehn Tage ab dem Tag, an dem die Ware in
+            Besitz genommen wurde oder ein benannter Dritter, der nicht
+            Beförderer ist, sie in Besitz genommen hat.
+          </p>
+
+          <p>
+            Um das Widerrufsrecht auszuüben, muss eine eindeutige Erklärung über
+            den Entschluss zum Widerruf an {operatorName}, {withdrawalAddress},
+            E-Mail: {withdrawalEmail}, gesendet werden. Dafür kann das unten
+            stehende Muster-Widerrufsformular verwendet werden; seine Verwendung
+            ist nicht vorgeschrieben. Zur Wahrung der Frist reicht die
+            rechtzeitige Absendung der Erklärung.
+          </p>
+
+          <h3>Folgen des Widerrufs</h3>
+          <p>
+            Nach einem wirksamen Widerruf werden alle erhaltenen Zahlungen
+            einschließlich der Kosten der günstigsten angebotenen
+            Standardlieferung spätestens binnen vierzehn Tagen ab Eingang der
+            Widerrufserklärung zurückgezahlt. Für die Rückzahlung wird
+            grundsätzlich dasselbe Zahlungsmittel wie bei der ursprünglichen
+            Transaktion verwendet. Die Rückzahlung kann bis zum Eingang der Ware
+            oder bis zum Nachweis ihrer Rücksendung verweigert werden, je
+            nachdem, welches Ereignis früher eintritt.
+          </p>
+
+          <p>
+            Die Ware ist spätestens binnen vierzehn Tagen ab Abgabe der
+            Widerrufserklärung zurückzusenden. Die unmittelbaren Kosten der
+            Rücksendung trägt die kaufende Person. Für einen Wertverlust ist nur
+            aufzukommen, wenn er auf einen Umgang zurückgeht, der zur Prüfung
+            von Beschaffenheit, Eigenschaften und Funktionsweise der Ware nicht
+            erforderlich war.
+          </p>
+
+          <h3>Elektronische Widerrufsfunktion</h3>
+          <p>
+            Vor Aktivierung des Produktionscheckouts wird eine jederzeit leicht
+            zugängliche elektronische Widerrufsfunktion nach § 356a BGB
+            bereitgestellt. Im derzeitigen Testbetrieb können keine Verträge
+            geschlossen und daher keine Verträge widerrufen werden.
+          </p>
+        </section>
+
+        <section
+          class="terms__section"
+          aria-labelledby="withdrawal-form-heading"
+        >
+          <h2 id="withdrawal-form-heading">7. Muster-Widerrufsformular</h2>
+
+          <p>
+            Wenn der Vertrag widerrufen werden soll, können folgende Angaben per
+            Brief oder E-Mail an {operatorName}, {withdrawalAddress}, {
+              withdrawalEmail
+            }
+            übermittelt werden:
+          </p>
+
+          <ul>
+            <li>Hiermit widerrufe ich den von mir abgeschlossenen Vertrag.</li>
+            <li>Bestellter Print und Bestellnummer</li>
+            <li>Bestellt am / erhalten am</li>
+            <li>Name und Anschrift der kaufenden Person</li>
+            <li>Datum und, bei Erklärung auf Papier, Unterschrift</li>
+          </ul>
+        </section>
+
+        <section class="terms__section" aria-labelledby="warranty-heading">
+          <h2 id="warranty-heading">8. Mängelrechte und Haftung</h2>
+
+          <p>
+            Es gelten die gesetzlichen Mängelrechte. Für Schäden aus der
+            Verletzung des Lebens, des Körpers oder der Gesundheit, bei Vorsatz,
+            grober Fahrlässigkeit und in allen Fällen zwingender gesetzlicher
+            Haftung gelten ausschließlich die gesetzlichen Vorschriften.
+          </p>
+        </section>
+
+        <section class="terms__section" aria-labelledby="copyright-heading">
+          <h2 id="copyright-heading">9. Urheberrecht</h2>
+
+          <p>
+            Der Kauf überträgt das Eigentum am körperlichen Print. Urheber- und
+            Nutzungsrechte am fotografischen Werk werden nicht übertragen.
+            Vervielfältigung, Digitalisierung, öffentliche Zugänglichmachung und
+            gewerbliche Nutzung bedürfen einer gesonderten Erlaubnis.
+          </p>
+        </section>
+
+        <section class="terms__section" aria-labelledby="disputes-heading">
+          <h2 id="disputes-heading">10. Verbraucherstreitbeilegung</h2>
+
+          <p>{disputeResolutionStatement}</p>
+          <p>
+            Die frühere europäische Online-Streitbeilegungsplattform wurde zum
+            20. Juli 2025 eingestellt und wird daher nicht verlinkt.
+          </p>
+        </section>
+
+        <section class="terms__section" aria-labelledby="law-heading">
+          <h2 id="law-heading">11. Anwendbares Recht</h2>
+
+          <p>
+            Es gilt deutsches Recht unter Ausschluss des UN-Kaufrechts.
+            Gegenüber Verbraucherinnen und Verbrauchern gilt diese Rechtswahl
+            nur, soweit sie nicht den Schutz zwingender Vorschriften des Staates
+            ihres gewöhnlichen Aufenthalts entzieht.
+          </p>
+        </section>
+
+        <section class="terms__section" aria-labelledby="revision-heading">
+          <h2 id="revision-heading">Stand</h2>
+          <p><time datetime="2026-08-03">3. August 2026</time></p>
+        </section>
+      </div>
+    </RuleDatum>
+  </article>
+</Base>
+
+<style>
+  .terms {
+    padding-block: var(--space-16) 0;
+  }
+
+  .terms__header {
+    display: grid;
+    gap: var(--space-5);
+    margin-block-end: var(--space-16);
+  }
+
+  .terms__overline {
+    color: var(--text-muted);
+    font-family: var(--font-data);
+    font-feature-settings: "zero";
+    font-size: var(--text-overline);
+    letter-spacing: var(--tracking-overline);
+    line-height: var(--leading-overline);
+  }
+
+  .terms h1,
+  .terms h2,
+  .terms h3 {
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+
+  .terms h1 {
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+  }
+
+  .terms h2 {
+    font-size: var(--text-h2);
+    line-height: var(--leading-h2);
+  }
+
+  .terms h3 {
+    font-size: var(--text-h3);
+    line-height: var(--leading-h3);
+  }
+
+  .terms__lede {
+    max-inline-size: 55ch;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+  }
+
+  .terms__status {
+    display: grid;
+    gap: var(--space-3);
+    margin-block-start: var(--space-3);
+    padding: var(--space-5);
+    border: 1px solid var(--border-essential);
+    border-radius: 0;
+    background: var(--surface);
+    box-shadow: none;
+  }
+
+  .terms__status h2 {
+    font-family: var(--font-data);
+    font-size: var(--text-overline);
+    letter-spacing: var(--tracking-overline);
+    line-height: var(--leading-overline);
+    text-transform: uppercase;
+  }
+
+  .terms__sections,
+  .terms__section {
+    display: grid;
+  }
+
+  .terms__sections {
+    gap: var(--space-10);
+  }
+
+  .terms__section {
+    gap: var(--space-4);
+  }
+
+  .terms__section + .terms__section {
+    padding-block-start: var(--space-10);
+    border-block-start: 1px solid var(--border-c);
+  }
+
+  .terms__section p,
+  .terms__section ul {
+    max-inline-size: 65ch;
+  }
+
+  .terms__section ul {
+    display: grid;
+    gap: var(--space-2);
+    padding-inline-start: var(--space-6);
+  }
+</style>

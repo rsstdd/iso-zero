@@ -1,0 +1,179 @@
+---
+import DataPlate from "./DataPlate.astro";
+import { FOOTER_NAVIGATION } from "../lib/nav/footer-navigation";
+import { validateBuildIdentity } from "../lib/build-identity";
+
+interface Props {
+  readonly copyrightYear: number;
+  readonly buildSha: string;
+  readonly contentVersion: string;
+}
+
+const identity = validateBuildIdentity(Astro.props);
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <nav aria-label="Project">
+      <ul>
+        {
+          FOOTER_NAVIGATION.project.map(({ href, label }) => (
+            <li>
+              <a href={href}>{label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <nav aria-label="Legal">
+      <ul>
+        {
+          FOOTER_NAVIGATION.legal.map(({ href, label }) => (
+            <li>
+              <a href={href}>{label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <DataPlate class="site-footer__meta">
+      <p>© {identity.copyrightYear} Ross Todd. All rights reserved.</p>
+      <dl class="site-footer__build">
+        <div>
+          <dt>Build</dt>
+          <dd>{identity.abbreviatedBuildSha}</dd>
+        </div>
+        <div>
+          <dt>Content</dt>
+          <dd>{identity.contentVersion}</dd>
+        </div>
+      </dl>
+    </DataPlate>
+  </div>
+</footer>
+
+<style is:global>
+  @layer reset, base, components, utilities;
+
+  @layer components {
+    .site-footer {
+      margin-block-start: var(--space-section);
+      border-block-start: 1px solid var(--border-c);
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .site-footer__inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-8);
+      inline-size: min(
+        calc(100% - (2 * var(--page-gutter))),
+        var(--container-wide)
+      );
+      margin-inline: auto;
+      padding-block: var(--space-10);
+    }
+
+    .site-footer nav,
+    .site-footer ul,
+    .site-footer li {
+      min-inline-size: 0;
+      max-inline-size: 100%;
+    }
+
+    .site-footer ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1) var(--space-6);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .site-footer li {
+      display: flex;
+    }
+
+    .site-footer a {
+      display: inline-flex;
+      align-items: center;
+      min-inline-size: var(--target-min);
+      min-block-size: var(--target-min);
+      max-inline-size: 100%;
+      padding-block: var(--space-2);
+      padding-inline: var(--space-2);
+      border-radius: 0;
+      color: var(--text);
+      font-family: var(--font-interface);
+      font-size: var(--text-interface);
+      line-height: var(--leading-interface);
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+
+    .site-footer a:hover {
+      text-decoration-thickness: 2px;
+    }
+
+    .site-footer__meta {
+      display: grid;
+      grid-column: 1 / -1;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-4);
+    }
+
+    .site-footer__meta p,
+    .site-footer__build,
+    .site-footer__build dd {
+      margin: 0;
+    }
+
+    .site-footer__build {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3) var(--space-8);
+      min-inline-size: 0;
+    }
+
+    .site-footer__build > div {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: var(--space-2);
+      min-inline-size: 0;
+    }
+
+    .site-footer__build dt {
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .site-footer__build dd {
+      overflow-wrap: anywhere;
+    }
+
+    @media (min-width: 48rem) {
+      .site-footer__inner {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: var(--space-12);
+      }
+
+      .site-footer__meta {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+      }
+    }
+
+    @media (forced-colors: active) {
+      .site-footer,
+      .site-footer .data-plate {
+        border-block-start-color: CanvasText;
+      }
+    }
+  }
+</style>

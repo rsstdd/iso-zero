@@ -8,13 +8,17 @@ Values are owned by the stylesheet. This document explains the values and the ru
 
 The shared Datum source is authored for projects that use Tailwind. It defines semantic custom properties on `:root`, then maps them into Tailwind through `@theme inline` blocks so that utilities such as `bg-surface` resolve correctly.
 
-ISO Zero does not use Tailwind. That creates a concrete problem rather than a stylistic one: values declared inside `@theme` — the type scale, the font stacks, `--radius-xs`, the shadow and motion tokens, the container widths — are only defined if a Tailwind build processes the file. Without Tailwind, a browser treats `@theme` as an unknown at-rule and discards its contents, and roughly half the design system silently evaporates.
+ISO Null does not use Tailwind. That creates a concrete problem rather than a stylistic one: values declared inside `@theme` — the type scale, the font stacks, `--radius-xs`, the shadow and motion tokens, the container widths — are only defined if a Tailwind build processes the file. Without Tailwind, a browser treats `@theme` as an unknown at-rule and discards its contents, and roughly half the design system silently evaporates.
 
-The vendored copy is therefore flattened. Every declaration inside `@theme` and `@theme inline` is lifted into `:root`, the Tailwind colour mappings are dropped because nothing consumes them, and the `@layer base` and `@layer components` blocks are kept as written. Synchronisation with the shared source is manual and rare, and a comment at the head of the file records the upstream revision it was flattened from.
+The vendored copy is therefore flattened. Every declaration ISO Null consumes is lifted into `:root`, and Tailwind colour mappings are dropped because nothing consumes them. The site profile is dark-only, so unused light-theme primitives and the `[data-theme="dark"]` selector are also removed from the production file. Synchronisation with the shared source is manual and rare, and a comment at the head of the file records the profile and verification date.
+
+`src/styles/design-tokens.css` owns semantic tokens and the governed Datum motifs. `src/styles/global.css` owns reset rules, element defaults, link and visited-link behaviour, selection, focus, reduced motion, forced-colour focus, and layout utilities. Component styles may specialize layout and state geometry, but they do not redeclare those global contracts.
+
+Every stylesheet entry point, including an Astro component `<style>` block, declares `@layer reset, base, components, utilities;` before adding rules. Astro may concatenate component CSS before imported global CSS; repeating the order declaration prevents first encounter from placing `components` below `base` and silently allowing global anchor rules to override component state rules.
 
 ## Colour
 
-The site runs in the dark theme. The light primitives remain in the vendored file because the shared source defines them and diverging would complicate resynchronisation, but no route selects them.
+The site runs only in the dark profile. No production route, component, or control selects a light theme.
 
 | Token | Value | Use |
 |---|---|---|
@@ -22,19 +26,29 @@ The site runs in the dark theme. The light primitives remain in the vendored fil
 | `--surface` | `#221e18` | Raised surfaces: popovers, cards, placards |
 | `--well` | `#26221b` | Recessed surfaces |
 | `--border-c` | `#3a352c` | Hairlines and dividers |
+| `--border-essential` | `#746b5d` | Control boundaries that must reach 3:1 on every declared surface |
 | `--text` | `#ede7db` | Primary text |
 | `--text-muted` | `#a39b8c` | Metadata, captions, secondary text |
 | `--accent` | `#e8632c` | International orange |
+| `--success` | `#82b37c` | Positive feedback |
+| `--warn` | `#f0a35a` | Caution feedback |
+| `--error` | `#ed7a72` | Errors and destructive feedback |
 
-Contrast ratios were verified 2026-07-29 and are recorded in the stylesheet header. The dark accent is lifted one step from the light-theme value specifically so it is safe at body size, at 5.37:1 against the canvas.
+Contrast ratios were reverified 2026-08-02 and are recorded in the stylesheet header. The essential border clears 3:1 against the canvas, surface, and well. The ordinary `--border-c` hairline measures only 1.48:1 against the canvas and remains decorative; it cannot identify a control, boundary, selection, error, focus state, or current location by itself.
 
 ### The accent rule
 
-International orange marks state, focus, navigation position, and verified system metadata. It marks nothing else.
+International orange marks focus, explicit state, verified system metadata, and the homepage directory's single datum origin. The Header and Footer do not spend the accent for default, hover, visited, or current-page links; their persistent underline and `aria-current` semantics carry those states without colour.
 
 Orange is never a solid fill behind text. The reason is contrast: `#e8632c` against `#191611` is comfortable, and text placed on top of an orange fill has to be either near-white or near-black, both of which read as a warning label rather than as an instrument. The outlined `.placard` exists to satisfy the impulse toward a filled tag without paying that cost.
 
 A page carrying orange in three places has diluted it. Two is usually correct: the focus ring, and one indicator.
+
+### Link contract
+
+Links inherit `--text` in every unvisited and visited state. A persistent underline identifies text links without relying on colour. Hover strengthens the underline from 1 px to 2 px without changing text colour, layout, or target geometry. `:focus-visible` applies the global 2 px `--focus-ring` outline with a 2 px offset.
+
+Compound links such as the featured gallery and gallery-directory row remove decoration from the outer anchor only when a visible descendant action or title retains the persistent underline. A hairline, arrow, image, or hover-only change never serves as the sole link affordance.
 
 ## Typography
 
@@ -77,7 +91,7 @@ Shadows are banned. Elevation is expressed by a 1 px border against a lighter su
 
 ## The motifs
 
-Two recurring elements carry the system's identity. Both are plain CSS classes in `@layer components` rather than components, because the shared stylesheet serves several projects and one implementation is correct for all of them.
+Two recurring visual treatments carry the system's identity. Their governed CSS classes live in `@layer components` inside the token stylesheet. Thin Astro wrappers such as `DataPlate.astro` and `RuleDatum.astro` enforce semantic element choices and failure behaviour without reimplementing their colour, typography, or geometry.
 
 ### The datum tick
 

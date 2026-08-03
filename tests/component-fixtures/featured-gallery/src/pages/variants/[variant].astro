@@ -1,0 +1,68 @@
+---
+import "@fontsource/ibm-plex-mono/latin-400.css";
+import "@fontsource/ibm-plex-sans/latin-400.css";
+import "@fontsource/ibm-plex-serif/latin-400.css";
+// biome-ignore lint/correctness/noUnusedImports: Astro resolves the component in the template.
+import FeaturedGallery from "../../../../../../src/components/FeaturedGallery.astro";
+import "../../../../../../src/styles/design-tokens.css";
+import "../../../../../../src/styles/global.css";
+import { makeFeaturedGallery } from "../../fixture-model";
+
+export function getStaticPaths() {
+	return [
+		{
+			params: { variant: "singular" },
+			props: {
+				slug: "singular",
+				imageCount: 1,
+				publicationDate: "2026-08-01T00:00:00Z",
+			},
+		},
+		{
+			params: { variant: "plural" },
+			props: {
+				slug: "plural",
+				imageCount: 2,
+				publicationDate: "2026-08-01T00:00:00Z",
+			},
+		},
+		{
+			params: { variant: "utc-boundary" },
+			props: {
+				slug: "utc-boundary",
+				imageCount: 12,
+				publicationDate: "2026-08-01T00:00:00Z",
+			},
+		},
+	];
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: Astro uses this interface for page props.
+interface Props {
+	readonly slug: string;
+	readonly imageCount: number;
+	readonly publicationDate: string;
+}
+
+const { slug, imageCount, publicationDate } = Astro.props;
+// biome-ignore lint/correctness/noUnusedVariables: Astro consumes this value in the template.
+const gallery = makeFeaturedGallery({
+	slug,
+	imageCount,
+	publicationDate: new Date(publicationDate),
+});
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Featured Gallery {slug} fixture</title>
+  </head>
+  <body>
+    <main id="main">
+      <FeaturedGallery gallery={gallery} />
+    </main>
+  </body>
+</html>

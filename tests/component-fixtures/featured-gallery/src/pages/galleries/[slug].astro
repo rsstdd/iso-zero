@@ -1,0 +1,30 @@
+---
+export function getStaticPaths() {
+	return ["venice", "singular", "plural", "utc-boundary"].map((slug) => ({
+		params: { slug },
+		props: { slug },
+	}));
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: Astro uses this interface for page props.
+interface Props {
+	readonly slug: string;
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: Astro consumes this value in the template.
+const { slug } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{slug} gallery fixture</title>
+  </head>
+  <body>
+    <main>
+      <h1>{slug} gallery</h1>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+const unsupportedRoot: Props = { as: "section" };
+const invalidClass: Props = { class: ["one", "two"] };
+const invalidLabelReference: Props = { labelledBy: 42 };
+const immutableProps: Props = { as: "div" };
+immutableProps.as = "footer";
+
+void [unsupportedRoot, invalidClass, invalidLabelReference, immutableProps];

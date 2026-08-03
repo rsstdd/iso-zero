@@ -1,0 +1,11 @@
+const requiredCopy: Props = {
+  title: "ISO Null",
+  byline: "Photography by Ross Todd",
+};
+const explicitHeading: Props = {
+  title: "ISO Null",
+  byline: "Photography by Ross Todd",
+  headingId: "page-title",
+};
+
+void [requiredCopy, explicitHeading];

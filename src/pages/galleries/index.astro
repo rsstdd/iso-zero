@@ -1,0 +1,29 @@
+---
+import Base from "../../layouts/Base.astro";
+import {
+  BUILD_SHA,
+  CONTENT_VERSION,
+  COPYRIGHT_YEAR,
+} from "../../lib/site-identity";
+---
+
+<Base
+  title="Galleries — ISO Null"
+  description="Published photography galleries by Ross Todd."
+  canonicalPath="/galleries/"
+  currentPath="/galleries/"
+  buildSha={BUILD_SHA}
+  contentVersion={CONTENT_VERSION}
+  copyrightYear={COPYRIGHT_YEAR}
+>
+  <section
+    class="supporting-page container-wide"
+    aria-labelledby="galleries-title"
+  >
+    <h1 id="galleries-title">Galleries</h1>
+    <p>
+      The complete archive index will be published with the first gallery
+      release.
+    </p>
+  </section>
+</Base>

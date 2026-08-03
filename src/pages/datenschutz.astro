@@ -1,0 +1,236 @@
+---
+import RuleDatum from "../components/RuleDatum.astro";
+import Base from "../layouts/Base.astro";
+import {
+  BUILD_SHA,
+  CONTENT_VERSION,
+  COPYRIGHT_YEAR,
+} from "../lib/site-identity";
+
+const description =
+  "Datenschutzhinweise für IS0 Null: Hosting, Server-Protokolle, Kontaktaufnahme und Zahlungsabwicklung.";
+
+// Replace these three values with the production hosting contract before launch.
+const hostingProvider = "[Hosting-Anbieter ergänzen]";
+const hostingPrivacyUrl = "[Datenschutz-URL des Hosting-Anbieters ergänzen]";
+const hostingLogRetention = "[Speicherdauer der Server-Protokolle ergänzen]";
+---
+
+<Base
+  title="Datenschutz — IS0 Null"
+  description={description}
+  canonicalPath="/datenschutz/"
+  currentPath="/datenschutz/"
+  lang="de"
+  buildSha={BUILD_SHA}
+  contentVersion={CONTENT_VERSION}
+  copyrightYear={COPYRIGHT_YEAR}
+>
+  <article class="privacy container-prose">
+    <header class="privacy__header">
+      <p class="privacy__overline">IS0 Null / RECHTLICHES</p>
+      <h1>Datenschutz</h1>
+
+      <p class="privacy__lede">
+        Diese Hinweise beschreiben, welche personenbezogenen Daten beim Besuch
+        von IS0 Null und beim Kauf eines Prints verarbeitet werden.
+      </p>
+    </header>
+
+    <RuleDatum as="div">
+      <div class="privacy__sections">
+        <section class="privacy__section" aria-labelledby="controller-heading">
+          <h2 id="controller-heading">Verantwortlicher</h2>
+
+          <p>
+            Verantwortlicher im Sinne der Datenschutz-Grundverordnung ist Ross
+            Todd. Die vollständigen Kontaktangaben stehen im{" "}
+            <a href="/impressum/">Impressum</a>.
+          </p>
+        </section>
+
+        <section class="privacy__section" aria-labelledby="hosting-heading">
+          <h2 id="hosting-heading">Hosting und Server-Protokolle</h2>
+
+          <p>
+            Diese Website wird bei {hostingProvider} gehostet. Beim Abruf einer Seite
+            verarbeitet der Hosting-Anbieter technisch erforderliche Zugriffsdaten.
+            Dazu können insbesondere IP-Adresse, Datum und Uhrzeit des Abrufs, angeforderte
+            Ressource, Referrer, Browserkennung und HTTP-Status gehören.
+          </p>
+
+          <p>
+            Die Verarbeitung dient der sicheren und fehlerfreien Bereitstellung
+            der Website sowie der Abwehr von Missbrauch. Rechtsgrundlage ist
+            Art. 6 Abs. 1 lit. f DSGVO. Das berechtigte Interesse liegt im
+            sicheren und zuverlässigen Betrieb des Angebots. Server-Protokolle
+            werden {hostingLogRetention} gespeichert und anschließend gelöscht, sofern
+            keine sicherheitsrelevante Untersuchung eine längere Aufbewahrung erfordert.
+          </p>
+
+          <p>
+            Weitere Informationen enthält die{" "}
+            <a href={hostingPrivacyUrl}
+              >Datenschutzerklärung des Hosting-Anbieters</a
+            >.
+          </p>
+        </section>
+
+        <section class="privacy__section" aria-labelledby="analytics-heading">
+          <h2 id="analytics-heading">Cookies und Reichweitenmessung</h2>
+
+          <p>
+            IS0 Null setzt keine Cookies oder vergleichbaren
+            Speichertechnologien ein. Die Website verwendet keine clientseitige
+            Analyse-, Tracking- oder Profiling-Software. Eine Reichweitenmessung
+            erfolgt ausschließlich anhand zusammengefasster Server-Protokolle,
+            soweit der Hosting-Anbieter diese bereitstellt.
+          </p>
+        </section>
+
+        <section class="privacy__section" aria-labelledby="contact-heading">
+          <h2 id="contact-heading">Kontaktaufnahme</h2>
+
+          <p>
+            Bei einer Kontaktaufnahme per E-Mail werden die übermittelten
+            Angaben verarbeitet, um die Anfrage zu beantworten. Soweit die
+            Anfrage auf einen Vertrag oder vorvertragliche Maßnahmen gerichtet
+            ist, gilt Art. 6 Abs. 1 lit. b DSGVO; im Übrigen gilt Art. 6 Abs. 1
+            lit. f DSGVO. Das berechtigte Interesse liegt in der Bearbeitung
+            eingehender Anfragen.
+          </p>
+
+          <p>
+            Die Angaben werden gelöscht, sobald die Anfrage abschließend
+            bearbeitet ist und keine gesetzlichen Aufbewahrungspflichten oder
+            berechtigten Interessen an einer weiteren Speicherung bestehen.
+          </p>
+        </section>
+
+        <section class="privacy__section" aria-labelledby="stripe-heading">
+          <h2 id="stripe-heading">Zahlungsabwicklung mit Stripe</h2>
+
+          <p>
+            Für angebotene Prints führt der Link „Print kaufen“ zu einer von
+            Stripe bereitgestellten Zahlungsseite. Erst beim Aufruf dieser
+            externen Seite verarbeitet Stripe insbesondere Verbindungs-,
+            Kontakt-, Transaktions- und Zahlungsdaten. Karten- und Kontodaten
+            werden nicht an IS0 Null übertragen.
+          </p>
+
+          <p>
+            Die Verarbeitung zur Anbahnung und Durchführung eines Kaufs beruht
+            auf Art. 6 Abs. 1 lit. b DSGVO. Soweit Daten zur Erfüllung
+            gesetzlicher handels- oder steuerrechtlicher Pflichten aufbewahrt
+            werden, gilt Art. 6 Abs. 1 lit. c DSGVO. Daten zur Betrugsprävention
+            und Systemsicherheit können auf Grundlage von Art. 6 Abs. 1 lit. f
+            DSGVO verarbeitet werden.
+          </p>
+
+          <p>
+            Stripe kann Daten außerhalb des Europäischen Wirtschaftsraums
+            verarbeiten. Informationen zu Empfängern, Speicherdauer,
+            Übermittlungsgrundlagen und Betroffenenrechten enthält die{" "}
+            <a href="https://stripe.com/de/privacy"
+              >Datenschutzerklärung von Stripe</a
+            >. Auf der Stripe-Zahlungsseite können eigene Cookies und
+            vergleichbare Technologien eingesetzt werden.
+          </p>
+        </section>
+
+        <section class="privacy__section" aria-labelledby="rights-heading">
+          <h2 id="rights-heading">Ihre Rechte</h2>
+
+          <p>
+            Nach Maßgabe der gesetzlichen Voraussetzungen bestehen Rechte auf
+            Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung und
+            Datenübertragbarkeit. Einer Verarbeitung auf Grundlage von Art. 6
+            Abs. 1 lit. f DSGVO kann aus Gründen widersprochen werden, die sich
+            aus der besonderen Situation der betroffenen Person ergeben.
+          </p>
+
+          <p>
+            Zudem besteht das Recht, sich bei einer Datenschutzaufsichtsbehörde
+            zu beschweren. Für nichtöffentliche Verantwortliche mit Sitz in
+            Bayern ist insbesondere das{" "}
+            <a href="https://www.lda.bayern.de/de/beschwerde.html">
+              Bayerische Landesamt für Datenschutzaufsicht
+            </a>{" "}
+            zuständig.
+          </p>
+        </section>
+
+        <section class="privacy__section" aria-labelledby="revision-heading">
+          <h2 id="revision-heading">Stand</h2>
+          <p><time datetime="2026-08-03">3. August 2026</time></p>
+        </section>
+      </div>
+    </RuleDatum>
+  </article>
+</Base>
+
+<style>
+  .privacy {
+    padding-block: var(--space-16) 0;
+  }
+
+  .privacy__header {
+    display: grid;
+    gap: var(--space-5);
+    margin-block-end: var(--space-16);
+  }
+
+  .privacy__overline {
+    color: var(--text-muted);
+    font-family: var(--font-data);
+    font-feature-settings: "zero";
+    font-size: var(--text-overline);
+    letter-spacing: var(--tracking-overline);
+    line-height: var(--leading-overline);
+  }
+
+  .privacy h1,
+  .privacy h2 {
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+
+  .privacy h1 {
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+  }
+
+  .privacy h2 {
+    font-size: var(--text-h2);
+    line-height: var(--leading-h2);
+  }
+
+  .privacy__lede {
+    max-inline-size: 55ch;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+  }
+
+  .privacy__sections,
+  .privacy__section {
+    display: grid;
+  }
+
+  .privacy__sections {
+    gap: var(--space-10);
+  }
+
+  .privacy__section {
+    gap: var(--space-4);
+  }
+
+  .privacy__section + .privacy__section {
+    padding-block-start: var(--space-10);
+    border-block-start: 1px solid var(--border-c);
+  }
+
+  .privacy__section p {
+    max-inline-size: 65ch;
+  }
+</style>

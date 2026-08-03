@@ -1,6 +1,6 @@
-# ISO Zero — documentation
+# ISO Null — documentation
 
-ISO Zero is an image-first photography portfolio and print storefront built as a technical portfolio project. The system combines static compilation, a build-time image and metadata pipeline, an interaction model that ships no client JavaScript at all, and a restrained design system derived from engineering instrumentation.
+ISO Null is an image-first photography portfolio and print storefront built as a technical portfolio project. The system combines static compilation, a build-time image and metadata pipeline, an interaction model that ships no client JavaScript at all, and a restrained design system derived from engineering instrumentation.
 
 The project is intended to prove delivery rather than architecture. Every performance, privacy, accessibility, and asset-integrity claim must be backed by an automated check or a recorded production measurement.
 

@@ -1,0 +1,23 @@
+---
+interface Props {
+  readonly as?: "section" | "div";
+  readonly labelledBy?: string;
+  readonly class?: string;
+}
+
+const { as = "section", labelledBy, class: className }: Props = Astro.props;
+if (as !== "section" && as !== "div") {
+  throw new TypeError(`Unsupported RuleDatum element: ${as}`);
+}
+if (as === "section" && (!labelledBy || labelledBy.trim().length === 0)) {
+  throw new TypeError("RuleDatum sections require labelledBy.");
+}
+const Component = as;
+---
+
+<Component
+  class:list={["rule-datum", className]}
+  aria-labelledby={labelledBy || undefined}
+>
+  <slot />
+</Component>

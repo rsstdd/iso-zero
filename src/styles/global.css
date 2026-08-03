@@ -1,0 +1,168 @@
+/* ISO Null global element defaults and layout primitives. */
+
+@layer reset, base, components, utilities;
+
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure,
+  blockquote,
+  dl,
+  dd {
+    margin: 0;
+  }
+
+  ul,
+  ol {
+    margin-block: 0;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+}
+
+@layer base {
+  html {
+    min-inline-size: 320px;
+    background: var(--bg);
+    color-scheme: dark;
+    font-synthesis: none;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    min-block-size: 100svh;
+    color: var(--text);
+    background: var(--bg);
+    font-family: var(--font-interface);
+    font-size: var(--text-interface);
+    line-height: var(--leading-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img,
+  picture,
+  svg,
+  video,
+  canvas {
+    display: block;
+    max-inline-size: 100%;
+  }
+
+  img,
+  video {
+    block-size: auto;
+  }
+
+  figure img {
+    border-radius: 0;
+  }
+
+  ::selection {
+    color: var(--selection-text);
+    background: var(--selection-bg);
+  }
+
+  a:any-link {
+    color: var(--link);
+    text-decoration: none;
+  }
+
+  a:visited {
+    color: var(--link-visited);
+  }
+
+  a:hover {
+    color: var(--link-hover);
+    text-decoration: underline dotted var(--accent-text) 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--focus-ring);
+    text-underline-offset: 0.2em;
+  }
+
+
+  table,
+  time,
+  [data-numeric] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  code,
+  kbd,
+  samp,
+  pre,
+  .font-mono {
+    font-feature-settings: "zero";
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      transition-delay: 0ms !important;
+      transition-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+
+  @media (forced-colors: active) {
+    :focus-visible {
+      outline-color: Highlight;
+    }
+  }
+}
+
+@layer utilities {
+  .container-prose,
+  .container-content,
+  .container-wide {
+    inline-size: min(calc(100% - (2 * var(--page-gutter))), var(--container-max));
+    min-inline-size: 0;
+    margin-inline: auto;
+  }
+
+  .container-prose {
+    --container-max: var(--container-prose);
+  }
+
+  .container-content {
+    --container-max: var(--container-content);
+  }
+
+  .container-wide {
+    --container-max: var(--container-wide);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+}

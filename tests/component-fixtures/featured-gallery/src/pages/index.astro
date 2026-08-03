@@ -1,0 +1,57 @@
+---
+import "@fontsource/ibm-plex-mono/latin-400.css";
+import "@fontsource/ibm-plex-sans/latin-400.css";
+import "@fontsource/ibm-plex-serif/latin-400.css";
+// biome-ignore lint/correctness/noUnusedImports: Astro resolves the component in the template.
+import FeaturedGallery from "../../../../../src/components/FeaturedGallery.astro";
+import "../../../../../src/styles/design-tokens.css";
+import "../../../../../src/styles/global.css";
+import { makeFeaturedGallery } from "../fixture-model";
+
+// biome-ignore lint/correctness/noUnusedVariables: Astro consumes this value in the template.
+const gallery = makeFeaturedGallery();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Featured Gallery contract fixture</title>
+  </head>
+  <body>
+    <main id="main">
+      <FeaturedGallery gallery={gallery} />
+      <img
+        data-fixture="secondary-image"
+        src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
+        alt=""
+        width="1"
+        height="1"
+        loading="lazy"
+      />
+      <div class="fixture-scroll-space" aria-hidden="true"></div>
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  @layer reset, base, components, utilities;
+
+  @layer components {
+    main {
+      padding-block: var(--space-8);
+    }
+
+    [data-fixture="secondary-image"] {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      opacity: 0;
+    }
+
+    .fixture-scroll-space {
+      block-size: 120vh;
+    }
+  }
+</style>

@@ -1,0 +1,259 @@
+---
+import RuleDatum from "../components/RuleDatum.astro";
+import Base from "../layouts/Base.astro";
+import {
+  BUILD_SHA,
+  CONTENT_VERSION,
+  COPYRIGHT_YEAR,
+} from "../lib/site-identity";
+
+const description =
+  "Impressum und Anbieterkennzeichnung für IS0 Null, die Fotografie-Website von Ross Todd.";
+
+// Replace every bracketed value before making the commercial site public.
+const operatorName = "Ross Todd";
+const streetAddress = "[Straße und Hausnummer ergänzen]";
+const postalAddress = "[Postleitzahl und Ort ergänzen]";
+const country = "Deutschland";
+const businessEmail = "[Geschäftliche E-Mail-Adresse ergänzen]";
+const phone = "[Telefonnummer oder gleichwertigen schnellen Kontakt ergänzen]";
+const vatId = "[USt-IdNr. ergänzen oder Abschnitt entfernen]";
+const disputeResolutionStatement =
+  "[Teilnahmebereitschaft an Verbraucherschlichtung festlegen]";
+---
+
+<Base
+  title="Impressum — IS0 Null"
+  description={description}
+  canonicalPath="/impressum/"
+  currentPath="/impressum/"
+  lang="de"
+  buildSha={BUILD_SHA}
+  contentVersion={CONTENT_VERSION}
+  copyrightYear={COPYRIGHT_YEAR}
+>
+  <article class="imprint container-prose">
+    <header class="imprint__header">
+      <p class="imprint__overline">IS0 Null / RECHTLICHES</p>
+      <h1>Impressum</h1>
+
+      <p class="imprint__lede">
+        Anbieterkennzeichnung nach § 5 Digitale-Dienste-Gesetz.
+      </p>
+
+      <aside
+        class="imprint__status"
+        aria-labelledby="publication-status-heading"
+      >
+        <h2 id="publication-status-heading">Vor Veröffentlichung ergänzen</h2>
+        <p>
+          Die ladungsfähige Anschrift, der unmittelbare Kontakt, der
+          Umsatzsteuerstatus und die Erklärung zur Verbraucherschlichtung sind
+          noch nicht abschließend hinterlegt. Dieses Impressum ist bis dahin
+          nicht produktionsreif.
+        </p>
+      </aside>
+    </header>
+
+    <RuleDatum as="div">
+      <div class="imprint__sections">
+        <section class="imprint__section" aria-labelledby="provider-heading">
+          <h2 id="provider-heading">Diensteanbieter</h2>
+
+          <address>
+            <span>{operatorName}</span>
+            <span>{streetAddress}</span>
+            <span>{postalAddress}</span>
+            <span>{country}</span>
+          </address>
+        </section>
+
+        <section class="imprint__section" aria-labelledby="contact-heading">
+          <h2 id="contact-heading">Kontakt</h2>
+
+          <dl class="imprint__contact">
+            <div>
+              <dt>E-Mail</dt>
+              <dd>{businessEmail}</dd>
+            </div>
+            <div>
+              <dt>Telefon / unmittelbarer Kontakt</dt>
+              <dd>{phone}</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="imprint__section" aria-labelledby="tax-heading">
+          <h2 id="tax-heading">Umsatzsteuer</h2>
+          <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: {vatId}</p>
+        </section>
+
+        <section class="imprint__section" aria-labelledby="editorial-heading">
+          <h2 id="editorial-heading">Redaktionell verantwortlich</h2>
+
+          <p>
+            Verantwortlich für journalistisch-redaktionelle Inhalte gemäß § 18
+            Abs. 2 MStV: {operatorName}, Anschrift wie oben.
+          </p>
+        </section>
+
+        <section class="imprint__section" aria-labelledby="copyright-heading">
+          <h2 id="copyright-heading">Urheberrecht</h2>
+
+          <p>
+            Sämtliche Fotografien und Texte auf IS0 Null sind urheberrechtlich
+            geschützt, soweit nicht anders gekennzeichnet. © 2026 Ross Todd.
+            Alle Rechte vorbehalten. Der Erwerb eines Prints überträgt keine
+            Nutzungsrechte am fotografischen Werk.
+          </p>
+        </section>
+
+        <section class="imprint__section" aria-labelledby="disputes-heading">
+          <h2 id="disputes-heading">Verbraucherstreitbeilegung</h2>
+
+          <p>{disputeResolutionStatement}</p>
+          <p>
+            Die europäische Online-Streitbeilegungsplattform wurde zum 20. Juli
+            2025 eingestellt. Ein veralteter OS-Plattform-Link wird daher nicht
+            bereitgestellt.
+          </p>
+        </section>
+
+        <section class="imprint__section" aria-labelledby="privacy-heading">
+          <h2 id="privacy-heading">Datenschutz</h2>
+
+          <p>
+            Informationen zur Verarbeitung personenbezogener Daten enthält die
+            <a href="/datenschutz/">Datenschutzerklärung</a>.
+          </p>
+        </section>
+
+        <section class="imprint__section" aria-labelledby="revision-heading">
+          <h2 id="revision-heading">Stand</h2>
+          <p><time datetime="2026-08-03">3. August 2026</time></p>
+        </section>
+      </div>
+    </RuleDatum>
+  </article>
+</Base>
+
+<style>
+  .imprint {
+    padding-block: var(--space-16) 0;
+  }
+
+  .imprint__header {
+    display: grid;
+    gap: var(--space-5);
+    margin-block-end: var(--space-16);
+  }
+
+  .imprint__overline {
+    color: var(--text-muted);
+    font-family: var(--font-data);
+    font-feature-settings: "zero";
+    font-size: var(--text-overline);
+    letter-spacing: var(--tracking-overline);
+    line-height: var(--leading-overline);
+  }
+
+  .imprint h1,
+  .imprint h2 {
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+
+  .imprint h1 {
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+  }
+
+  .imprint h2 {
+    font-size: var(--text-h2);
+    line-height: var(--leading-h2);
+  }
+
+  .imprint__lede {
+    max-inline-size: 55ch;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+  }
+
+  .imprint__status {
+    display: grid;
+    gap: var(--space-3);
+    margin-block-start: var(--space-3);
+    padding: var(--space-5);
+    border: 1px solid var(--border-essential);
+    border-radius: 0;
+    background: var(--surface);
+    box-shadow: none;
+  }
+
+  .imprint__status h2 {
+    font-family: var(--font-data);
+    font-size: var(--text-overline);
+    letter-spacing: var(--tracking-overline);
+    line-height: var(--leading-overline);
+    text-transform: uppercase;
+  }
+
+  .imprint__sections,
+  .imprint__section,
+  .imprint address,
+  .imprint__contact,
+  .imprint__contact > div {
+    display: grid;
+  }
+
+  .imprint__sections {
+    gap: var(--space-10);
+  }
+
+  .imprint__section {
+    gap: var(--space-4);
+  }
+
+  .imprint__section + .imprint__section {
+    padding-block-start: var(--space-10);
+    border-block-start: 1px solid var(--border-c);
+  }
+
+  .imprint address {
+    gap: var(--space-1);
+    font-style: normal;
+  }
+
+  .imprint__contact {
+    gap: var(--space-3);
+    margin: 0;
+  }
+
+  .imprint__contact > div {
+    grid-template-columns: minmax(8rem, auto) minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .imprint__contact dt {
+    color: var(--text-muted);
+    font-family: var(--font-data);
+  }
+
+  .imprint__contact dd {
+    overflow-wrap: anywhere;
+  }
+
+  .imprint__section p,
+  .imprint__section address,
+  .imprint__section dl {
+    max-inline-size: 65ch;
+  }
+
+  @media (max-width: 30rem) {
+    .imprint__contact > div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-1);
+    }
+  }
+</style>

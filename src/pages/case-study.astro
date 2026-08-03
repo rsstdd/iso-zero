@@ -1,0 +1,383 @@
+---
+import DataPlate from "../components/DataPlate.astro";
+import RuleDatum from "../components/RuleDatum.astro";
+import Base from "../layouts/Base.astro";
+import {
+  BUILD_SHA,
+  CONTENT_VERSION,
+  COPYRIGHT_YEAR,
+} from "../lib/site-identity";
+
+const description =
+  "Engineering case study for ISO Zero: a static Astro photography archive designed around zero client JavaScript, build-time image delivery, metadata privacy, and explicit verification.";
+---
+
+<Base
+  title="Engineering case study — ISO Zero"
+  description={description}
+  canonicalPath="/case-study/"
+  currentPath="/case-study/"
+  lang="en"
+  buildSha={BUILD_SHA}
+  contentVersion={CONTENT_VERSION}
+  copyrightYear={COPYRIGHT_YEAR}
+>
+  <article class="case-study container-prose">
+    <header class="case-study__header">
+      <p class="case-study__overline">ISO ZERO / ENGINEERING</p>
+      <h1>Engineering a photography archive with no client runtime</h1>
+
+      <p class="case-study__lede">
+        ISO Zero is a static photography portfolio and limited-edition print
+        storefront. The system treats image delivery, metadata privacy,
+        accessible viewing, and commercial correctness as one engineering
+        problem rather than as independent frontend features.
+      </p>
+
+      <DataPlate class="case-study__facts">
+        <dl>
+          <div>
+            <dt>Role</dt>
+            <dd>Design and engineering, Ross Todd</dd>
+          </div>
+          <div>
+            <dt>Stack</dt>
+            <dd>Astro 7, TypeScript, Sharp, native HTML and CSS</dd>
+          </div>
+          <div>
+            <dt>Rendering</dt>
+            <dd>Static HTML, eight generated routes</dd>
+          </div>
+          <div>
+            <dt>Client runtime</dt>
+            <dd>Zero JavaScript assets in the verified build</dd>
+          </div>
+          <div>
+            <dt>Commerce</dt>
+            <dd>Test-mode demonstration; production sales disabled</dd>
+          </div>
+        </dl>
+      </DataPlate>
+    </header>
+
+    <RuleDatum as="div">
+      <div class="case-study__sections">
+        <section class="case-study__section" aria-labelledby="premise-heading">
+          <h2 id="premise-heading">The premise</h2>
+
+          <p>
+            A photography archive has little client state. Its content is fixed
+            at publication, its primary interactions are viewing a larger image
+            and moving to the next one, and the largest transfer is always the
+            photography itself. A framework runtime would therefore compete with
+            the content it exists to present.
+          </p>
+
+          <p>
+            The resulting constraint is exact: gallery routes ship no client
+            JavaScript. The target is not a small bundle or a viewer that
+            hydrates on demand. The build must emit no JavaScript asset at all.
+          </p>
+        </section>
+
+        <section
+          class="case-study__section"
+          aria-labelledby="implemented-heading"
+        >
+          <h2 id="implemented-heading">The implemented slice</h2>
+
+          <p>
+            The current repository statically compiles the homepage and seven
+            destination routes. Astro has no UI-framework integrations, fonts
+            are self-hosted, and the homepage hero passes explicit intrinsic
+            dimensions and responsive source generation through Astro’s Sharp
+            image service.
+          </p>
+
+          <p>
+            Build identity is deterministic rather than time-derived. The full
+            source revision and content version are emitted as document
+            metadata, while the footer exposes an abbreviated revision for a
+            human-readable release reference. The stacked ISO Zero wordmark uses
+            one semantic component for compact and display contexts.
+          </p>
+        </section>
+
+        <section
+          class="case-study__section"
+          aria-labelledby="architecture-heading"
+        >
+          <h2 id="architecture-heading">Architecture</h2>
+
+          <p>
+            Astro is used for static route generation, content validation, and
+            build-time image processing—not for hydration. The integrations
+            array remains empty, which removes the mechanism that would make a
+            framework island possible. Every production route becomes an HTML
+            file served by a CDN-backed host.
+          </p>
+
+          <p>
+            This model keeps runtime secrets, databases, sessions, and
+            migrations outside the public site. Rollback is a previous immutable
+            build. The remaining operational surface is cache behavior, security
+            headers, and the integrity of generated artifacts.
+          </p>
+        </section>
+
+        <section
+          class="case-study__section"
+          aria-labelledby="interaction-heading"
+        >
+          <h2 id="interaction-heading">The interaction trade-off</h2>
+
+          <p>
+            The planned gallery viewer uses the native Popover API. Each
+            thumbnail targets a build-rendered popover, so the browser supplies
+            opening, Escape handling, light dismiss, and top-layer placement
+            without event listeners. Previous and next controls remain ordinary
+            buttons.
+          </p>
+
+          <p>
+            That decision has a real accessibility cost. A popover is not a
+            modal dialog: it does not make the document inert or trap focus.
+            Keyboard navigation remains operable but not arrow-key fast. If
+            manual testing shows that mitigation is insufficient, the fallback
+            is a plain link to a larger derivative—not a concealed hydration
+            boundary. The constraint remains credible only when its cost is
+            stated before release.
+          </p>
+        </section>
+
+        <section class="case-study__section" aria-labelledby="model-heading">
+          <h2 id="model-heading">Content that fails loudly</h2>
+
+          <p>
+            The planned content schema makes invalid publishing states
+            unrepresentable. Alt text must contain non-whitespace text. EXIF
+            values remain measured data—an aperture is stored as a number, not
+            as a preformatted string. Formatting belongs to the presentation
+            layer.
+          </p>
+
+          <p>
+            Print availability is represented by the presence of a complete
+            offer object rather than by a boolean beside optional price, SKU,
+            dimensions, and edition fields. A print route can only exist when
+            the data required to sell the print exists with it. Cross-entry
+            checks then enforce SKU uniqueness and original-object resolution.
+          </p>
+        </section>
+
+        <section class="case-study__section" aria-labelledby="assets-heading">
+          <h2 id="assets-heading">Protection without theatre</h2>
+
+          <p>
+            The valuable files never belong in the public build. Originals
+            remain in private object storage; the site receives viewing
+            derivatives with a bounded long edge. The metadata pipeline is
+            designed to remove GPS and other unnecessary source data while
+            re-embedding creator and copyright attribution that survives a
+            downloaded derivative.
+          </p>
+
+          <p>
+            Right-click blocking, drag suppression, overlay divs, and
+            developer-tool detection are intentionally absent. They are bypassed
+            through the network panel, break expected browser behavior, and
+            still cannot stop a screenshot. Protection starts by declining to
+            deliver the original.
+          </p>
+        </section>
+
+        <section class="case-study__section" aria-labelledby="commerce-heading">
+          <h2 id="commerce-heading">Commerce behind a narrow boundary</h2>
+
+          <p>
+            The first commerce design uses provider-hosted checkout links so
+            card data never reaches the static site. The provider name is
+            isolated behind one URL resolver, keeping product templates
+            independent of Stripe and preserving a migration path to
+            server-created sessions when inventory requirements justify a
+            runtime.
+          </p>
+
+          <p>
+            Commerce remains test-mode only. Production activation requires
+            complete trader details, shipping and tax facts, a legally reviewed
+            withdrawal notice, and the electronic withdrawal function now
+            required for online distance contracts in Germany. The technical
+            demo is not represented as a completed sale.
+          </p>
+        </section>
+
+        <section
+          class="case-study__section"
+          aria-labelledby="verification-heading"
+        >
+          <h2 id="verification-heading">Verification is the deliverable</h2>
+
+          <p>
+            Performance, privacy, accessibility, and asset-protection claims are
+            divided into three states: enforced automatically, measured and
+            recorded, or explicitly unverified. The current output guard walks
+            every generated route, rejects script elements, hydration
+            directives, Astro islands, inline handlers, and JavaScript assets,
+            and verifies the route inventory and homepage metadata.
+          </p>
+
+          <p>
+            The branding contract receives an independent source and asset
+            check. It verifies the governed component, exact equal-width line
+            geometry, self-hosted font weights, SVG outline exports, PNG
+            dimensions, checksums, and production-output parity. Field
+            performance values remain absent until measurements exist.
+          </p>
+        </section>
+
+        <section class="case-study__section" aria-labelledby="status-heading">
+          <h2 id="status-heading">Current status</h2>
+
+          <p>
+            The homepage, shared layout, navigation, footer, wordmark system,
+            build identity, and legal/editorial shells are implemented. The
+            collection- backed gallery templates, declarative viewer, EXIF
+            extraction and re-embedding pipeline, metadata integrity scan, print
+            routes, production checkout, and field performance record remain
+            implementation work.
+          </p>
+
+          <p>
+            This boundary is deliberate. A portfolio case study loses
+            credibility when it presents target architecture as delivered
+            behavior. The page is updated when a repository check or recorded
+            measurement can support the next claim.
+          </p>
+        </section>
+
+        <section class="case-study__section" aria-labelledby="author-heading">
+          <h2 id="author-heading">Author</h2>
+
+          <p>
+            Ross Todd is a senior software engineer based in Munich. ISO Zero is
+            a sole-authored portfolio project spanning product definition,
+            visual design, content modelling, frontend architecture, build
+            tooling, accessibility, security, and release verification.
+          </p>
+
+          <p><a href="https://github.com/rsstdd">GitHub profile</a></p>
+        </section>
+
+        <section class="case-study__section" aria-labelledby="revision-heading">
+          <h2 id="revision-heading">Revision</h2>
+          <p><time datetime="2026-08-03">3 August 2026</time></p>
+        </section>
+      </div>
+    </RuleDatum>
+  </article>
+</Base>
+
+<style>
+  .case-study {
+    padding-block: var(--space-16) 0;
+  }
+
+  .case-study__header {
+    display: grid;
+    gap: var(--space-5);
+    margin-block-end: var(--space-16);
+  }
+
+  .case-study__overline {
+    color: var(--text-muted);
+    font-family: var(--font-data);
+    font-feature-settings: "zero";
+    font-size: var(--text-overline);
+    letter-spacing: var(--tracking-overline);
+    line-height: var(--leading-overline);
+  }
+
+  .case-study h1,
+  .case-study h2 {
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+
+  .case-study h1 {
+    max-inline-size: 18ch;
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+  }
+
+  .case-study h2 {
+    font-size: var(--text-h2);
+    line-height: var(--leading-h2);
+  }
+
+  .case-study__lede {
+    max-inline-size: 60ch;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+  }
+
+  .case-study__facts {
+    margin-block-start: var(--space-5);
+  }
+
+  .case-study__facts dl,
+  .case-study__facts div {
+    display: grid;
+  }
+
+  .case-study__facts dl {
+    gap: var(--space-2);
+    margin: 0;
+  }
+
+  .case-study__facts div {
+    grid-template-columns: minmax(7rem, auto) minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .case-study__facts dt {
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .case-study__facts dd {
+    overflow-wrap: anywhere;
+  }
+
+  .case-study__sections,
+  .case-study__section {
+    display: grid;
+  }
+
+  .case-study__sections {
+    gap: var(--space-10);
+  }
+
+  .case-study__section {
+    gap: var(--space-4);
+  }
+
+  .case-study__section + .case-study__section {
+    padding-block-start: var(--space-10);
+    border-block-start: 1px solid var(--border-c);
+  }
+
+  .case-study__section p {
+    max-inline-size: 65ch;
+  }
+
+  @media (max-width: 30rem) {
+    .case-study__facts div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+  }
+</style>

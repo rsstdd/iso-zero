@@ -1,0 +1,28 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "types": [
+      "node",
+      "@playwright/test",
+      "vitest/globals"
+    ]
+  },
+  "include": [
+    ".astro/types.d.ts",
+    "src/**/*",
+    "tests/e2e/**/*",
+    "tests/unit/**/*",
+    "playwright.*.config.ts",
+    "vitest.*.config.ts",
+    "scripts/**/*.mjs"
+  ],
+  "exclude": [
+    "dist",
+    "tests/build-fixtures",
+    "tests/component-fixtures",
+    "tests/type-fixtures"
+  ]
+}

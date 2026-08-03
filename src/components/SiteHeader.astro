@@ -1,0 +1,147 @@
+---
+import BrandWordmark from "./BrandWordmark.astro";
+import { getHeaderCurrentState } from "../lib/nav/header-current-path";
+
+interface Props {
+  readonly currentPath: string;
+}
+
+const current = getHeaderCurrentState(Astro.props.currentPath);
+const isHomepage = current.wordmark === "page";
+---
+
+<header class="site-header">
+  <div
+    class:list={[
+      "site-header__inner",
+      { "site-header__inner--nav-only": isHomepage },
+    ]}
+  >
+    {
+      !isHomepage && (
+        <a class="site-wordmark" href="/" aria-label="ISO Null home">
+          <BrandWordmark label="ISO Null" variant="compact" />
+        </a>
+      )
+    }
+
+    <nav aria-label="Primary navigation">
+      <ul>
+        <li>
+          <a href="/galleries/" aria-current={current.galleries}>Galleries</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style is:global>
+  @layer reset, base, components, utilities;
+
+  @layer components {
+    .site-header {
+      position: static;
+      inline-size: min(
+        calc(100% - (2 * var(--page-gutter))),
+        var(--container-wide)
+      );
+      min-inline-size: 0;
+      margin-inline: auto;
+      padding-block: var(--space-3);
+      overflow: visible;
+      border-block-end: 1px solid var(--border-c);
+      border-radius: 0;
+      color: var(--text);
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .site-header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-2) var(--space-6);
+      inline-size: 100%;
+      min-inline-size: 0;
+    }
+
+    .site-header__inner--nav-only {
+      justify-content: flex-end;
+    }
+
+    .site-header nav,
+    .site-header ul,
+    .site-header li {
+      min-inline-size: 0;
+      max-inline-size: 100%;
+    }
+
+    .site-header nav,
+    .site-header li {
+      display: flex;
+    }
+
+    .site-header ul {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .site-header a {
+      display: inline-flex;
+      align-items: center;
+      min-inline-size: var(--target-min);
+      min-block-size: var(--target-min);
+      max-inline-size: 100%;
+      padding-block: var(--space-2);
+      padding-inline: var(--space-2);
+      border-radius: 0;
+      color: var(--text);
+      line-height: var(--leading-interface);
+      overflow-wrap: anywhere;
+      text-decoration-line: underline;
+      text-decoration-color: currentColor;
+      text-decoration-style: solid;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.2em;
+      text-transform: none;
+      white-space: normal;
+    }
+
+    .site-header .site-wordmark {
+      font-family: var(--font-wordmark);
+      font-size: var(--text-wordmark);
+      line-height: var(--leading-display);
+    }
+
+    .site-header .site-wordmark .brand-wordmark {
+      text-decoration: none;
+    }
+
+    .site-header .site-wordmark:hover .brand-wordmark__line--zero,
+    .site-header .site-wordmark[aria-current] .brand-wordmark__line--zero {
+      text-decoration-line: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.16em;
+    }
+
+    .site-header nav a {
+      font-family: var(--font-interface);
+      font-size: var(--text-interface);
+    }
+
+    .site-header a:hover,
+    .site-header a[aria-current] {
+      text-decoration-thickness: 2px;
+    }
+
+    @media (forced-colors: active) {
+      .site-header {
+        border-block-end-color: CanvasText;
+      }
+    }
+  }
+</style>

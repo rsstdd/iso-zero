@@ -1,0 +1,14 @@
+const defaults: Props = {};
+const divPlate: Props = { as: "div" };
+const figureCaption: Props = {
+  as: "figcaption",
+  labelledBy: "figure-heading",
+  class: "featured-gallery__plate",
+};
+const sectionFooter: Props = {
+  as: "footer",
+  labelledBy: "section-heading",
+  class: "section-data",
+};
+
+void [defaults, divPlate, figureCaption, sectionFooter];

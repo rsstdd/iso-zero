@@ -1,0 +1,84 @@
+---
+import "@fontsource/ibm-plex-sans/latin-400.css";
+import "@fontsource/ibm-plex-serif/latin-400.css";
+// biome-ignore lint/correctness/noUnusedImports: Astro resolves the component in the template.
+import HomepageIdentity from "../../../../../src/components/HomepageIdentity.astro";
+import "../../../../../src/styles/design-tokens.css";
+import "../../../../../src/styles/global.css";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Homepage Identity contract fixture</title>
+  </head>
+  <body>
+    <header class="fixture-header container-wide" data-fixture="header">
+      <span>Fixture header</span>
+    </header>
+    <main id="main">
+      <HomepageIdentity title="ISO Null" byline="Photography by Ross Todd" />
+
+      <section
+        class="fixture-featured container-wide"
+        data-fixture="featured-gallery"
+        aria-labelledby="featured-gallery-heading"
+      >
+        <h2 id="featured-gallery-heading">Featured gallery</h2>
+        <div class="fixture-hero" data-fixture="hero-origin" aria-hidden="true">
+        </div>
+      </section>
+
+      <section
+        class="fixture-directory container-wide"
+        data-fixture="gallery-directory"
+        aria-labelledby="gallery-directory-heading"
+      >
+        <h2 id="gallery-directory-heading">Available galleries</h2>
+      </section>
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  @layer reset, base, components, utilities;
+
+  @layer components {
+    .fixture-header {
+      display: flex;
+      align-items: center;
+      min-block-size: var(--target-min);
+      padding-block: var(--space-3);
+      border-block-end: 1px solid var(--border-c);
+      font-family: var(--font-interface);
+    }
+
+    .fixture-featured,
+    .fixture-directory {
+      min-inline-size: 0;
+    }
+
+    .fixture-featured h2,
+    .fixture-directory h2 {
+      color: var(--text);
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 400;
+      line-height: var(--leading-h2);
+    }
+
+    .fixture-hero {
+      aspect-ratio: 16 / 9;
+      inline-size: 100%;
+      margin-block-start: var(--space-4);
+      background: var(--well);
+    }
+
+    .fixture-directory {
+      margin-block-start: var(--space-section);
+      padding-block-end: var(--space-16);
+    }
+  }
+</style>

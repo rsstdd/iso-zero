@@ -1,0 +1,29 @@
+---
+import Base from "../../../layouts/Base.astro";
+import {
+  BUILD_SHA,
+  CONTENT_VERSION,
+  COPYRIGHT_YEAR,
+} from "../../../lib/site-identity";
+---
+
+<Base
+  title="Venice — ISO Null"
+  description="The Venice photography gallery by Ross Todd."
+  canonicalPath="/galleries/venice/"
+  currentPath="/galleries/venice/"
+  buildSha={BUILD_SHA}
+  contentVersion={CONTENT_VERSION}
+  copyrightYear={COPYRIGHT_YEAR}
+>
+  <section
+    class="supporting-page container-wide"
+    aria-labelledby="venice-title"
+  >
+    <h1 id="venice-title">Venice</h1>
+    <p>
+      The twelve-image gallery will be published after final editorial and
+      derivative review.
+    </p>
+  </section>
+</Base>
