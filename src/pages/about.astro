@@ -1,5 +1,146 @@
 ---
-import FixturePage from "../components/FixturePage.astro";
+import RuleDatum from "../components/RuleDatum.astro";
+import Base from "../layouts/Base.astro";
+import {
+  BUILD_SHA,
+  CONTENT_VERSION,
+  COPYRIGHT_YEAR,
+} from "../lib/site-identity";
+
+const description =
+  "About Ross Todd, the photographic process behind ISO Zero, and the engineering of the archive.";
 ---
 
-<FixturePage title="About" />
+<Base
+  title="About — ISO Zero"
+  description={description}
+  canonicalPath="/about/"
+  currentPath="/about/"
+  buildSha={BUILD_SHA}
+  contentVersion={CONTENT_VERSION}
+  copyrightYear={COPYRIGHT_YEAR}
+>
+  <article class="about container-prose">
+    <header class="about__header">
+      <p class="about__overline">ISO ZERO / ABOUT</p>
+      <h1>About</h1>
+
+      <p class="about__lede">
+        ISO Zero is a small, curated photography archive by Ross Todd, a
+        photographer and software engineer based in Munich.
+      </p>
+    </header>
+
+    <RuleDatum as="div" class="about__sections">
+      <section class="about__section" aria-labelledby="archive-heading">
+        <h2 id="archive-heading">The archive</h2>
+
+        <p>
+          Photographs are published as deliberate galleries rather than as a
+          chronological feed. Each frame retains its authored aspect ratio, and
+          the interface remains subordinate to the work.
+        </p>
+      </section>
+
+      <section class="about__section" aria-labelledby="process-heading">
+        <h2 id="process-heading">Process</h2>
+
+        <p>
+          Images are prepared through a colour-managed workflow and published as
+          responsive, tagged sRGB derivatives. Camera data is extracted from the
+          source files, validated during the build, and presented alongside each
+          photograph.
+        </p>
+
+        <p>
+          Delivered files retain creator and copyright information while
+          excluding GPS coordinates and other unnecessary source metadata.
+        </p>
+      </section>
+
+      <section class="about__section" aria-labelledby="equipment-heading">
+        <h2 id="equipment-heading">Equipment</h2>
+
+        <p>
+          Camera and lens information is recorded per photograph rather than
+          maintained as a permanent equipment list. Tools change; the exposure
+          record attached to an image does not.
+        </p>
+      </section>
+
+      <section class="about__section" aria-labelledby="site-heading">
+        <h2 id="site-heading">The site</h2>
+
+        <p>
+          ISO Zero is statically generated and ships no client-side JavaScript.
+          The architecture, constraints, accessibility decisions, and measured
+          trade-offs are documented in the
+          <a href="/case-study/">engineering case study</a>.
+        </p>
+      </section>
+    </RuleDatum>
+  </article>
+</Base>
+
+<style>
+  .about {
+    padding-block: var(--space-16) 0;
+  }
+
+  .about__header {
+    display: grid;
+    gap: var(--space-5);
+    margin-block-end: var(--space-16);
+  }
+
+  .about__overline {
+    color: var(--text-muted);
+    font-family: var(--font-data);
+    font-feature-settings: "zero";
+    font-size: var(--text-overline);
+    letter-spacing: var(--tracking-overline);
+    line-height: var(--leading-overline);
+  }
+
+  .about h1,
+  .about h2 {
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+
+  .about h1 {
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+  }
+
+  .about h2 {
+    font-size: var(--text-h2);
+    line-height: var(--leading-h2);
+  }
+
+  .about__lede {
+    max-inline-size: 55ch;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+  }
+
+  .about__sections {
+    display: grid;
+    gap: var(--space-10);
+  }
+
+  .about__section {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .about__section + .about__section {
+    padding-block-start: var(--space-10);
+    border-block-start: 1px solid var(--border-c);
+  }
+
+  .about__section p {
+    max-inline-size: 65ch;
+  }
+</style>
