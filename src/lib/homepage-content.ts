@@ -1,8 +1,10 @@
 import type { ImageMetadata } from "astro";
-import hero from "../assets/venice/_DSF0140.JPG";
+import heroSrc from "../assets/venice/_DSF0140.JPG";
+import gallerySrc from "../assets/germany/_DSF8354.JPG";
+import veronaSrc from "../assets/verona/_DSF8424.JPG";
 
 interface HomepageFeatureSource {
-  readonly featured: true;
+  readonly featured: boolean;
   readonly heroPhotoId: string;
 }
 
@@ -19,6 +21,8 @@ interface HomepageGallerySource {
   readonly location?: string;
   readonly draft: boolean;
   readonly imageCount: number;
+  readonly coverSrc: ImageMetadata;
+  readonly coverAlt: string;
   readonly photos: readonly HomepagePhotoSource[];
   readonly homepage?: HomepageFeatureSource;
 }
@@ -40,6 +44,8 @@ interface GallerySummary {
   readonly title: string;
   readonly publicationDate: Date;
   readonly imageCount: number;
+  readonly coverSrc: ImageMetadata;
+  readonly coverAlt: string;
 }
 
 const gallerySources: readonly HomepageGallerySource[] = [
@@ -50,6 +56,8 @@ const gallerySources: readonly HomepageGallerySource[] = [
     location: "Venice, Italy",
     draft: false,
     imageCount: 12,
+    coverSrc: heroSrc,
+    coverAlt: "Receding stone arches and hanging lanterns along an arcade in Venice.",
     homepage: {
       featured: true,
       heroPhotoId: "venice-arcade",
@@ -57,8 +65,50 @@ const gallerySources: readonly HomepageGallerySource[] = [
     photos: [
       {
         id: "venice-arcade",
-        src: hero,
+        src: heroSrc,
         alt: "Receding stone arches and hanging lanterns along an arcade in Venice.",
+      },
+    ],
+  },
+  {
+    slug: "verona",
+    title: "Verona",
+    publicationDate: new Date("2026-08-01T00:00:00.000Z"),
+    location: "Verona, Italy",
+    draft: false,
+    imageCount: 12,
+    coverSrc: veronaSrc,
+    coverAlt: "The chapel in the mountain.",
+    homepage: {
+      featured: false,
+      heroPhotoId: "moutain-chapel",
+    },
+    photos: [
+      {
+        id: "mountain-chapel",
+        src: veronaSrc,
+        alt: "the chapel in the mountain.",
+      },
+    ],
+  },
+  {
+    slug: "italy",
+    title: "Italy",
+    publicationDate: new Date("2026-08-01T00:00:00.000Z"),
+    location: "Tuscany, Italy",
+    draft: false,
+    imageCount: 12,
+    coverSrc: gallerySrc,
+    coverAlt: "The goodest boy in Italy.",
+    homepage: {
+      featured: false,
+      heroPhotoId: "germany-dog",
+    },
+    photos: [
+      {
+        id: "germany-dog",
+        src: gallerySrc,
+        alt: "The goodest boy in Germany.",
       },
     ],
   },
@@ -78,7 +128,8 @@ export function selectHomepageContent(entries: readonly HomepageGallerySource[])
     );
   }
 
-  const selected = featured[0];
+  const selected = featured[0] ?? {} as HomepageGallerySource;
+
   if (!selected.location?.trim()) {
     throw new TypeError("The featured homepage gallery requires a location.");
   }
@@ -113,12 +164,22 @@ export function selectHomepageContent(entries: readonly HomepageGallerySource[])
         right.publicationDate.valueOf() - left.publicationDate.valueOf() ||
         left.slug.localeCompare(right.slug),
     )
-    .map((entry) => ({
-      slug: entry.slug,
-      title: entry.title,
-      publicationDate: entry.publicationDate,
-      imageCount: entry.imageCount,
-    }));
+    .map((entry) => {
+      if (!entry.coverSrc || typeof entry.coverAlt !== "string" || !entry.coverAlt.trim()) {
+        throw new TypeError(
+          `Gallery '${entry.slug}' requires a valid coverSrc asset and non-blank coverAlt.`,
+        );
+      }
+
+      return {
+        slug: entry.slug,
+        title: entry.title,
+        publicationDate: entry.publicationDate,
+        imageCount: entry.imageCount,
+        coverSrc: entry.coverSrc,
+        coverAlt: entry.coverAlt.trim(),
+      };
+    });
 
   return {
     featuredGalleryModel,
