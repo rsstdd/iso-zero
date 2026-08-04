@@ -1,7 +1,6 @@
 ---
 import FeaturedGallery from "../components/FeaturedGallery.astro";
 import GalleryDirectory from "../components/GalleryDirectory.astro";
-// import HomepageIdentity from "../components/HomepageIdentity.astro";
 import Base from "../layouts/Base.astro";
 import {
   featuredGalleryModel,
@@ -28,7 +27,6 @@ const homepageDescription =
   contentVersion={CONTENT_VERSION}
   copyrightYear={COPYRIGHT_YEAR}
 >
-  <!-- <HomepageIdentity title="IS0 NULL" byline="Photography by Ross Todd" /> -->
   <FeaturedGallery gallery={featuredGalleryModel} />
   <GalleryDirectory galleries={gallerySummaries} />
 </Base>
