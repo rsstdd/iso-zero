@@ -14,7 +14,7 @@ import {
 	siteHeader,
 } from "./support/homepage";
 
-test.describe("ISO Null homepage contract", () => {
+test.describe("IS0 ZER0 homepage contract", () => {
 	test.beforeEach(async ({ page }) => {
 		await gotoHomepage(page);
 	});

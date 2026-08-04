@@ -13,7 +13,7 @@ test("publishes a complete, checksummed export set", async () => {
 	const manifest = JSON.parse(await readFile(resolve(brandRoot, "manifest.json"), "utf8"));
 
 	assert.equal(manifest.schemaVersion, 1);
-	assert.equal(manifest.name, "ISO Null instrument-index wordmark");
+	assert.equal(manifest.name, "IS0 ZER0 instrument-index wordmark");
 	assert.deepEqual(manifest.palette, {
 		background: "#191611",
 		foreground: "#ede7db",
@@ -35,7 +35,7 @@ test("SVG masters use outlined glyphs and the exact Datum palette", async () => 
 			"utf8",
 		);
 
-		assert.match(svg, /<title id="title">ISO Null<\/title>/);
+		assert.match(svg, /<title id="title">IS0 ZER0<\/title>/);
 		assert.match(svg, /<rect[^>]+fill="#191611"/);
 		assert.match(svg, /<g fill="#ede7db"/);
 		assert.match(svg, /<path d="[^"]+"/);

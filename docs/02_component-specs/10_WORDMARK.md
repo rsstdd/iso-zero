@@ -1,8 +1,8 @@
-# ISO Null instrument-index wordmark
+# IS0 ZER0 instrument-index wordmark
 
 ## Purpose
 
-The wordmark translates ISO Null's instrumentation reference into a restrained identity system. It uses hierarchy, weight, and calibrated spacing rather than an icon, badge, panel, dial, or borrowed aviation graphic. The construction remains recognizable at navigation and display scales while staying inside Datum.
+The wordmark translates IS0 ZER0's instrumentation reference into a restrained identity system. It uses hierarchy, weight, and calibrated spacing rather than an icon, badge, panel, dial, or borrowed aviation graphic. The construction remains recognizable at navigation and display scales while staying inside Datum.
 
 ## Construction
 
@@ -11,7 +11,7 @@ The mark contains two stacked lines:
 1. `ISO` is the index line. It uses IBM Plex Serif Medium, reduced scale, and wide tracking.
 2. `ZERO` is the maker line. It uses IBM Plex Serif Semibold, a dense line height, and restrained tracking.
 
-The semantic string always remains `ISO Null`. CSS supplies the uppercase visual treatment; source text and accessible names retain the product's canonical capitalization.
+The semantic string always remains `IS0 ZER0`. CSS supplies the uppercase visual treatment; source text and accessible names retain the product's canonical capitalization.
 
 | Variant | Context | Maker size | Index scale | Use |
 | --- | --- | ---: | ---: | --- |
@@ -32,10 +32,10 @@ The website component consumes semantic tokens and remains transparent. Export a
 
 ## Accessibility contract
 
-- Accessible name: exactly `ISO Null`
+- Accessible name: exactly `IS0 ZER0`
 - Homepage role: the mark remains inside the page's only `h1`
 - Header role: the mark remains the home link and preserves `aria-current`
-- Source text: exactly `ISO Null`, even though CSS renders `ZERO` in uppercase
+- Source text: exactly `IS0 ZER0`, even though CSS renders `ZERO` in uppercase
 - Forced colors: the mark resolves to `CanvasText`
 - Reflow: neither variant uses fixed block height, clipping, absolute positioning, or `white-space` on its semantic parent
 - Font failure: the existing `ui-serif, Georgia, serif` fallback remains legible

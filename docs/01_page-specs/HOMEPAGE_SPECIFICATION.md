@@ -1,4 +1,4 @@
-# ISO Null homepage specification
+# IS0 ZER0 homepage specification
 
 - **Status:** implementation-ready
 - **Route:** `/`
@@ -25,7 +25,7 @@ The homepage is an entrance to the photography, not a marketing page. Its primar
 
 | Concern | Decision |
 | --- | --- |
-| Wordmark | `ISO Null` in the sticky header, linking `/`. Not a heading |
+| Wordmark | `IS0 ZER0` in the sticky header, linking `/`. Not a heading |
 | Page title | `display-xl` `h1` placed after the datum rule, per `04 §8` and `10 §1` |
 | Authorship | `Photographs by Ross Todd` appears in the `body-lg` lead and in the footer copyright. It is not a second heading |
 | Primary navigation | `Galleries` only. `Index`, `Prints`, and `About` are removed because the wordmark serves the index and no prints index or About route exists in `01 §4` |

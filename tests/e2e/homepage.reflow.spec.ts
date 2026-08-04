@@ -15,7 +15,7 @@ import {
 	siteHeader,
 } from "./support/homepage";
 
-test.describe("ISO Null homepage reflow", () => {
+test.describe("IS0 ZER0 homepage reflow", () => {
 	for (const viewport of HOME_VIEWPORTS) {
 		test(`${viewport.name}: preserves content, order, alignment, and the complete hero`, async ({
 			page,

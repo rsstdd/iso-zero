@@ -29,6 +29,7 @@ interface Props {
 
 const props: Props = Astro.props;
 const identity = validateBuildIdentity(props);
+
 for (const [name, value] of Object.entries({
   title: props.title,
   description: props.description,
@@ -39,16 +40,18 @@ for (const [name, value] of Object.entries({
     throw new TypeError(`${name} must be non-blank.`);
   }
 }
+
 if (
   !props.canonicalPath.startsWith("/") ||
   !props.currentPath.startsWith("/")
 ) {
   throw new TypeError("Base paths must be site-relative absolute paths.");
 }
+
 const site = Astro.site ?? new URL("https://iso-zero.example");
 const canonical = new URL(props.canonicalPath, site);
 const socialImageUrl = props.socialImage
-  ? new URL(props.socialImage.src, site).href
+  ? new URL(props.socialImage.src, site).toString()
   : undefined;
 const lang = props.lang ?? "en";
 ---

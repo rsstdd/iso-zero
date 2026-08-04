@@ -1,4 +1,4 @@
-# ISO Null wordmark release verification
+# IS0 ZER0 wordmark release verification
 
 Record date, browser/assistive-technology version, operator, and result for each release-environment check.
 
@@ -14,8 +14,8 @@ Record date, browser/assistive-technology version, operator, and result for each
 
 ## Accessibility and resilience
 
-- [ ] VoiceOver/Safari announces the Header home link once as “ISO Null.”
-- [ ] VoiceOver/Safari announces the homepage heading once as “ISO Null, heading level 1.”
+- [ ] VoiceOver/Safari announces the Header home link once as “IS0 ZER0.”
+- [ ] VoiceOver/Safari announces the homepage heading once as “IS0 ZER0, heading level 1.”
 - [ ] NVDA/Firefox announces the same link and heading names without spelling the two visual lines separately.
 - [ ] Keyboard focus remains on the 44 × 44 px minimum Header link target, not on either internal span.
 - [ ] Windows forced colors preserves both lines and the home-link focus indication.

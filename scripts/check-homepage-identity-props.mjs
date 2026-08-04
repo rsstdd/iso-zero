@@ -34,7 +34,7 @@ try {
   }
 
   for (const expectedDiagnostic of [
-    "ISO Null",
+    "IS0 ZER0",
     "Photographs by Ross Todd",
     "identity-title",
     "read-only",

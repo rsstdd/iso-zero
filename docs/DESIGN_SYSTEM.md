@@ -2,7 +2,7 @@
 
 A design system for aircraft, portfolio, and photography.
 **Written:** 29 July 2026. Revised the same day, away from its references and toward its owner.
-**Shared implementation:** the upstream Datum source may expose a Tailwind v4 theme. **ISO Null implementation:** the attached `design-tokens.css` is a flattened, dark-only Astro profile and `global.css` owns element and interaction defaults. Visual reference: `design-preview.html`.
+**Shared implementation:** the upstream Datum source may expose a Tailwind v4 theme. **IS0 ZER0 implementation:** the attached `design-tokens.css` is a flattened, dark-only Astro profile and `global.css` owns element and interaction defaults. Visual reference: `design-preview.html`.
 
 The name is from weight-and-balance: the datum is the reference line on an aircraft from which every measurement is taken. A design system is the same object, so the name is a definition rather than a decoration.
 
@@ -67,7 +67,7 @@ Dark theme (photography default):
 | `dark-warn` | `#f0a35a` | Caution feedback |
 | `dark-error` | `#ed7a72` | Error and destructive feedback |
 
-### 1.2 Verified contrast (WCAG 2.x; shared palette 29 July 2026, ISO Null profile reverified 2 August 2026)
+### 1.2 Verified contrast (WCAG 2.x; shared palette 29 July 2026, IS0 ZER0 profile reverified 2 August 2026)
 
 | Pair | Ratio | Verdict |
 |---|---|---|
@@ -201,7 +201,7 @@ Unchanged: `cubic-bezier(0.2, 0, 0, 1)`, 120/200/320ms, underlines slide, cards 
 
 **Figure (photography).** Radius zero, no border on light; optional 1px dark-line frame on dark. Caption is a data plate: hairline, then EXIF in mono (`X-T5 · 23mm · f/8 · 1/250 · ISO 160 · 2026-07-29`).
 
-**Navigation.** Datum does not impose sticky positioning, blur, or one font voice across products. Current location always uses `aria-current` plus a non-colour cue. ISO Null uses a static header, a Serif wordmark, Sans labels, and a persistent underline; the Header uses no accent decoration.
+**Navigation.** Datum does not impose sticky positioning, blur, or one font voice across products. Current location always uses `aria-current` plus a non-colour cue. IS0 ZER0 uses a static header, a Serif wordmark, Sans labels, and a persistent underline; the Header uses no accent decoration.
 
 **Focus.** 2px solid `orange` outline, 2px offset, both themes, both verified above 3:1. Never removed without an equal replacement.
 
@@ -215,7 +215,7 @@ Unchanged: `cubic-bezier(0.2, 0, 0, 1)`, 120/200/320ms, underlines slide, cards 
 
 **Microcopy.** Interface text follows the owner's writing rules, because a site's voice is part of its design system. Sentence case everywhere, including headings and buttons. No exclamation points. No filler: "Saved", not "Successfully saved!". Buttons start with verbs. Errors state what happened and what to do next, in that order, without apology theater. Empty states say what belongs there and how to add it, in one sentence. The full guide, with the reasoning and a worked example for every content type on the site, is `VOICE.md`; this paragraph is its summary.
 
-**Accessibility floor.** WCAG AA, ratios per the verified table, re-run on any palette change. Touch targets 44px. Focus per Section 5. Alt text enforced by schema in photography. Errors never communicate by color alone. The ordinary hairline is decorative; ISO Null maps essential boundaries to the 3:1 `--border-essential` semantic token.
+**Accessibility floor.** WCAG AA, ratios per the verified table, re-run on any palette change. Touch targets 44px. Focus per Section 5. Alt text enforced by schema in photography. Errors never communicate by color alone. The ordinary hairline is decorative; IS0 ZER0 maps essential boundaries to the 3:1 `--border-essential` semantic token.
 
 **Density modes.** Marketing (portfolio, photography chrome): sections 96 to 128, display type permitted. Application (aircraft): sections 24 to 48, no display type below the page title, density wins ties.
 
@@ -243,4 +243,4 @@ Siblings, not triplets, as before. What changed is whose siblings they are.
 
 ## 8. Implementation
 
-The shared upstream implementation may expose semantic custom properties through Tailwind v4 `@theme` mappings. ISO Null vendors a flattened dark profile: `design-tokens.css` contains semantic values and Datum motifs, while `global.css` contains base element, link, selection, focus, numeric, image, reduced-motion, forced-colour, and container rules. Every CSS entry point declares `@layer reset, base, components, utilities;` before adding rules so Astro's bundle concatenation cannot invert component and base precedence. `design-preview.html` renders that production profile without a theme control or third-party font dependency.
+The shared upstream implementation may expose semantic custom properties through Tailwind v4 `@theme` mappings. IS0 ZER0 vendors a flattened dark profile: `design-tokens.css` contains semantic values and Datum motifs, while `global.css` contains base element, link, selection, focus, numeric, image, reduced-motion, forced-colour, and container rules. Every CSS entry point declares `@layer reset, base, components, utilities;` before adding rules so Astro's bundle concatenation cannot invert component and base precedence. `design-preview.html` renders that production profile without a theme control or third-party font dependency.

@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { gotoHomepage, HOME, identity, siteHeader } from "./support/homepage";
 
-test.describe("ISO Null instrument-index branding", () => {
+test.describe("IS0 ZER0 instrument-index branding", () => {
 	test.beforeEach(async ({ page }) => {
 		await gotoHomepage(page);
 	});

@@ -14,7 +14,7 @@ import {
 	skipLink,
 } from "./support/homepage";
 
-test.describe("ISO Null homepage accessibility", () => {
+test.describe("IS0 ZER0 homepage accessibility", () => {
 	test.beforeEach(async ({ page }) => {
 		await gotoHomepage(page);
 	});

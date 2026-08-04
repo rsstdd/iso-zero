@@ -1,9 +1,9 @@
 const requiredCopy: Props = {
-  title: "ISO Null",
+  title: "IS0 ZER0",
   byline: "Photography by Ross Todd",
 };
 const explicitHeading: Props = {
-  title: "ISO Null",
+  title: "IS0 ZER0",
   byline: "Photography by Ross Todd",
   headingId: "page-title",
 };

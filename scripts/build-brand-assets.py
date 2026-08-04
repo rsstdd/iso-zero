@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate the ISO Null brand assets: favicon set, touch icons, Open Graph card.
+Generate the IS0 ZER0 brand assets: favicon set, touch icons, Open Graph card.
 
 OFFLINE TOOL. This does not run in CI and is not part of `pnpm verify`.
 
@@ -89,7 +89,7 @@ CARD_W, CARD_H = 1200, 630
 MARGIN = 96  # --space-24
 SCALE = 2  # the card is authored at twice the page's token scale
 
-OVERLINE = "ISO Null"
+OVERLINE = "IS0 ZER0"
 NAV = ["Index", "Galleries", "Prints", "About"]
 ACTIVE = "Index"
 TITLE_LINES = ["Photographs, field notes,", "and limited prints."]
@@ -265,7 +265,7 @@ def svg_favicon(view: int = 128) -> bytes:
     path = zero_outline(view)
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {view} {view}" '
-        f'width="{view}" height="{view}" role="img" aria-label="ISO Null">'
+        f'width="{view}" height="{view}" role="img" aria-label="IS0 ZER0">'
         f'<rect width="{view}" height="{view}" fill="{BG}"/>'
         f'<path d="{path}" fill="{TEXT}"/>'
         f"</svg>\n"
@@ -276,7 +276,7 @@ def svg_mark_bare(view: int = 128) -> bytes:
     """No plate. Inherits colour, for inline use in the header."""
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {view} {view}" '
-        f'width="{view}" height="{view}" role="img" aria-label="ISO Null">'
+        f'width="{view}" height="{view}" role="img" aria-label="IS0 ZER0">'
         f'<path d="{zero_outline(view)}" fill="currentColor"/>'
         f"</svg>\n"
     ).encode("utf-8")

@@ -1,4 +1,4 @@
-export const SITE_NAME = "ISO Null";
+export const SITE_NAME = "IS0 ZER0";
 export const SITE_ORIGIN = process.env.SITE_ORIGIN ?? "https://iso-zero.example";
 export const COPYRIGHT_YEAR = 2026;
 

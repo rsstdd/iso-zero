@@ -3,7 +3,7 @@ import { relative, resolve, sep } from "node:path";
 import { expect, type Locator, type Page } from "@playwright/test";
 
 export const HEADER_CONTRACT = {
-  wordmark: { label: "ISO Null", href: "/" },
+  wordmark: { label: "IS0 ZER0", href: "/" },
   primaryNavigationLabel: "Primary navigation",
   primaryLinks: [{ label: "Galleries", href: "/galleries/" }],
   forbiddenLabels: ["About", "Engineering case study", "Impressum", "Datenschutz", "AGB", "Shop"],

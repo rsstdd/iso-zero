@@ -11,10 +11,12 @@ const { title, byline, headingId = "page-title" } = Astro.props;
 ---
 
 <section class="homepage-identity container-wide" aria-labelledby={headingId}>
-  <h1 id={headingId}>
-    <BrandWordmark label={title} variant="display" />
+  <h1 id={headingId} class="h1 mt-0">
+    <BrandWordmark label={title} variant="compact" />
   </h1>
-  <p>{byline}</p>
+  <p class="font-mono mono text-overline overline uppercase text-muted">
+    {byline}
+  </p>
 </section>
 
 <style is:global>
@@ -23,7 +25,7 @@ const { title, byline, headingId = "page-title" } = Astro.props;
   @layer components {
     .homepage-identity {
       min-inline-size: 0;
-      padding-block: var(--space-16) var(--space-12);
+      padding-block: var(--space-8) var(--space-10);
       color: var(--text);
       background: transparent;
     }
@@ -39,15 +41,16 @@ const { title, byline, headingId = "page-title" } = Astro.props;
       font-family: var(--font-data);
       font-size: var(--text-display-xl);
       font-weight: 400;
-      line-height: var(--leading-display-xl);
+      line-height: var(--text-display-xl--line-height);
     }
 
     .homepage-identity p {
-      margin-block-start: var(--space-2);
+      margin-block-start: 0.5rem;
       color: var(--text-muted);
-      font-family: var(--font-interface);
-      font-size: var(--text-interface);
-      line-height: var(--leading-interface);
+      font: 600 0.8125rem / 1.2 var(--font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
     }
   }
 </style>

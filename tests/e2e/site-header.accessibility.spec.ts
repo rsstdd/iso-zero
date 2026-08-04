@@ -65,7 +65,7 @@ test.describe("SiteHeader accessibility", () => {
 
   test("uses the global 2 px accent focus outline with a 2 px offset", async ({ page }) => {
     await gotoRoute(page);
-    await focusHeaderLinkWithKeyboard(page, "ISO Null");
+    await focusHeaderLinkWithKeyboard(page, "IS0 ZER0");
 
     const link = wordmark(page);
     const accentColor = await cssTokenAsColor(page, "--accent");

@@ -1,5 +1,5 @@
 const alternateTitle: Props = {
-  title: "ISO Null",
+  title: "IS0 ZER0",
   byline: "Photography by Ross Todd",
 };
 const blankTitle: Props = {
@@ -7,23 +7,23 @@ const blankTitle: Props = {
   byline: "Photography by Ross Todd",
 };
 const alternateByline: Props = {
-  title: "ISO Null",
+  title: "IS0 ZER0",
   byline: "Photographs by Ross Todd",
 };
 const blankByline: Props = {
-  title: "ISO Null",
+  title: "IS0 ZER0",
   byline: "",
 };
 const alternateHeadingId: Props = {
-  title: "ISO Null",
+  title: "IS0 ZER0",
   byline: "Photography by Ross Todd",
   headingId: "identity-title",
 };
 const immutableProps: Props = {
-  title: "ISO Null",
+  title: "IS0 ZER0",
   byline: "Photography by Ross Todd",
 };
-immutableProps.title = "ISO Null";
+immutableProps.title = "IS0 ZER0";
 
 void [
   alternateTitle,

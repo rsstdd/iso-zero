@@ -17,7 +17,7 @@ homepage semantics, interaction, image delivery, typography, or above-the-fold l
 - [ ] The first announced focusable element is “Skip to content”.
 - [ ] Activating the skip link bypasses the site header and reaches the main landmark.
 - [ ] Landmark navigation exposes one banner, one main, and one content information landmark.
-- [ ] Heading navigation announces ISO Null, Venice, Available galleries, then Venice at levels 1, 2, 2, and 3.
+- [ ] Heading navigation announces IS0 ZER0, Venice, Available galleries, then Venice at levels 1, 2, 2, and 3.
 - [ ] The feature link has a concise action-oriented name and a useful description without confusing repetition.
 - [ ] The directory announces one-item list semantics and a clear Venice link purpose.
 - [ ] Project and Legal navigation groups remain distinguishable.

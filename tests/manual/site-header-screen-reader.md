@@ -24,16 +24,16 @@ Record exact operating-system, browser, and screen-reader versions in the execut
 3. Confirm exactly one site Header/banner landmark.
 4. Confirm one navigation landmark named `Primary navigation`.
 5. Traverse the Header in reading order.
-6. Confirm the first link announces `ISO Null`, its link role, and current page state.
+6. Confirm the first link announces `IS0 ZER0`, its link role, and current page state.
 7. Confirm the second link announces `Galleries` and its link role without a redundant or repeated
    accessible label.
 8. Activate `Galleries` and confirm `/galleries/` opens.
 9. Confirm `Galleries` announces current page state on `/galleries/`.
 10. Open one `/galleries/[slug]/` route and confirm `Galleries` announces the current location
     state without claiming that the index itself is the current page.
-11. Activate `ISO Null` and confirm `/` opens.
+11. Activate `IS0 ZER0` and confirm `/` opens.
 12. Open `/about/` and confirm neither Header link announces a current state.
-13. Traverse by Tab and confirm the focus order remains `ISO Null`, then `Galleries`.
+13. Traverse by Tab and confirm the focus order remains `IS0 ZER0`, then `Galleries`.
 14. At 200% text enlargement, repeat navigation and confirm no announcement changes or empty focus
     stops appear.
 

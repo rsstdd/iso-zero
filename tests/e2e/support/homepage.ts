@@ -3,8 +3,8 @@ import { relative, resolve, sep } from "node:path";
 import { expect, type Locator, type Page } from "@playwright/test";
 
 export const HOME = {
-	title: "ISO Null — Photography by Ross Todd",
-	identity: "ISO Null",
+	title: "IS0 ZER0 — Photography by Ross Todd",
+	identity: "IS0 ZER0",
 	byline: "Photography by Ross Todd",
 	featured: {
 		title: "Venice",
@@ -26,7 +26,7 @@ export const HOME = {
 		href: "/galleries/venice/",
 	},
 	headerLinks: [
-		{ label: "ISO Null", href: "/" },
+		{ label: "IS0 ZER0", href: "/" },
 		{ label: "Galleries", href: "/galleries/" },
 	],
 	footerLinks: [

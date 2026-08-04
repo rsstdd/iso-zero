@@ -80,7 +80,7 @@ requireCount(homepage, /<img(?:\s|>)/gi, 1, "homepage image");
 
 requirePattern(
 	homepage,
-	/<title>ISO Null — Photography by Ross Todd<\/title>/i,
+	/<title>IS0 ZER0 — Photography by Ross Todd<\/title>/i,
 	"exact homepage title",
 );
 requirePattern(
@@ -95,7 +95,7 @@ requirePattern(
 );
 requirePattern(
 	homepage,
-	/<meta\b[^>]*property=["']og:title["'][^>]*content=["']ISO Null — Photography by Ross Todd["']/i,
+	/<meta\b[^>]*property=["']og:title["'][^>]*content=["']IS0 ZER0 — Photography by Ross Todd["']/i,
 	"Open Graph title",
 );
 requirePattern(

@@ -55,11 +55,11 @@ const rows = galleries.map((gallery) => {
     );
   }
 
-  // if (!gallery.coverSrc || typeof gallery.coverSrc !== "string") {
-  //   throw new TypeError(
-  //     "GalleryDirectory requires a valid cover image source.",
-  //   );
-  // }
+  if (!gallery?.coverSrc) {
+    throw new TypeError(
+      "GalleryDirectory requires a valid cover image source.",
+    );
+  }
 
   return {
     href: `/galleries/${slug}/`,
@@ -77,7 +77,10 @@ const rows = galleries.map((gallery) => {
   labelledBy={headingId}
   class="gallery-directory-section container-wide"
 >
-  <h2 id={headingId}>{heading}</h2>
+  <p class="mono overline underline uppercase text-muted">
+    Lorem Ipsum
+  </p>
+  <h2 id={headingId} class="h2 mt-0">{heading}</h2>
   <ul class="gallery-grid">
     {
       rows.map((row) => (
@@ -93,8 +96,8 @@ const rows = galleries.map((gallery) => {
               />
             </div>
             <div class="gallery-card__content">
-              <h3>{row.title}</h3>
-              <span class="gallery-card__meta">
+              <h3 class=" h3 mt-2">{row.title}</h3>
+              <span class="gallery-card__meta mono data-plate mt-2">
                 <time datetime={row.year}>{row.year}</time>
                 <span>{row.count}</span>
               </span>
@@ -111,7 +114,7 @@ const rows = galleries.map((gallery) => {
 
   @layer components {
     .gallery-directory-section {
-      margin-block-start: var(--space-section);
+      margin-block-start: 4rem;
     }
 
     .gallery-directory-section > h2 {
@@ -119,14 +122,14 @@ const rows = galleries.map((gallery) => {
       font-family: var(--font-display);
       font-size: var(--text-h2);
       font-weight: 400;
-      line-height: var(--leading-h2);
-      margin-block-end: var(--space-6);
+      line-height: var(--text-h2--line-height);
+      margin-block-end: 1.5rem;
     }
 
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
-      gap: var(--space-6) var(--space-4);
+      gap: 1.5rem 1rem;
       margin: 0;
       padding: 0;
       list-style: none;
@@ -135,16 +138,16 @@ const rows = galleries.map((gallery) => {
     .gallery-card {
       display: flex;
       flex-direction: column;
-      gap: var(--space-3);
+      gap: 0.75rem;
       color: var(--text);
       text-decoration: none;
-      group: gallery-card; /* For hover delegation if supported, otherwise standard child targeting */
+      group: gallery-card;
     }
 
     .gallery-card__media {
       aspect-ratio: 3 / 2;
       overflow: hidden;
-      background-color: var(--border-c); /* Placeholder color while loading */
+      background-color: var(--border-c);
       border: 1px solid var(--border-c);
     }
 
@@ -152,7 +155,7 @@ const rows = galleries.map((gallery) => {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.4s ease-out;
+      transition: transform var(--duration-slow) var(--ease-standard);
     }
 
     .gallery-card:hover .gallery-card__media img {
@@ -162,7 +165,7 @@ const rows = galleries.map((gallery) => {
     .gallery-card__content {
       display: flex;
       flex-direction: column;
-      gap: var(--space-1);
+      gap: 0.25rem;
     }
 
     .gallery-card h3 {
@@ -170,12 +173,13 @@ const rows = galleries.map((gallery) => {
       font-family: var(--font-display);
       font-size: var(--text-h3);
       font-weight: 400;
-      line-height: var(--leading-h3);
+      line-height: var(--text-h3--line-height);
       text-decoration-line: underline;
       text-decoration-color: transparent;
       text-decoration-thickness: 1px;
       text-underline-offset: 0.2em;
-      transition: text-decoration-color 0.2s ease;
+      transition: text-decoration-color var(--duration-base)
+        var(--ease-standard);
     }
 
     .gallery-card:hover h3 {
@@ -185,19 +189,8 @@ const rows = galleries.map((gallery) => {
     .gallery-card__meta {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--space-3);
-      color: var(--text-muted);
-      font-family: var(--font-data);
-      font-feature-settings: "zero";
-      font-size: var(--text-data);
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* Focus states */
-    .gallery-card:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 4px;
-      border-radius: 2px;
+      gap: 0.75rem;
+      /* Typographical styles handled globally by Datum's .data-plate class */
     }
 
     @media (forced-colors: active) {

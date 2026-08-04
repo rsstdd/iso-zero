@@ -123,19 +123,19 @@ const href = `/galleries/${slug}/`;
       decoding="async"
     />
     <DataPlate as="figcaption" class="featured-gallery__plate">
-      <h2 id="featured-title">{title}</h2>
+      <h2 id="featured-title" class="h2 featured-gallery__title">
+        {title}
+      </h2>
       <span id="featured-image-description" class="visually-hidden">
         {alt}
       </span>
-      <span id="featured-meta" class="featured-gallery__meta">
+      <span id="featured-meta" class="featured-gallery__meta mono">
         <span>{location}</span>
         <time datetime={publicationDateTime}>{publication}</time>
         <span>{imageCount}</span>
       </span>
-      <span id="featured-action" class="featured-gallery__action">
-        Enter gallery <span class="featured-gallery__arrow" aria-hidden="true"
-          >→</span
-        >
+      <span id="featured-action" class="standalone">
+        View the full catalog
       </span>
     </DataPlate>
   </figure>
@@ -150,6 +150,10 @@ const href = `/galleries/${slug}/`;
       min-inline-size: 0;
       color: var(--text);
       text-decoration: none;
+    }
+
+    .featured-gallery__title:hover {
+      text-decoration: underline;
     }
 
     .featured-gallery:visited,
@@ -189,62 +193,21 @@ const href = `/galleries/${slug}/`;
     .featured-gallery__plate {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: var(--space-4);
-    }
-
-    .featured-gallery__plate > #featured-title {
-      min-inline-size: 0;
-      color: var(--text);
-      font-family: var(--font-display);
-      font-size: var(--text-h2);
-      font-weight: 400;
-      line-height: var(--leading-h2);
+      gap: 1rem;
     }
 
     .featured-gallery__meta {
       display: flex;
       min-inline-size: 0;
       flex-wrap: wrap;
-      gap: var(--space-1) var(--space-4);
-      color: var(--text-muted);
-      font-family: var(--font-data);
-      font-feature-settings: "zero";
-      font-variant-numeric: tabular-nums;
-    }
-
-    .featured-gallery__action {
-      justify-self: start;
-      color: var(--text);
-      font-family: var(--font-interface);
-      text-decoration-color: currentColor;
-      text-decoration-line: underline;
-      text-decoration-skip-ink: auto;
-      text-decoration-thickness: 1px;
-      text-underline-offset: 0.2em;
-    }
-
-    .featured-gallery__arrow {
-      display: inline-block;
-      transition: transform var(--duration-fast) var(--ease-standard);
-    }
-
-    .featured-gallery:hover .featured-gallery__action {
-      text-decoration-thickness: 2px;
-    }
-
-    .featured-gallery:hover .featured-gallery__arrow {
-      transform: translateX(2px);
-    }
-
-    .featured-gallery:active {
-      transform: none;
+      gap: 0.25rem 1rem;
     }
 
     @media (min-width: 48rem) {
       .featured-gallery__plate {
         grid-template-columns: minmax(0, 1fr) max-content;
-        column-gap: var(--space-8);
-        row-gap: var(--space-2);
+        column-gap: 2rem;
+        row-gap: 0.5rem;
       }
 
       .featured-gallery__plate > #featured-title {
@@ -255,21 +218,6 @@ const href = `/galleries/${slug}/`;
       .featured-gallery__meta,
       .featured-gallery__action {
         grid-column: 2;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .featured-gallery:hover .featured-gallery__arrow {
-        transform: none;
-      }
-    }
-
-    @media (forced-colors: active) {
-      .featured-gallery,
-      .featured-gallery:visited,
-      .featured-gallery:hover,
-      .featured-gallery__action {
-        color: LinkText;
       }
     }
   }

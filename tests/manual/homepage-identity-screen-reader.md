@@ -20,12 +20,12 @@ Record exact operating-system, browser, and screen-reader versions in the execut
 ## Procedure
 
 1. Build and open the isolated Homepage Identity fixture.
-2. Navigate by level-one heading and confirm exactly one result: `ISO Null`.
-3. Navigate by region/section and confirm the Identity section is named `ISO Null` through its
+2. Navigate by level-one heading and confirm exactly one result: `IS0 ZER0`.
+3. Navigate by region/section and confirm the Identity section is named `IS0 ZER0` through its
    visible heading.
 4. Confirm the section does not announce a duplicated name or a redundant explicitly authored
    region role.
-5. Read continuously from the heading through the byline and confirm the order is `ISO Null`, then
+5. Read continuously from the heading through the byline and confirm the order is `IS0 ZER0`, then
    `Photography by Ross Todd`.
 6. Continue through the page and confirm the next headings are `Featured gallery` and `Available
    galleries`, both at level two.
@@ -39,7 +39,7 @@ Record exact operating-system, browser, and screen-reader versions in the execut
 
 ## Acceptance criteria
 
-- The homepage exposes one level-one heading, `ISO Null`.
+- The homepage exposes one level-one heading, `IS0 ZER0`.
 - The section's accessible name resolves to the visible heading without duplicate announcement.
 - The byline follows the heading as ordinary text.
 - Featured-gallery and directory level-two headings follow the Identity in source and reading

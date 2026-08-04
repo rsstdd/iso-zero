@@ -1,6 +1,6 @@
 # 00 — Documentation map
 
-Documentation drifts when two files describe the same rule and only one of them is updated. This map exists to prevent that: every concern in ISO Null has exactly one owning document, and every other mention of that concern is a link rather than a restatement.
+Documentation drifts when two files describe the same rule and only one of them is updated. This map exists to prevent that: every concern in IS0 ZER0 has exactly one owning document, and every other mention of that concern is a link rather than a restatement.
 
 ## The rule
 

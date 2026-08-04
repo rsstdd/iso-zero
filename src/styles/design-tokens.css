@@ -1,5 +1,5 @@
 /*
- * Datum — ISO Null profile
+ * Datum — IS0 ZER0 profile
  *
  * Flattened from the shared Datum source for a vanilla-CSS Astro build.
  * This production file intentionally contains no Tailwind `@theme` rules and
@@ -65,6 +65,7 @@
   --text-interface: 1rem;
   --text-small: 0.875rem;
   --text-data: 0.8125rem;
+  --text-byline: 0.65rem;
   --text-wordmark: clamp(1.25rem, 2vw, 1.5rem);
 
   --leading-display-xl: 1.05;
@@ -78,6 +79,7 @@
   --leading-interface: 1.5;
   --leading-data: 1.4;
   --tracking-overline: 0.08em;
+  --byline-overline: 0.04em;
 
   /* Spacing: 4 px base, with deliberate section spacing. */
   --space-1: 0.25rem;
@@ -109,63 +111,16 @@
   --duration-base: 200ms;
   --duration-slow: 320ms;
 
-  /* The viewer is the only ISO Null surface allowed to use elevation. */
+  /* The viewer is the only IS0 ZER0 surface allowed to use elevation. */
   --shadow-tint: 0 0 0;
   --shadow-lg: 0 8px 32px rgb(var(--shadow-tint) / 0.48);
 
   /* Stable overlay layer for the skip link and native top-layer fallbacks. */
   --z-skip-link: 100;
-}
 
-@layer components {
-  /* A section origin: decorative hairline plus the route's one datum tick. */
-  .rule-datum {
-    position: relative;
-    min-inline-size: 0;
-    padding-block-start: var(--space-6);
-    border-block-start: 1px solid var(--border-c);
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
-  }
-
-  .rule-datum::before {
-    content: "";
-    position: absolute;
-    inset-block-start: -1px;
-    inset-inline-start: 0;
-    inline-size: var(--space-6);
-    block-size: 2px;
-    background: var(--accent);
-  }
-
-  /* Recorded/system data. Its low-contrast boundary is decorative only. */
-  .data-plate {
-    min-inline-size: 0;
-    padding-block-start: var(--space-2);
-    border-block-start: 1px solid var(--border-c);
-    border-radius: 0;
-    color: var(--text-muted);
-    background: transparent;
-    box-shadow: none;
-    font-family: var(--font-data);
-    font-feature-settings: "zero";
-    font-size: var(--text-data);
-    font-variant-numeric: tabular-nums;
-    line-height: var(--leading-data);
-  }
-
-  /* Accent outline without an orange fill behind text. */
-  .placard {
-    display: inline-block;
-    padding: 0.1875rem 0.625rem;
-    border: 1px solid var(--accent);
-    border-radius: var(--radius-xs);
-    color: var(--accent-text);
-    background: transparent;
-    font-family: var(--font-interface);
-    font-size: var(--text-data);
-    font-weight: 500;
-    line-height: var(--leading-interface);
-  }
+  /* Wordmark geometric tracking & sizing tokens */
+  --wordmark-compact-width: 5ch;
+  --wordmark-display-width: 5ch;
+  --wordmark-compact-gap: 0.07em;
+  --wordmark-display-gap: 0.08em;
 }

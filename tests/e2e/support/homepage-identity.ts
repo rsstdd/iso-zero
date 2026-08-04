@@ -1,7 +1,7 @@
 import { expect, type Locator, type Page } from "@playwright/test";
 
 export const HOMEPAGE_IDENTITY_CONTRACT = {
-  title: "ISO Null",
+  title: "IS0 ZER0",
   byline: "Photography by Ross Todd",
   headingId: "page-title",
   followingHeadings: ["Featured gallery", "Available galleries"],

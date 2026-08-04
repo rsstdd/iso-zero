@@ -5,7 +5,7 @@ Implementation: `src/components/SiteHeader.astro`
 
 ## 1. Responsibility
 
-The site header supplies stable site identity and primary navigation. On the initial site it contains the ISO Null home link and one Galleries destination.
+The site header supplies stable site identity and primary navigation. On the initial site it contains the IS0 ZER0 home link and one Galleries destination.
 
 It does not contain About, the engineering case study, legal links, commerce, social links, theme controls, search, or a mobile menu.
 
@@ -30,7 +30,7 @@ interface Props {
 
 ```astro
 <header class="site-header">
-  <a class="site-wordmark" href="/">ISO Null</a>
+  <a class="site-wordmark" href="/">IS0 ZER0</a>
   <nav aria-label="Primary navigation">
     <ul>
       <li><a href="/galleries/">Galleries</a></li>
@@ -48,7 +48,7 @@ Current-route rules:
 
 ## 5. Content rules
 
-- Visible wordmark: `ISO Null`.
+- Visible wordmark: `IS0 ZER0`.
 - Primary link: `Galleries`.
 - The visible text supplies each link's accessible name; redundant `aria-label` values are prohibited.
 - No icon accompanies the wordmark.

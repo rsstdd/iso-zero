@@ -1,10 +1,10 @@
 ---
 interface Props {
   readonly label: string;
-  readonly variant: "compact" | "display";
+  readonly variant?: "compact" | "display";
 }
 
-const { label, variant } = Astro.props;
+const { label, variant = "compact" } = Astro.props;
 ---
 
 <span
@@ -17,38 +17,37 @@ const { label, variant } = Astro.props;
     aria-hidden="true"
   >
     <span>I</span><span>S</span><span>0</span>
-    <!-- IS0 -->
   </span>
   <span
     class="brand-wordmark__line brand-wordmark__line--zero"
     aria-hidden="true"
   >
-    <!-- NULL -->
-    <span>N</span><span>U</span><span>L</span><span>L</span>
+    <span>Z</span><span>E</span><span>R</span><span>0</span>
   </span>
 </span>
 
-<style is:global>
-  @layer reset, base, components, utilities;
-
+<style>
   @layer components {
     .brand-wordmark {
       display: inline-grid;
-      grid-template-columns: minmax(0, var(--brand-line-width));
-      inline-size: var(--brand-line-width);
+      grid-template-columns: minmax(0, var(--wordmark-width));
+      inline-size: var(--wordmark-width);
       max-inline-size: 100%;
       min-inline-size: 0;
       color: inherit;
       background: transparent;
-      font-family: var(--font-wordmark);
+      font-family: var(--font-mono);
+      font-size: var(--text-wordmark);
       font-kerning: normal;
       font-synthesis: none;
       font-stretch: condensed;
       line-height: 1;
-      row-gap: var(--brand-stack-gap);
+      row-gap: var(--wordmark-gap);
       text-rendering: geometricPrecision;
       text-transform: uppercase;
       vertical-align: middle;
+      font-feature-settings: "zero";
+      font-variant-numeric: tabular-nums;
     }
 
     .brand-wordmark__line {
@@ -57,13 +56,9 @@ const { label, variant } = Astro.props;
       justify-content: space-between;
       inline-size: 100%;
       min-inline-size: 0;
-      font-size: 1em;
-      letter-spacing: 0;
-      line-height: var(--brand-line-leading);
+      letter-spacing: var(--tracking-overline);
+      line-height: 0.78;
       white-space: nowrap;
-      font-family: var(--font-wordmark);
-      font-variant-numeric: slashed-zero;
-      font-feature-settings: "zero" 1;
     }
 
     .brand-wordmark__line > span {
@@ -72,23 +67,21 @@ const { label, variant } = Astro.props;
     }
 
     .brand-wordmark__line--iso {
-      font-weight: var(--brand-iso-weight);
+      font-weight: 600;
     }
 
     .brand-wordmark__line--zero {
-      font-weight: var(--brand-zero-weight);
+      font-weight: 200;
     }
 
     .brand-wordmark--compact {
-      --brand-line-width: var(--brand-compact-line-width);
-      --brand-line-leading: 0.78;
-      --brand-stack-gap: 0.18em;
+      --wordmark-width: var(--wordmark-compact-width);
+      --wordmark-gap: var(--wordmark-compact-gap);
     }
 
     .brand-wordmark--display {
-      --brand-line-width: var(--brand-display-line-width);
-      --brand-line-leading: 0.8;
-      --brand-stack-gap: 0.16em;
+      --wordmark-width: var(--wordmark-display-width);
+      --wordmark-gap: var(--wordmark-display-gap);
     }
 
     @media (forced-colors: active) {

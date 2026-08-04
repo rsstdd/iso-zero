@@ -1,4 +1,4 @@
-# ISO Null: Architectural Layout & Implementation Specification
+# IS0 ZER0: Architectural Layout & Implementation Specification
 
 This document bridges the **Datum Design System** with the spatial and structural inspiration drawn from high-end, image-forward portfolios (e.g., Rob Schanz, Hazel Eckert, Will Kutscher). It is formatted as a definitive blueprint for an LLM or a junior software engineering intern to execute.
 
@@ -8,9 +8,9 @@ The core directive: **Take the unadorned, image-first minimalism of the referenc
 
 ## 1. Global Spatial Directives
 
-The reference sites succeed because they let the images breathe. ISO Null achieves this same high-end gallery feel, but rather than relying on massive white space, it uses the deep space of the `--bg` (`#191611`) canvas, delineated only by 1px hairlines (`#3a352c`).
+The reference sites succeed because they let the images breathe. IS0 ZER0 achieves this same high-end gallery feel, but rather than relying on massive white space, it uses the deep space of the `--bg` (`#191611`) canvas, delineated only by 1px hairlines (`#3a352c`).
 
-* **The Grid over the Freeform:** Unlike some reference sites that use floating, overlapping images, ISO Null enforces strict structural boundaries. Every container aligns to a predictable grid.
+* **The Grid over the Freeform:** Unlike some reference sites that use floating, overlapping images, IS0 ZER0 enforces strict structural boundaries. Every container aligns to a predictable grid.
 * **Vertical Rhythm:** Spacing is generous but mathematically rigid (using a 4px base scale). Gaps between discrete sections should be `96px` or `128px`.
 * **Edge-to-Edge discipline:** The main `container-wide` (`1400px`) restricts text, but hero images or full-bleed gallery dividers may break out to `100vw`.
 

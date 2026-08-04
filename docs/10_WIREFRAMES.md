@@ -8,7 +8,7 @@ These structural ASCII diagrams define hierarchy and behavior without implying d
 
 ```text
 +------------------------------------------------------------------------------+
-| ISO Null                                      Index  Galleries  Prints  About |
+| IS0 ZER0                                      Index  Galleries  Prints  About |
 |------------------------------------------------------------------------------|
 |                                                                              |
 |  +------------------------------------------------------------------------+  |
@@ -33,7 +33,7 @@ These structural ASCII diagrams define hierarchy and behavior without implying d
 |  Data plate                            Data plate                            |
 |                                                                              |
 |------------------------------------------------------------------------------|
-| © 2026 ISO Null · commit a1b2c3d · Colophon · Impressum · Privacy            |
+| © 2026 IS0 ZER0 · commit a1b2c3d · Colophon · Impressum · Privacy            |
 +------------------------------------------------------------------------------+
 ```
 
@@ -51,7 +51,7 @@ These structural ASCII diagrams define hierarchy and behavior without implying d
 
 ```text
 +------------------------------------------------------------------------------+
-| ISO Null                                      Index  Galleries  Prints  About |
+| IS0 ZER0                                      Index  Galleries  Prints  About |
 |------------------------------------------------------------------------------|
 |                                                                              |
 | [Display / Plex Serif]                                                       |
@@ -74,7 +74,7 @@ These structural ASCII diagrams define hierarchy and behavior without implying d
 |                                                   Data plate                 |
 |                                                                              |
 |------------------------------------------------------------------------------|
-| © 2026 ISO Null · commit a1b2c3d · Colophon · Impressum · Privacy            |
+| © 2026 IS0 ZER0 · commit a1b2c3d · Colophon · Impressum · Privacy            |
 +------------------------------------------------------------------------------+
 ```
 
@@ -119,7 +119,7 @@ Each image is a normal link to its bounded large derivative. The grid, captions,
 
 ```text
 +------------------------------------------------------------------------------+
-| ISO Null                                      Index  Galleries  Prints  About |
+| IS0 ZER0                                      Index  Galleries  Prints  About |
 |------------------------------------------------------------------------------|
 |                                                                              |
 | +--------------------------------------+  [H1 / Plex Serif]                  |
@@ -171,7 +171,7 @@ The browser redirect never confirms fulfillment.
 
 ```text
 +------------------------------------------------------------------------------+
-| ISO Null                                      Index  Galleries  Prints  About |
+| IS0 ZER0                                      Index  Galleries  Prints  About |
 |------------------------------------------------------------------------------|
 |                                                                              |
 |        [H1 / Plex Serif]                                                      |
@@ -196,7 +196,7 @@ The browser redirect never confirms fulfillment.
 |        JS 2.4 KB BR · LCP 1.9 S · CLS 0.01 · COMMIT A1B2C3D                 |
 |                                                                              |
 |------------------------------------------------------------------------------|
-| © 2026 ISO Null · Impressum · Privacy                                        |
+| © 2026 IS0 ZER0 · Impressum · Privacy                                        |
 +------------------------------------------------------------------------------+
 ```
 

@@ -1,4 +1,4 @@
-# ISO Null component specifications
+# IS0 ZER0 component specifications
 
 Status: implementation-ready component contract index
 

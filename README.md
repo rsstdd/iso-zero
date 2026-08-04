@@ -1,4 +1,4 @@
-# ISO Null | A Photography Portfolio and Print Storefront
+# IS0 ZER0 | A Photography Portfolio and Print Storefront
 
 My photography site and print storefront. Astro 7, static output, images processed at build, and a site that ships no JavaScript at all.
 

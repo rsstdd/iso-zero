@@ -13,9 +13,9 @@ test("uses one governed component for compact and display identity", async () =>
 		read("src/components/HomepageIdentity.astro"),
 	]);
 
-	assert.match(component, /readonly label: "ISO Null"/);
+	assert.match(component, /readonly label: "IS0 ZER0"/);
 	assert.match(component, /readonly variant: "compact" \| "display"/);
-	assert.match(header, /<BrandWordmark label="ISO Null" variant="compact" \/>/);
+	assert.match(header, /<BrandWordmark label="IS0 ZER0" variant="compact" \/>/);
 	assert.match(identity, /<BrandWordmark label=\{title\} variant="display" \/>/);
 	assert.equal((header.match(/<BrandWordmark\b/g) ?? []).length, 1);
 	assert.equal((identity.match(/<BrandWordmark\b/g) ?? []).length, 1);
