@@ -122,21 +122,29 @@ const href = `/galleries/${slug}/`;
       fetchpriority="high"
       decoding="async"
     />
-    <DataPlate as="figcaption" class="featured-gallery__plate">
-      <h2 id="featured-title" class="h2 featured-gallery__title">
-        {title}
-      </h2>
+    <DataPlate
+      as="figcaption"
+      class="featured-gallery__plate"
+      id={`REC // ${gallery.hero.id.toUpperCase()}`}
+      status="ACTIVE ARCHIVE"
+      title={title}
+      specs={[
+        { label: "LOCATION", value: location },
+        { label: "PUBLICATION", value: publication },
+        { label: "INDEX", value: imageCount },
+      ]}
+    >
       <span id="featured-image-description" class="visually-hidden">
         {alt}
       </span>
-      <span id="featured-meta" class="featured-gallery__meta mono">
-        <span>{location}</span>
-        <time datetime={publicationDateTime}>{publication}</time>
-        <span>{imageCount}</span>
-      </span>
-      <span id="featured-action" class="standalone">
-        View the full catalog
-      </span>
+      <time datetime={publicationDateTime} class="visually-hidden">
+        {publication}
+      </time>
+      <div class="plate-footer">
+        <span id="featured-action" class="standalone">
+          View the full catalog
+        </span>
+      </div>
     </DataPlate>
   </figure>
 </a>
@@ -152,10 +160,6 @@ const href = `/galleries/${slug}/`;
       text-decoration: none;
     }
 
-    .featured-gallery__title:hover {
-      text-decoration: underline;
-    }
-
     .featured-gallery:visited,
     .featured-gallery:hover {
       color: var(--text);
@@ -167,6 +171,7 @@ const href = `/galleries/${slug}/`;
       border-radius: 0;
       background: transparent;
       box-shadow: none;
+      margin: 0;
     }
 
     .featured-gallery > figure > picture {
@@ -191,34 +196,16 @@ const href = `/galleries/${slug}/`;
     }
 
     .featured-gallery__plate {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 1rem;
+      margin-top: var(--space-3);
     }
 
-    .featured-gallery__meta {
-      display: flex;
-      min-inline-size: 0;
-      flex-wrap: wrap;
-      gap: 0.25rem 1rem;
+    .plate-footer {
+      padding-top: var(--space-2);
+      border-top: 1px solid var(--border-c);
     }
 
-    @media (min-width: 48rem) {
-      .featured-gallery__plate {
-        grid-template-columns: minmax(0, 1fr) max-content;
-        column-gap: 2rem;
-        row-gap: 0.5rem;
-      }
-
-      .featured-gallery__plate > #featured-title {
-        grid-column: 1;
-        grid-row: 1 / span 2;
-      }
-
-      .featured-gallery__meta,
-      .featured-gallery__action {
-        grid-column: 2;
-      }
+    .featured-gallery__plate #featured-action:hover {
+      text-decoration: underline;
     }
   }
 </style>

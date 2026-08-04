@@ -1,11 +1,29 @@
 ---
+interface SpecItem {
+  readonly label: string;
+  readonly value: string;
+}
+
 interface Props {
   readonly as?: "div" | "figcaption" | "footer";
   readonly labelledBy?: string;
+  readonly id?: string;
+  readonly status?: string;
+  readonly title?: string;
+  readonly specs?: readonly SpecItem[];
   readonly class?: string;
 }
 
-const { as = "div", labelledBy, class: className }: Props = Astro.props;
+const {
+  as = "div",
+  labelledBy,
+  id,
+  status,
+  title,
+  specs = [],
+  class: className,
+}: Props = Astro.props;
+
 const supportedElements = new Set(["div", "figcaption", "footer"]);
 
 if (!supportedElements.has(as)) {
@@ -13,11 +31,115 @@ if (!supportedElements.has(as)) {
 }
 
 const Component = as;
+const hasHeader = id || status;
+const hasBody = title || specs.length > 0;
 ---
 
 <Component
   class:list={["data-plate", className]}
   aria-labelledby={labelledBy || undefined}
 >
-  <slot />
+  {
+    hasHeader && (
+      <div class="plate-header">
+        {id && <span class="plate-id overline">{id}</span>}
+        {status && <span class="plate-status mono">{status}</span>}
+      </div>
+    )
+  }
+
+  {
+    hasBody ? (
+      <div class="plate-body">
+        {title && <h3 class="h3 plate-title">{title}</h3>}
+        {specs.length > 0 && (
+          <dl class="plate-specs">
+            {specs.map((spec) => (
+              <div class="spec-row">
+                <dt class="font-mono">{spec.label}</dt>
+                <span class="spec-dots font-mono" aria-hidden="true" />
+                <dd class="font-mono">{spec.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+        <slot />
+      </div>
+    ) : (
+      <slot />
+    )
+  }
 </Component>
+
+<style>
+  .data-plate {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border: 1px solid var(--border-c);
+    border-radius: 0;
+    background: transparent;
+    font-family: var(--font-mono);
+  }
+
+  .plate-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--text-overline);
+    letter-spacing: var(--tracking-overline);
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-c);
+    padding-bottom: var(--space-2);
+  }
+
+  .plate-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .plate-title {
+    font-family: var(--font-mono);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 0;
+  }
+
+  .plate-specs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin: 0;
+  }
+
+  .spec-row {
+    display: flex;
+    align-baseline: baseline;
+    gap: var(--space-2);
+  }
+
+  .spec-row dt {
+    flex-shrink: 0;
+  }
+
+  .spec-row dd {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .spec-dots {
+    display: block;
+    flex-grow: 1;
+    min-width: 1rem;
+    height: 1em;
+    background-image: radial-gradient(var(--border-c) 35%, transparent 40%);
+    background-size: 6px 6px;
+    background-repeat: repeat-x;
+    background-position: center;
+    opacity: 0.6;
+  }
+</style>
