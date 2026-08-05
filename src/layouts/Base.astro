@@ -88,10 +88,10 @@ const lang = props.lang ?? "en";
     {socialImageUrl && <meta name="twitter:image" content={socialImageUrl} />}
     <title>{props.title}</title>
   </head>
-  <body>
+  <body class="datum-layout">
     <SkipLink />
     <SiteHeader currentPath={props.currentPath} />
-    <main id="main" tabindex="-1">
+    <main id="main" tabindex="-1" class="datum-main">
       <slot />
     </main>
     <SiteFooter

@@ -70,6 +70,8 @@ const rows = galleries.map((gallery) => {
     coverAlt: gallery.coverAlt || `Cover image for ${title} gallery`,
   };
 });
+
+const OVERLINE_HEADING = "VISUAL ARCHIVE";
 ---
 
 <RuleDatum
@@ -77,9 +79,7 @@ const rows = galleries.map((gallery) => {
   labelledBy={headingId}
   class="gallery-directory-section container-wide"
 >
-  <p class="mono overline underline uppercase text-muted">
-    Lorem Ipsum
-  </p>
+  <p class="mono overline underline uppercase text-muted">{OVERLINE_HEADING}</p>
   <h2 id={headingId} class="h2 mt-0">{heading}</h2>
   <ul class="gallery-grid">
     {

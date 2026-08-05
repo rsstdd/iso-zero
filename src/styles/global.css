@@ -223,6 +223,12 @@
       outline-color: Highlight;
     }
   }
+/* Centering Styles for the page */
+.datum-layout {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100svh;
+}
 }
 
 @layer components {
@@ -348,4 +354,70 @@
     text-decoration-line: overline;
     text-transform: uppercase;
   }
+/* Centering & Layout */
+.center-content {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-inline-size: 0;
+}
+
+.datum-main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+  padding-block-start: var(--space-6);
+  padding-block-end: var(--space-6);
+}
+
+
+
+/* ----------------------
+   *  Data Plate Styles
+   *  "Blueprint Variety"
+   * ----------------------
+  */
+.blueprint-plate {
+  position: relative;
+  border: 2px solid var(--border-c);
+  background: var(--bg);
+  transition: border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blueprint-plate::before,
+.blueprint-plate::after {
+  content: "";
+  position: absolute;
+  width: var(--space-3);
+  height: var(--space-3);
+  pointer-events: none;
+  z-index: 2;
+  transition: border-color 0.2s ease;
+}
+
+.blueprint-plate::before {
+  top: 2px;
+  left: 2px;
+  border-top: 1px solid var(--border-c);
+  border-left: 1px solid var(--border-c);
+  box-shadow: inset 1px 1px 0 var(--bg);
+}
+
+.blueprint-plate::after {
+  bottom: 2px;
+  right: 2px;
+  border-bottom: 1px solid var(--border-c);
+  border-right: 1px solid var(--border-c);
+  box-shadow: inset -1px -1px 0 var(--bg);
+}
+
+.blueprint-plate:hover {
+  border-color: var(--border-c);
+}
+
+.blueprint-plate:hover::before,
+.blueprint-plate:hover::after {
+  border-color: var(--border-c);
+}
 }

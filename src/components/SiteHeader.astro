@@ -19,7 +19,7 @@ const isHomepage = current.wordmark === "page";
       />
       <div class="site-header__byline-block" aria-hidden="true">
         <span class="byline-line">Photography</span>
-        <span class="byline-line">By Ross</span>
+        <span class="byline-line">By Ross Todd</span>
       </div>
     </a>
     <nav aria-label="Primary navigation">
@@ -38,14 +38,11 @@ const isHomepage = current.wordmark === "page";
   @layer components {
     .site-header {
       position: static;
-      inline-size: min(
-        calc(100% - (2 * var(--page-gutter))),
-        var(--container-wide)
-      );
+      inline-size: 100%;
       min-inline-size: 0;
-      margin-inline: auto;
       padding-block: var(--space-3);
       overflow: visible;
+      /* Full-bleed bottom rule line */
       border-block-end: 1px solid var(--border-c);
       border-radius: 0;
       color: var(--text);
@@ -54,13 +51,16 @@ const isHomepage = current.wordmark === "page";
     }
 
     .site-header__inner {
+      inline-size: min(
+        calc(100% - (2 * var(--page-gutter))),
+        var(--container-wide)
+      );
+      margin-inline: auto; /* Centers the inner content */
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: var(--space-2) var(--space-6);
-      inline-size: 100%;
-      min-inline-size: 0;
     }
 
     /* Tightened uniform grid lock using a compact ch width */
@@ -122,10 +122,14 @@ const isHomepage = current.wordmark === "page";
       font-size: inherit;
       font-weight: inherit;
       line-height: inherit;
-      letter-spacing: var(--wordmark-compact-gap);
+      letter-spacing: 0.1em;
       text-transform: inherit;
       color: inherit;
       white-space: nowrap;
+    }
+
+    .site-header__byline-block .byline-line:last-child {
+      letter-spacing: 0.05em;
     }
 
     .site-header nav,

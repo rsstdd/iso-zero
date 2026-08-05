@@ -124,8 +124,8 @@ const href = `/galleries/${slug}/`;
     />
     <DataPlate
       as="figcaption"
-      class="featured-gallery__plate"
-      id={`REC // ${gallery.hero.id.toUpperCase()}`}
+      class="featured-gallery__plate blueprint-plate"
+      id={`${gallery.hero.id.toUpperCase()}`}
       status="ACTIVE ARCHIVE"
       title={title}
       specs={[
@@ -155,9 +155,11 @@ const href = `/galleries/${slug}/`;
   @layer components {
     .featured-gallery {
       display: block;
+      /* width: 100%; */
       min-inline-size: 0;
       color: var(--text);
       text-decoration: none;
+      /* box-sizing: border-box; */
     }
 
     .featured-gallery:visited,
@@ -167,36 +169,42 @@ const href = `/galleries/${slug}/`;
     }
 
     .featured-gallery > figure {
-      min-inline-size: 0;
+      display: inline-flex;
+      flex-direction: column;
+      min-inline-size: max-content;
       border-radius: 0;
       background: transparent;
       box-shadow: none;
+      box-sizing: border-box;
       margin: 0;
+      /* padding-block: var(--space-4); */
     }
 
     .featured-gallery > figure > picture {
       display: flex;
-      inline-size: 100%;
+      inline-size: max-content;
       min-inline-size: 0;
       justify-content: center;
       background: var(--bg);
+      border: 1px solid var(--border-c);
     }
 
     .featured-gallery > figure > picture > img {
       inline-size: auto;
       block-size: auto;
-      max-inline-size: 100%;
-      max-block-size: 72vh;
-      max-block-size: 72svh;
+      max-inline-size: none;
+      max-block-size: none;
       border-radius: 0;
-      object-fit: contain;
+      object-fit: initial;
       filter: none;
       box-shadow: none;
       clip-path: none;
     }
 
     .featured-gallery__plate {
+      width: 100%;
       margin-top: var(--space-3);
+      box-sizing: border-box;
     }
 
     .plate-footer {
@@ -204,7 +212,12 @@ const href = `/galleries/${slug}/`;
       border-top: 1px solid var(--border-c);
     }
 
-    .featured-gallery__plate #featured-action:hover {
+    .featured-gallery__plate #featured-action {
+      transition: color 0.15s ease;
+    }
+
+    .featured-gallery:hover .featured-gallery__plate #featured-action {
+      color: var(--accent);
       text-decoration: underline;
     }
   }
