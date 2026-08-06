@@ -1,0 +1,82 @@
+---
+import PhotoGrid, { triggerId } from "../../components/PhotoGrid.astro";
+import PhotoPopover from "../../components/PhotoPopover.astro";
+import RuleDatum from "../../components/RuleDatum.astro";
+import Base from "../../layouts/Base.astro";
+import { getPublishedGalleryEntries } from "../../lib/gallery-catalog";
+import {
+  BUILD_SHA,
+  CONTENT_VERSION,
+  COPYRIGHT_YEAR,
+} from "../../lib/site-identity";
+
+export async function getStaticPaths() {
+  const entries = await getPublishedGalleryEntries();
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { title, description, cover, photos } = entry.data;
+const slug = entry.id;
+const canonicalPath = `/galleries/${slug}/`;
+---
+
+<Base
+  title={`${title} — IS0 ZER0`}
+  description={description ?? `The ${title} photography gallery by Ross Todd.`}
+  canonicalPath={canonicalPath}
+  currentPath={canonicalPath}
+  socialImage={cover}
+  buildSha={BUILD_SHA}
+  contentVersion={CONTENT_VERSION}
+  copyrightYear={COPYRIGHT_YEAR}
+>
+  <section class="container-wide gallery-page-intro" aria-labelledby="gallery-title">
+    <h1 id="gallery-title">{title}</h1>
+    {description && <p class="body-lg">{description}</p>}
+  </section>
+
+  <RuleDatum as="section" labelledBy="gallery-title" class="container-wide gallery-page-grid">
+    <PhotoGrid gallerySlug={slug} photos={photos} />
+  </RuleDatum>
+
+  {
+    photos.map((photo, index) => (
+      <PhotoPopover
+        id={triggerId(slug, index)}
+        photo={photo}
+        previousId={index > 0 ? triggerId(slug, index - 1) : null}
+        nextId={index < photos.length - 1 ? triggerId(slug, index + 1) : null}
+      />
+    ))
+  }
+</Base>
+
+<style is:global>
+  @layer reset, base, components, utilities;
+
+  @layer components {
+    .gallery-page-intro {
+      margin-block-start: var(--space-8);
+    }
+
+    .gallery-page-intro h1 {
+      font-family: var(--font-display);
+      font-size: var(--text-h1);
+    }
+
+    .gallery-page-intro .body-lg {
+      max-inline-size: var(--container-prose);
+      color: var(--text-muted);
+      font-size: var(--text-body-lg);
+      line-height: var(--leading-body-lg);
+    }
+
+    .gallery-page-grid {
+      margin-block-start: var(--space-8);
+    }
+  }
+</style>

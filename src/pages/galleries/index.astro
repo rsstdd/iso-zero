@@ -1,15 +1,26 @@
 ---
+import GalleryDirectory from "../../components/GalleryDirectory.astro";
 import Base from "../../layouts/Base.astro";
+import { getPublishedGalleries } from "../../lib/gallery-catalog";
 import {
   BUILD_SHA,
   CONTENT_VERSION,
   COPYRIGHT_YEAR,
 } from "../../lib/site-identity";
+
+const publishedGalleries = await getPublishedGalleries();
+
+// Per GALLERIES_SPECIFICATION.md §3: a zero-gallery catalog still builds and
+// renders, rather than crashing. GalleryDirectory intentionally requires at
+// least one entry (a reasonable contract for a component that always draws
+// a grid), so the empty case is branched here, before the component is
+// called, rather than loosening that contract.
+const hasGalleries = publishedGalleries.length > 0;
 ---
 
 <Base
   title="Galleries — IS0 ZER0"
-  description="Published photography galleries by Ross Todd."
+  description="Every published photography gallery by Ross Todd, newest first."
   canonicalPath="/galleries/"
   currentPath="/galleries/"
   buildSha={BUILD_SHA}
@@ -21,9 +32,20 @@ import {
     aria-labelledby="galleries-title"
   >
     <h1 id="galleries-title">Galleries</h1>
-    <p>
-      The complete archive index will be published with the first gallery
-      release.
-    </p>
+    <p>The complete archive, newest first.</p>
   </section>
+
+  {
+    hasGalleries ? (
+      <GalleryDirectory
+        galleries={publishedGalleries}
+        heading="Every gallery"
+        headingId="galleries-index-grid"
+      />
+    ) : (
+      <p class="container-wide">
+        No galleries are published yet. Check back after the first release.
+      </p>
+    )
+  }
 </Base>

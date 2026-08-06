@@ -1,6 +1,7 @@
 export const SITE_NAME = "IS0 ZER0";
 export const SITE_ORIGIN = process.env.SITE_ORIGIN ?? "https://iso-zero.example";
 export const COPYRIGHT_YEAR = 2026;
+export const AUTHOR_NAME = "Ross Todd";
 
 export const BUILD_SHA =
   process.env.ISO_ZERO_BUILD_SHA ?? "8f3c2a1b4d5e6f7890abcdeffedcba0987654321";

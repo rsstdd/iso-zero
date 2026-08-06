@@ -1,0 +1,191 @@
+---
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { formatExif } from "../lib/exif";
+
+interface PhotoExif {
+  readonly camera: string;
+  readonly lens: string | null;
+  readonly focalLengthMm: number;
+  readonly fNumber: number;
+  readonly exposureTimeSec: number;
+  readonly iso: number;
+  readonly shotAt: Date;
+}
+
+interface PhotoPrint {
+  readonly sku: string;
+}
+
+export interface PopoverPhoto {
+  readonly src: ImageMetadata;
+  readonly alt: string;
+  readonly caption?: string;
+  readonly exif: PhotoExif;
+  readonly print?: PhotoPrint;
+}
+
+interface Props {
+  readonly id: string;
+  readonly photo: PopoverPhoto;
+  readonly previousId?: string | null;
+  readonly nextId?: string | null;
+}
+
+const { id, photo, previousId = null, nextId = null }: Props = Astro.props;
+
+if (!id || id.trim().length === 0) {
+  throw new TypeError("PhotoPopover requires a non-blank id.");
+}
+
+const CANDIDATE_WIDTHS = [640, 960, 1280, 1600, 2048] as const;
+const POPOVER_SIZES = "(min-width: 1400px) 1400px, 100vw";
+const widths = CANDIDATE_WIDTHS.filter((candidate) => candidate <= photo.src.width);
+const formatted = formatExif(photo.exif);
+---
+
+<div popover id={id} role="dialog" aria-label={photo.alt} class="photo-popover">
+  <Picture
+    src={photo.src}
+    alt={photo.alt}
+    widths={widths.length > 0 ? widths : undefined}
+    sizes={POPOVER_SIZES}
+    formats={["avif", "webp"]}
+    fallbackFormat="jpeg"
+    loading="lazy"
+    decoding="async"
+  />
+  <div class="data-plate photo-popover__plate">
+    {photo.caption && <p class="photo-popover__caption">{photo.caption}</p>}
+    <p>{formatted.summary}</p>
+  </div>
+  <div class="photo-popover__controls">
+    {previousId && (
+      <button type="button" popovertarget={previousId} popovertargetaction="show">
+        Previous
+      </button>
+    )}
+    {photo.print && (
+      <a href={`/prints/${photo.print.sku}/`} class="standalone photo-popover__print">
+        View print
+      </a>
+    )}
+    {nextId && (
+      <button type="button" popovertarget={nextId} popovertargetaction="show">
+        Next
+      </button>
+    )}
+  </div>
+  {/*
+    Close is last in document order on purpose, even though it is
+    positioned visually at the top-left to match 10_WIREFRAMES.md §3.
+    05_INTERACTION_AND_ACCESSIBILITY.md: "The close button is the last
+    focusable element inside the popover, making 'tab to the end, then
+    Escape' a coherent pattern." Positioning it here with CSS rather than
+    moving it earlier in the markup keeps that tab-order guarantee intact.
+  */}
+  <button
+    type="button"
+    popovertarget={id}
+    popovertargetaction="hide"
+    aria-label="Close image viewer"
+    class="photo-popover__close"
+  >
+    Close
+  </button>
+</div>
+
+<style is:global>
+  @layer reset, base, components, utilities;
+
+  @layer components {
+    .photo-popover {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      max-inline-size: min(100vw - (2 * var(--page-gutter)), var(--container-wide));
+      max-block-size: calc(100svh - (2 * var(--page-gutter)));
+      margin: auto;
+      padding: var(--space-6);
+      border: 1px solid var(--border-c);
+      border-radius: 0;
+      background: var(--bg);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .photo-popover::backdrop {
+      background: rgb(25 22 17 / 0.8);
+    }
+
+    .photo-popover img {
+      display: block;
+      max-inline-size: 100%;
+      max-block-size: 70svh;
+      inline-size: auto;
+      block-size: auto;
+      margin-inline: auto;
+      border-radius: 0;
+    }
+
+    .photo-popover__caption {
+      margin: 0 0 var(--space-1);
+      color: var(--text);
+      font-family: var(--font-interface);
+    }
+
+    .photo-popover__controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+
+    .photo-popover__print {
+      margin-inline: auto;
+    }
+
+    .photo-popover__close {
+      position: absolute;
+      inset-block-start: var(--space-3);
+      inset-inline-start: var(--space-3);
+      min-inline-size: var(--target-min);
+      min-block-size: var(--target-min);
+      padding-inline: var(--space-3);
+      border: 1px solid var(--border-c);
+      border-radius: var(--radius-xs);
+      color: var(--text);
+      background: var(--surface);
+      font-family: var(--font-interface);
+      cursor: pointer;
+    }
+
+    .photo-popover__close:focus-visible,
+    .photo-popover__controls button:focus-visible,
+    .photo-popover__print:focus-visible {
+      outline: 2px solid var(--focus-ring);
+      outline-offset: 2px;
+    }
+
+    .photo-popover__controls button {
+      min-inline-size: var(--target-min);
+      min-block-size: var(--target-min);
+      padding-inline: var(--space-3);
+      border: 1px solid var(--border-c);
+      border-radius: var(--radius-xs);
+      color: var(--text);
+      background: var(--surface);
+      font-family: var(--font-interface);
+      cursor: pointer;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .photo-popover {
+        transition:
+          opacity var(--duration-base) var(--ease-standard),
+          display var(--duration-base) var(--ease-standard) allow-discrete;
+      }
+    }
+  }
+</style>

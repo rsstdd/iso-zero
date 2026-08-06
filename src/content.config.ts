@@ -105,6 +105,12 @@ const galleries = defineCollection({
       description: z.string().max(200).optional(),
       cover: image(),
       /**
+       * Alt text for the cover image. `image()` carries no alt field of its
+       * own, and a cover image is content, not decoration, so it is bound by
+       * the same non-whitespace requirement as a photograph's `alt`.
+       */
+      coverAlt: altText,
+      /**
        * Ordered. Array position is display order, so reordering a gallery is a
        * content edit rather than a code change.
        */

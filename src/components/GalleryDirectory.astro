@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { Picture } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import RuleDatum from "./RuleDatum.astro";
 
@@ -7,6 +7,7 @@ interface GallerySummary {
   readonly slug: string;
   readonly title: string;
   readonly publicationDate: Date;
+  readonly location?: string;
   readonly imageCount: number;
   readonly coverSrc: ImageMetadata;
   readonly coverAlt: string;
@@ -14,9 +15,16 @@ interface GallerySummary {
 
 interface Props {
   readonly galleries: readonly GallerySummary[];
-  readonly heading?: "Available galleries";
-  readonly headingId?: "gallery-directory-title";
+  readonly heading?: string;
+  readonly headingId?: string;
 }
+
+const CANDIDATE_WIDTHS = [640, 960, 1280, 1600, 2048] as const;
+// Cards render up to three per row inside container-wide (1400px); this is
+// deliberately narrower than the featured hero's sizes string in
+// FeaturedGallery.astro, because a directory card never approaches full
+// viewport width the way the hero does.
+const CARD_SIZES = "(min-width: 1200px) 33vw, (min-width: 640px) 50vw, 100vw";
 
 const {
   galleries,
@@ -61,13 +69,19 @@ const rows = galleries.map((gallery) => {
     );
   }
 
+  const widths = CANDIDATE_WIDTHS.filter(
+    (candidate) => candidate <= gallery.coverSrc.width,
+  );
+
   return {
     href: `/galleries/${slug}/`,
     title,
     year: String(gallery.publicationDate.getUTCFullYear()),
-    count: `${gallery.imageCount} ${gallery.imageCount === 1 ? "image" : "images"}`,
+    count: `${gallery.imageCount} ${gallery.imageCount === 1 ? "photograph" : "photographs"}`,
+    location: gallery.location?.trim() || undefined,
     coverSrc: gallery.coverSrc,
     coverAlt: gallery.coverAlt || `Cover image for ${title} gallery`,
+    widths: widths.length > 0 ? widths : undefined,
   };
 });
 
@@ -87,12 +101,15 @@ const OVERLINE_HEADING = "VISUAL ARCHIVE";
         <li class="gallery-grid__item">
           <a href={row.href} class="gallery-card">
             <div class="gallery-card__media">
-              <Image
+              <Picture
                 src={row.coverSrc}
                 alt={row.coverAlt}
-                width={600}
-                height={400}
-                format="webp"
+                widths={row.widths}
+                sizes={CARD_SIZES}
+                formats={["avif", "webp"]}
+                fallbackFormat="jpeg"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             <div class="gallery-card__content">
@@ -100,6 +117,7 @@ const OVERLINE_HEADING = "VISUAL ARCHIVE";
               <span class="gallery-card__meta mono data-plate mt-2">
                 <time datetime={row.year}>{row.year}</time>
                 <span>{row.count}</span>
+                {row.location && <span>{row.location}</span>}
               </span>
             </div>
           </a>
@@ -155,11 +173,6 @@ const OVERLINE_HEADING = "VISUAL ARCHIVE";
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform var(--duration-slow) var(--ease-standard);
-    }
-
-    .gallery-card:hover .gallery-card__media img {
-      transform: scale(1.03);
     }
 
     .gallery-card__content {
@@ -168,6 +181,13 @@ const OVERLINE_HEADING = "VISUAL ARCHIVE";
       gap: 0.25rem;
     }
 
+    /*
+     * Per 04_DESIGN_SYSTEM.md's compound-link rule: the outer anchor's
+     * decoration is removed only because this title keeps a *persistent*
+     * underline. A hover-only underline is exactly the affordance the rule
+     * forbids, so the underline is visible by default and only strengthens
+     * (1px to 2px) on hover, matching the site-wide link-hover pattern.
+     */
     .gallery-card h3 {
       color: var(--text);
       font-family: var(--font-display);
@@ -175,15 +195,15 @@ const OVERLINE_HEADING = "VISUAL ARCHIVE";
       font-weight: 400;
       line-height: var(--text-h3--line-height);
       text-decoration-line: underline;
-      text-decoration-color: transparent;
+      text-decoration-color: var(--text);
       text-decoration-thickness: 1px;
       text-underline-offset: 0.2em;
-      transition: text-decoration-color var(--duration-base)
+      transition: text-decoration-thickness var(--duration-base)
         var(--ease-standard);
     }
 
     .gallery-card:hover h3 {
-      text-decoration-color: var(--text);
+      text-decoration-thickness: 2px;
     }
 
     .gallery-card__meta {

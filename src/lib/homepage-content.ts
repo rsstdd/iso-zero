@@ -1,31 +1,25 @@
 import type { ImageMetadata } from "astro";
-import heroSrc from "../assets/venice/_DSF0140.JPG";
-import gallerySrc from "../assets/germany/_DSF8354.JPG";
-import veronaSrc from "../assets/verona/_DSF8424.JPG";
+import { getPublishedGalleryEntries, toGallerySummary } from "./gallery-catalog";
+import type { GallerySummary } from "./gallery-catalog";
 
-interface HomepageFeatureSource {
-  readonly featured: boolean;
-  readonly heroPhotoId: string;
-}
-
-interface HomepagePhotoSource {
-  readonly id: string;
-  readonly src: ImageMetadata;
-  readonly alt: string;
-}
-
-interface HomepageGallerySource {
-  readonly slug: string;
-  readonly title: string;
-  readonly publicationDate: Date;
-  readonly location?: string;
-  readonly draft: boolean;
-  readonly imageCount: number;
-  readonly coverSrc: ImageMetadata;
-  readonly coverAlt: string;
-  readonly photos: readonly HomepagePhotoSource[];
-  readonly homepage?: HomepageFeatureSource;
-}
+/**
+ * Homepage content, read from the content collection.
+ *
+ * This replaces a hardcoded array of gallery objects with directly-imported
+ * image assets, which bypassed `src/content.config.ts` entirely and
+ * contradicted `03_CONTENT_ASSET_AND_METADATA_PIPELINE.md`'s "a gallery is a
+ * Markdown file under `src/content/galleries/`." Both the homepage and
+ * `/galleries/` now read the same collection, so there is one source of
+ * truth for gallery data rather than two that can drift apart.
+ *
+ * "Featured" is a homepage-only concern. It is deliberately not a field on
+ * the shared gallery schema in `src/content.config.ts` — the content
+ * contract in `03_CONTENT_ASSET_AND_METADATA_PIPELINE.md` has no concept of
+ * a featured gallery, and adding one there would entangle a general content
+ * schema with a single route's presentation choice. The featured slug is
+ * named here instead, next to the component that consumes it.
+ */
+const FEATURED_SLUG = "venice";
 
 interface FeaturedGalleryModel {
   readonly slug: string;
@@ -33,160 +27,57 @@ interface FeaturedGalleryModel {
   readonly location: string;
   readonly publicationDate: Date;
   readonly imageCount: number;
-  readonly hero: HomepagePhotoSource & {
+  readonly hero: {
+    readonly id: string;
+    readonly src: ImageMetadata;
+    readonly alt: string;
     readonly width: number;
     readonly height: number;
   };
 }
 
-interface GallerySummary {
-  readonly slug: string;
-  readonly title: string;
-  readonly publicationDate: Date;
-  readonly imageCount: number;
-  readonly coverSrc: ImageMetadata;
-  readonly coverAlt: string;
-}
+const publishedEntries = await getPublishedGalleryEntries();
 
-const gallerySources: readonly HomepageGallerySource[] = [
-  {
-    slug: "venice",
-    title: "Venice",
-    publicationDate: new Date("2026-08-01T00:00:00.000Z"),
-    location: "Venice, Italy",
-    draft: false,
-    imageCount: 12,
-    coverSrc: heroSrc,
-    coverAlt: "Receding stone arches and hanging lanterns along an arcade in Venice.",
-    homepage: {
-      featured: true,
-      heroPhotoId: "venice-arcade",
-    },
-    photos: [
-      {
-        id: "venice-arcade",
-        src: heroSrc,
-        alt: "Receding stone arches and hanging lanterns along an arcade in Venice.",
-      },
-    ],
-  },
-  {
-    slug: "verona",
-    title: "Verona",
-    publicationDate: new Date("2026-08-01T00:00:00.000Z"),
-    location: "Verona, Italy",
-    draft: false,
-    imageCount: 12,
-    coverSrc: veronaSrc,
-    coverAlt: "The chapel in the mountain.",
-    homepage: {
-      featured: false,
-      heroPhotoId: "moutain-chapel",
-    },
-    photos: [
-      {
-        id: "mountain-chapel",
-        src: veronaSrc,
-        alt: "the chapel in the mountain.",
-      },
-    ],
-  },
-  {
-    slug: "italy",
-    title: "Italy",
-    publicationDate: new Date("2026-08-01T00:00:00.000Z"),
-    location: "Tuscany, Italy",
-    draft: false,
-    imageCount: 12,
-    coverSrc: gallerySrc,
-    coverAlt: "The goodest boy in Italy.",
-    homepage: {
-      featured: false,
-      heroPhotoId: "germany-dog",
-    },
-    photos: [
-      {
-        id: "germany-dog",
-        src: gallerySrc,
-        alt: "The goodest boy in Germany.",
-      },
-    ],
-  },
-] as const;
-
-export function selectHomepageContent(entries: readonly HomepageGallerySource[]): {
-  readonly featuredGalleryModel: FeaturedGalleryModel;
-  readonly gallerySummaries: readonly GallerySummary[];
-  readonly heroSocialImage: ImageMetadata;
-} {
-  const published = entries.filter((entry) => !entry.draft);
-  const featured = published.filter((entry) => entry.homepage?.featured === true);
-
-  if (featured.length !== 1) {
-    throw new TypeError(
-      `Homepage requires exactly one published featured gallery; found ${featured.length}.`,
-    );
-  }
-
-  const selected = featured[0] ?? {} as HomepageGallerySource;
-
-  if (!selected.location?.trim()) {
-    throw new TypeError("The featured homepage gallery requires a location.");
-  }
-
-  const heroPhoto = selected.photos.find(
-    (photo) => photo.id === selected.homepage?.heroPhotoId,
+if (publishedEntries.length === 0) {
+  throw new TypeError(
+    "Homepage requires at least one published gallery; none were found.",
   );
-  if (!heroPhoto) {
-    throw new TypeError("The featured gallery heroPhotoId must resolve within its photos.");
-  }
-
-  if (!Number.isInteger(selected.imageCount) || selected.imageCount < selected.photos.length) {
-    throw new TypeError("Gallery imageCount must include every authored photo and be positive.");
-  }
-
-  const featuredGalleryModel: FeaturedGalleryModel = {
-    slug: selected.slug,
-    title: selected.title,
-    location: selected.location,
-    publicationDate: selected.publicationDate,
-    imageCount: selected.imageCount,
-    hero: {
-      ...heroPhoto,
-      width: heroPhoto.src.width,
-      height: heroPhoto.src.height,
-    },
-  };
-
-  const gallerySummaries = published
-    .toSorted(
-      (left, right) =>
-        right.publicationDate.valueOf() - left.publicationDate.valueOf() ||
-        left.slug.localeCompare(right.slug),
-    )
-    .map((entry) => {
-      if (!entry.coverSrc || typeof entry.coverAlt !== "string" || !entry.coverAlt.trim()) {
-        throw new TypeError(
-          `Gallery '${entry.slug}' requires a valid coverSrc asset and non-blank coverAlt.`,
-        );
-      }
-
-      return {
-        slug: entry.slug,
-        title: entry.title,
-        publicationDate: entry.publicationDate,
-        imageCount: entry.imageCount,
-        coverSrc: entry.coverSrc,
-        coverAlt: entry.coverAlt.trim(),
-      };
-    });
-
-  return {
-    featuredGalleryModel,
-    gallerySummaries,
-    heroSocialImage: heroPhoto.src,
-  };
 }
 
-export const { featuredGalleryModel, gallerySummaries, heroSocialImage } =
-  selectHomepageContent(gallerySources);
+const featuredEntry = publishedEntries.find(
+  (entry) => entry.id === FEATURED_SLUG,
+);
+if (!featuredEntry) {
+  throw new TypeError(
+    `Homepage featured gallery "${FEATURED_SLUG}" was not found among published galleries.`,
+  );
+}
+
+if (!featuredEntry.data.location?.trim()) {
+  throw new TypeError("The featured homepage gallery requires a location.");
+}
+
+const heroPhoto = featuredEntry.data.photos[0];
+if (!heroPhoto) {
+  throw new TypeError(`Featured gallery "${FEATURED_SLUG}" has no photos.`);
+}
+
+export const featuredGalleryModel: FeaturedGalleryModel = {
+  slug: featuredEntry.id,
+  title: featuredEntry.data.title,
+  location: featuredEntry.data.location,
+  publicationDate: featuredEntry.data.date,
+  imageCount: featuredEntry.data.photos.length,
+  hero: {
+    id: `${featuredEntry.id}-01`,
+    src: heroPhoto.src,
+    alt: heroPhoto.alt,
+    width: heroPhoto.src.width,
+    height: heroPhoto.src.height,
+  },
+};
+
+export const gallerySummaries: readonly GallerySummary[] =
+  publishedEntries.map(toGallerySummary);
+
+export const heroSocialImage: ImageMetadata = heroPhoto.src;

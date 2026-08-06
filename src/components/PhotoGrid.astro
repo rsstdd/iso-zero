@@ -1,0 +1,157 @@
+---
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { formatExif } from "../lib/exif";
+
+interface PhotoExif {
+  readonly camera: string;
+  readonly lens: string | null;
+  readonly focalLengthMm: number;
+  readonly fNumber: number;
+  readonly exposureTimeSec: number;
+  readonly iso: number;
+  readonly shotAt: Date;
+}
+
+export interface GridPhoto {
+  readonly src: ImageMetadata;
+  readonly alt: string;
+  readonly caption?: string;
+  readonly exif: PhotoExif;
+}
+
+interface Props {
+  readonly gallerySlug: string;
+  readonly photos: readonly GridPhoto[];
+}
+
+const { gallerySlug, photos }: Props = Astro.props;
+
+if (!gallerySlug || gallerySlug.trim().length === 0) {
+  throw new TypeError("PhotoGrid requires a non-blank gallerySlug.");
+}
+if (!Array.isArray(photos) || photos.length === 0) {
+  throw new TypeError("PhotoGrid requires at least one photo.");
+}
+
+const CANDIDATE_WIDTHS = [640, 960, 1280, 1600, 2048] as const;
+// Two or three per row inside container-wide is the shape this produces at
+// common viewports; it is not a hard breakpoint contract. See
+// GALLERY_PAGE_SPECIFICATION.md §14(e).
+const GRID_SIZES = "(min-width: 1200px) 33vw, (min-width: 640px) 50vw, 100vw";
+
+/**
+ * Trigger id for photo `index` in this gallery. `PhotoPopover.astro` derives
+ * the same id from the same inputs, so the two components never need to be
+ * passed an id explicitly — one less thing that can drift out of sync.
+ */
+export function triggerId(gallerySlug: string, index: number): string {
+  return `p-${gallerySlug}-${index}`;
+}
+
+const rows = photos.map((photo, index) => {
+  const widths = CANDIDATE_WIDTHS.filter((candidate) => candidate <= photo.src.width);
+  return {
+    id: triggerId(gallerySlug, index),
+    alt: photo.alt,
+    caption: photo.caption,
+    summary: formatExif(photo.exif).summary,
+    src: photo.src,
+    widths: widths.length > 0 ? widths : undefined,
+  };
+});
+---
+
+<ul class="photo-grid">
+  {
+    rows.map((row) => (
+      <li class="photo-grid__item">
+        <figure>
+          {/*
+            The image keeps its own real alt text and the button separately
+            carries "Open larger view: " + alt as its aria-label. This is
+            intentionally not deduplicated: 05_INTERACTION_AND_ACCESSIBILITY.md
+            describes a screen-reader user encountering the description "once
+            as content and once as an action" as the correct behavior, not
+            redundancy to clean up.
+          */}
+          <button type="button" popovertarget={row.id} aria-label={`Open larger view: ${row.alt}`}>
+            <Picture
+              src={row.src}
+              alt={row.alt}
+              widths={row.widths}
+              sizes={GRID_SIZES}
+              formats={["avif", "webp"]}
+              fallbackFormat="jpeg"
+              loading="lazy"
+              decoding="async"
+            />
+          </button>
+          <figcaption class="data-plate photo-grid__caption">
+            {row.caption && <p class="photo-grid__caption-text">{row.caption}</p>}
+            <p>{row.summary}</p>
+          </figcaption>
+        </figure>
+      </li>
+    ))
+  }
+</ul>
+
+<style is:global>
+  @layer reset, base, components, utilities;
+
+  @layer components {
+    /*
+     * Not literal masonry — CSS Grid has no script-free way to pack rows
+     * densely around mixed heights (the `masonry` grid value is not broadly
+     * supported). This is the closest zero-JS approximation of
+     * 04_DESIGN_SYSTEM.md's "mixed aspect ratios are the normal case, and
+     * each figure occupies its natural ratio": a responsive multi-column
+     * grid where every image keeps its own ratio, uncropped, at the cost of
+     * occasional uneven gaps beneath a shorter neighbour in the same row.
+     */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+      gap: var(--space-2);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .photo-grid__item figure {
+      margin: 0;
+    }
+
+    .photo-grid__item button {
+      display: block;
+      inline-size: 100%;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .photo-grid__item img {
+      display: block;
+      inline-size: 100%;
+      block-size: auto;
+      border-radius: 0;
+    }
+
+    .photo-grid__item button:focus-visible {
+      outline: 2px solid var(--focus-ring);
+      outline-offset: 2px;
+    }
+
+    .photo-grid__caption {
+      margin-block-start: var(--space-2);
+    }
+
+    .photo-grid__caption-text {
+      margin: 0 0 var(--space-1);
+      color: var(--text-muted);
+      font-family: var(--font-interface);
+    }
+  }
+</style>
