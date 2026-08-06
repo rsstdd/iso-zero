@@ -27,3 +27,6 @@ pnpm-debug.log*
 playwright-report/
 test-results/
 coverage/
+
+# misc
+.continue
