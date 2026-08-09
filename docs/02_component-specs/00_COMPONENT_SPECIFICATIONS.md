@@ -21,6 +21,7 @@ This separation prevents a homepage decision from silently redefining the shared
 | Datum rule | [`07_RULE_DATUM.md`](07_RULE_DATUM.md) | `src/components/RuleDatum.astro` |
 | Gallery directory | [`08_GALLERY_DIRECTORY.md`](08_GALLERY_DIRECTORY.md) | `src/components/GalleryDirectory.astro` |
 | Site footer | [`09_SITE_FOOTER.md`](09_SITE_FOOTER.md) | `src/components/SiteFooter.astro` |
+| Photo popover | [`11_PHOTO_POPOVER.md`](11_PHOTO_POPOVER.md) | `src/components/PhotoPopover.astro` |
 
 The page-level owner is [`../01_page-specs/HOMEPAGE_SPECIFICATION.md`](../01_page-specs/HOMEPAGE_SPECIFICATION.md).
 

@@ -56,6 +56,12 @@ const targets: TargetConfig[] = [
     match: "homepage.spec.ts", // Explicit match to prevent running homepage-identity*.spec.ts twice
     env: { TZ: "Pacific/Honolulu" },
   },
+  {
+    name: "photo-popover",
+    port: 4324,
+    root: ".",
+    match: "photo-popover*.spec.ts",
+  },
 ];
 
 // 2. Define browser configurations

@@ -40,7 +40,9 @@ if (!id || id.trim().length === 0) {
 
 const CANDIDATE_WIDTHS = [640, 960, 1280, 1600, 2048] as const;
 const POPOVER_SIZES = "(min-width: 1400px) 1400px, 100vw";
-const widths = CANDIDATE_WIDTHS.filter((candidate) => candidate <= photo.src.width);
+const widths = CANDIDATE_WIDTHS.filter(
+  (candidate) => candidate <= photo.src.width,
+);
 const formatted = formatExif(photo.exif);
 ---
 
@@ -60,30 +62,45 @@ const formatted = formatExif(photo.exif);
     <p>{formatted.summary}</p>
   </div>
   <div class="photo-popover__controls">
-    {previousId && (
-      <button type="button" popovertarget={previousId} popovertargetaction="show">
-        Previous
-      </button>
-    )}
-    {photo.print && (
-      <a href={`/prints/${photo.print.sku}/`} class="standalone photo-popover__print">
-        View print
-      </a>
-    )}
-    {nextId && (
-      <button type="button" popovertarget={nextId} popovertargetaction="show">
-        Next
-      </button>
-    )}
+    {
+      previousId && (
+        <button
+          type="button"
+          popovertarget={previousId}
+          popovertargetaction="show"
+        >
+          Previous
+        </button>
+      )
+    }
+    {
+      photo.print && (
+        <a
+          href={`/prints/${photo.print.sku}/`}
+          class="standalone photo-popover__print"
+        >
+          View print
+        </a>
+      )
+    }
+    {
+      nextId && (
+        <button type="button" popovertarget={nextId} popovertargetaction="show">
+          Next
+        </button>
+      )
+    }
   </div>
-  {/*
+  {
+    /*
     Close is last in document order on purpose, even though it is
     positioned visually at the top-left to match 10_WIREFRAMES.md §3.
     05_INTERACTION_AND_ACCESSIBILITY.md: "The close button is the last
     focusable element inside the popover, making 'tab to the end, then
     Escape' a coherent pattern." Positioning it here with CSS rather than
     moving it earlier in the markup keeps that tab-order guarantee intact.
-  */}
+  */
+  }
   <button
     type="button"
     popovertarget={id}
@@ -99,13 +116,16 @@ const formatted = formatExif(photo.exif);
   @layer reset, base, components, utilities;
 
   @layer components {
+    /
     .photo-popover {
       position: fixed;
       inset: 0;
-      display: flex;
       flex-direction: column;
       gap: var(--space-3);
-      max-inline-size: min(100vw - (2 * var(--page-gutter)), var(--container-wide));
+      max-inline-size: min(
+        100vw - (2 * var(--page-gutter)),
+        var(--container-wide)
+      );
       max-block-size: calc(100svh - (2 * var(--page-gutter)));
       margin: auto;
       padding: var(--space-6);
@@ -113,6 +133,10 @@ const formatted = formatExif(photo.exif);
       border-radius: 0;
       background: var(--bg);
       box-shadow: var(--shadow-lg);
+    }
+
+    .photo-popover:popover-open {
+      display: flex;
     }
 
     .photo-popover::backdrop {
