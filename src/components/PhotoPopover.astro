@@ -47,6 +47,19 @@ const formatted = formatExif(photo.exif);
 ---
 
 <div popover id={id} role="dialog" aria-label={photo.alt} class="photo-popover">
+  {
+    /*
+      loading="eager", not "lazy": this image lives inside a `[popover]`,
+      which is `display: none` until opened (see the CSS comment below). A
+      lazy-loaded image inside a display:none ancestor does not start
+      fetching until that ancestor becomes visible, so `loading="lazy"` here
+      meant the request only began the instant the popover opened — the
+      "images take a while to load" defect tracked in
+      docs/02_component-specs/11_PHOTO_POPOVER.md §14. `fetchpriority="low"`
+      keeps this eager fetch from competing with the grid thumbnails and
+      other above-the-fold resources for bandwidth.
+    */
+  }
   <Picture
     src={photo.src}
     alt={photo.alt}
@@ -54,7 +67,8 @@ const formatted = formatExif(photo.exif);
     sizes={POPOVER_SIZES}
     formats={["avif", "webp"]}
     fallbackFormat="jpeg"
-    loading="lazy"
+    loading="eager"
+    fetchpriority="low"
     decoding="async"
   />
   <div class="data-plate photo-popover__plate">
@@ -116,7 +130,16 @@ const formatted = formatExif(photo.exif);
   @layer reset, base, components, utilities;
 
   @layer components {
-    /
+    /*
+     * `display` lives only in the `:popover-open` rule below, never in the
+     * unconditional `.photo-popover` rule above it. The UA stylesheet hides
+     * closed [popover] elements with a non-`!important` `display: none`, and
+     * author-origin rules beat UA-origin rules regardless of specificity —
+     * so an unconditional `display: flex` here would permanently defeat the
+     * browser's open/closed toggle and render the popover always-on-screen
+     * and inert to Close/Escape/light-dismiss. See 05_INTERACTION_AND_ACCESSIBILITY.md
+     * "The viewer" for the `popover`/`popovertarget` contract this depends on.
+     */
     .photo-popover {
       position: fixed;
       inset: 0;
