@@ -27,7 +27,19 @@ export function closeButton(page: Page): Locator {
   return popover(page).locator(".photo-popover__close");
 }
 
+export function popoverImage(page: Page): Locator {
+  return popover(page).locator("img");
+}
+
 /** True only while the popover is in the top layer and open. */
 export async function isPopoverOpen(page: Page): Promise<boolean> {
   return popover(page).evaluate((element) => element.matches(":popover-open"));
+}
+
+/** True once the browser has finished fetching and decoding the image, independent of `:popover-open`. */
+export async function isImageLoaded(page: Page): Promise<boolean> {
+  return popoverImage(page).evaluate((element) => {
+    const image = element as HTMLImageElement;
+    return image.complete && image.naturalWidth > 0;
+  });
 }
