@@ -1,6 +1,6 @@
 # Component specification — `PhotoPopover.astro`
 
-Status: implementation-ready, written retroactively against the current implementation. Known conformance gaps are listed in §10 rather than hidden, per `AGENTS.md`'s evidence rule.
+Status: implementation-ready, written retroactively against the current implementation. Known conformance gaps are listed in §10, and the image-loading/layout-shift product requirement in §14 is implemented pending CI confirmation, rather than either being hidden, per `AGENTS.md`'s evidence rule.
 Implementation: `src/components/PhotoPopover.astro`
 
 ## 1. Responsibility
@@ -117,7 +117,7 @@ All of the above is native `popover="auto"` behavior; the component supplies no 
 
 ## 10. Known conformance gaps
 
-Findings from auditing this component against the project's own already-accepted rules, distinct from the disposition of the newly-submitted lightbox brief in §13:
+Findings from auditing this component against the project's own already-accepted rules, distinct from the disposition of the newly-submitted lightbox brief in §13, and distinct from the image-loading/layout-shift product requirement in §14.
 
 1. **`box-shadow: var(--shadow-lg)`** on `.photo-popover` contradicts the global "Shadows are prohibited" rule in `00_COMPONENT_SPECIFICATIONS.md` §5. `--shadow-lg` is a real shadow (`0 8px 32px rgb(0 0 0 / 0.48)`), not a `none` placeholder.
 2. **`.photo-popover::backdrop`** hardcodes `rgb(25 22 17 / 0.8)` instead of deriving it from `--bg`. The two values are identical today by coincidence of authoring, not by reference, so a future change to `--bg` silently desyncs the backdrop tint.
@@ -144,6 +144,7 @@ The fix moves `display: flex` into a `.photo-popover:popover-open` rule, so the 
 | Backdrop token drift (§10.2) | None | **[UNVERIFIED]** — known coupling, no check exists |
 | Reflow at 320px/4K | None | **[UNVERIFIED]** — no `photo-popover.reflow.spec.ts` exists, unlike sibling components |
 | Cross-browser Escape/light-dismiss/focus-return | Manual, per `05_INTERACTION_AND_ACCESSIBILITY.md`'s own **[UNVERIFIED]** marker on adjacent-popover focus behaviour | **[UNVERIFIED]** |
+| Popover open→image-paint gap: no layout shift, fetch not stalled behind `display: none` (§14) | `tests/e2e/photo-popover.spec.ts` ("PhotoPopover image loading" describe block) | **[UNVERIFIED]** — implemented and tests written; not yet run in a real browser, same blocker as the row above |
 
 ## 13. Disposition of the submitted lightbox brief
 
@@ -206,6 +207,28 @@ A full "Lightbox Web Component" functional/non-functional brief was submitted al
 - WCAG 2.1 AA — the project's actual conformance target, owned by `05_INTERACTION_AND_ACCESSIBILITY.md`, is WCAG 2.2 AA plus three adopted AAA criteria: a strictly equal-or-stricter target. Not restated here.
 - Caption sanitization against XSS — **Met, more strongly than requested.** Captions are schema-typed as plain strings with no HTML acceptance path, and Astro's default text interpolation auto-escapes them — injection is structurally impossible rather than filtered after the fact.
 
-## 14. Change rules
+## 14. Image loading and layout shift
 
-A component API, semantic structure, behavior, or invariant changes only when this document changes in the same commit, per `00_COMPONENT_SPECIFICATIONS.md` §8. Closing any item marked **Deferred** or **[UNVERIFIED]** in §11–§13 requires updating the corresponding row/bullet in the same change that implements or measures it, not a separate follow-up. Reversing a **Rejected** item requires first amending the zero-client-JavaScript decision in `AGENTS.md`/`docs/02_ARCHITECTURE.md` — this document cannot accept a JavaScript-dependent feature on its own authority.
+**Product requirement (2026-08-09):** opening a popover must not visibly shift its own layout or the surrounding page, and must not leave the visitor looking at a stalled or empty panel for longer than the fetch genuinely requires. Reported symptom: enlarged images "take quite a while to load into the elements," which "looks bad."
+
+**What already held, and was not touched.** `astro:assets` `Picture` emits explicit `width`/`height` on the compiled `<img>` (confirmed against a build: `width="3120" height="1760"` for `germany`'s photograph), from which the browser derives the intrinsic aspect ratio before any image bytes arrive. This is the mechanism `docs/03_CONTENT_ASSET_AND_METADATA_PIPELINE.md` "Zero layout shift" owns; it is not restated here beyond this pointer. Because `.photo-popover:popover-open` flips `display` to `flex` in one step (§11) and the aspect ratio is already known at that moment from those attributes, the panel does not need to wait on the network to size itself correctly. The fix below keeps `width`/`height` on the `Picture` output unchanged.
+
+**Root cause.** The popover's `Picture` carried `loading="lazy"`. Per the HTML lazy-loading eligibility algorithm, an image inside a `display: none` ancestor does not start fetching until that ancestor stops being `display: none` — and `.photo-popover` is exactly that while closed (§11). `loading="lazy"` is the right choice for `PhotoGrid.astro`'s thumbnails, which sit in normal flow and genuinely benefit from deferring off-screen fetches; it was the wrong choice here, because the popover isn't scrolled into view, it's revealed by a click, and the browser has no scroll-proximity signal with which to start the fetch early. The practical effect: the full-size derivative's network request did not begin until the instant the visitor opened the popover, not before — a fetch-start delay, not a failure to reserve space.
+
+**Fix implemented.** `src/components/PhotoPopover.astro`'s `Picture` now sets `loading="eager"` (was `"lazy"`) and adds `fetchpriority="low"`. Eager loading starts the fetch as soon as the `<img>` is parsed, regardless of `display: none` — every popover image in a gallery now begins downloading at page load, not at open. `fetchpriority="low"` is the deliberate counterweight: without it, up to 40 full-size derivatives (the documented gallery cap, §"The viewer" in `05_INTERACTION_AND_ACCESSIBILITY.md`) would compete at full priority against the grid thumbnails and other above-the-fold resources for bandwidth on the initial page load. Low priority still lets the browser fetch them in the background, ahead of any click, without displacing what the visitor can already see. A comment at the call site in `src/components/PhotoPopover.astro` records this rationale so a future edit doesn't reintroduce `loading="lazy"` as a "fix."
+
+**Accepted trade-off, stated rather than hidden.** This downloads every photograph's full-size derivative for a gallery whether or not the visitor ever opens its popover, bounded by the same 40-photo cap that already governs the document's HTML weight (§"The viewer" in `05_INTERACTION_AND_ACCESSIBILITY.md`, itself **[UNVERIFIED]** pending measurement). It extends an already-accepted "pay it upfront, capped" tradeoff from markup to image bytes rather than introducing a new tradeoff class. `fetchpriority="low"` bounds the damage to initial-render performance; it does not bound total bytes transferred. If a gallery's real photo count grows enough to make this costly, the next lever is genuine on-demand fetching (a `<link rel="preload">` targeted at the specific photograph about to be revealed, decided per §"Not yet decided" below), not reverting to `loading="lazy"`.
+
+**Acceptance criteria and their status:**
+
+1. Opening any popover produces no measurable shift of the popover panel's own box once open. **Covered** by `tests/e2e/photo-popover.spec.ts` ("reserves the image's final box on open, regardless of load timing"), which asserts the panel's and image's bounding boxes are identical immediately on open and again after the image's `load` event fires.
+2. The full-size derivative's fetch does not wait on the popover being opened to begin. **Covered** by the same spec file's "fetches the enlarged image eagerly, before the popover ever opens" test, which asserts the image is already decoded (`HTMLImageElement.complete && naturalWidth > 0`) after the page load event and before any interaction.
+3. Stays inside the zero-client-JavaScript budget. **Met** — `loading` and `fetchpriority` are plain HTML attributes; `scripts/check-no-script.mjs` continues to cover this by construction.
+
+**[UNVERIFIED]** — the three tests above were written, lint-checked, and type-checked, but not executed in a real browser: this sandbox cannot launch one (missing `libasound.so.2`, no passwordless `sudo` — the same blocker recorded in §12 for the rest of the Playwright suite). Remove this marker only once a CI run records them passing.
+
+**Not yet decided.** True on-demand fetching (a `<link rel="preload">`/`imagesrcset` hint scoped to the specific photograph a trigger is about to reveal) remains a candidate for later if the eager-for-all-40 tradeoff above stops being acceptable. It is not implemented, and nothing here should be read as ruling it out.
+
+## 15. Change rules
+
+A component API, semantic structure, behavior, or invariant changes only when this document changes in the same commit, per `00_COMPONENT_SPECIFICATIONS.md` §8. Closing any item marked **Deferred** or **[UNVERIFIED]** in §11–§14 requires updating the corresponding row/bullet in the same change that implements or measures it, not a separate follow-up. Reversing a **Rejected** item requires first amending the zero-client-JavaScript decision in `AGENTS.md`/`docs/02_ARCHITECTURE.md` — this document cannot accept a JavaScript-dependent feature on its own authority.

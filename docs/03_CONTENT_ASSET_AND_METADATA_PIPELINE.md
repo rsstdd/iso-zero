@@ -98,9 +98,11 @@ Embedded attribution survives a right-click save, which is the reason it is wort
 
 ## Zero layout shift
 
-Every `<figure>` and `<img>` carries explicit `width`, `height`, and `aspect-ratio`. Astro supplies intrinsic dimensions from the processed asset, so these are derived rather than authored, and a photograph whose dimensions cannot be determined fails the build.
+Every `<img>` carries explicit `width` and `height`, from which the browser derives the intrinsic aspect ratio before any styling or image data is applied — the UA stylesheet's default `aspect-ratio: attr(width) / attr(height)` for replaced elements, not an `aspect-ratio` declaration this project authors. Astro supplies the `width`/`height` values from the processed asset, so they are derived rather than authored, and a photograph whose dimensions cannot be determined fails the build.
 
-The grid reserves space from the aspect ratio before any byte of image data arrives. That is what makes Cumulative Layout Shift 0 an enforceable target rather than an aspiration, and it matters more here than on a text site because a mixed-ratio photographic grid is the layout most prone to reflow.
+The grid reserves space from the aspect ratio before any byte of image data arrives, because every grid `<img>` is in normal document flow from first paint. That is what makes Cumulative Layout Shift 0 an enforceable target rather than an aspiration for the grid, and it matters more here than on a text site because a mixed-ratio photographic grid is the layout most prone to reflow.
+
+The enlarged photograph inside `PhotoPopover.astro` (`docs/02_component-specs/11_PHOTO_POPOVER.md`) gets the same `width`/`height` treatment and the same reserved-box guarantee once its popover opens, because those attributes are already present in the DOM before the visitor ever interacts with the trigger. What it did *not* get for free was an early fetch: the popover is `display: none` until opened (`docs/02_component-specs/11_PHOTO_POPOVER.md` §11), and `loading="lazy"` — correct for the grid's off-screen thumbnails — defers a `display: none` image's network request until its ancestor stops being `display: none`, per the HTML lazy-loading eligibility algorithm. That fetch would not begin until the moment the popover opened, which is a load-time delay, not a reserved-space failure; the two are easy to conflate because both present as "the image wasn't there yet." `docs/02_component-specs/11_PHOTO_POPOVER.md` §14 records the fix: the popover's `Picture` now loads eagerly, at low fetch priority, so this delay no longer applies.
 
 ## Adding a photograph
 
